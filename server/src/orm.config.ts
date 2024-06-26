@@ -31,7 +31,7 @@ function ormConfig(): TypeOrmModuleOptions {
       host: 'mysql',
       // port: ,
       username: 'root',
-      password: '',
+      password: '4444', // Ensure this matches the password set in Docker
       logging: false,
       synchronize: commonConf.SYNCRONIZE,
       entities: commonConf.ENTITIES,
@@ -64,7 +64,7 @@ function ormConfig(): TypeOrmModuleOptions {
       host: 'localhost',
       // port: ,
       username: 'root',
-      password: '',
+      password: '4444', // Ensure this matches the password set in Docker
       logging: false,
       synchronize: commonConf.SYNCRONIZE,
       entities: commonConf.ENTITIES,

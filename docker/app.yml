@@ -13,3 +13,13 @@ services:
     extends:
       file: ./mysql.yml
       service: mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=4444 # Set your MySQL root password here
+    ports:
+      - '8081:80' # Adjust the port if needed
+    depends_on:
+      - mysql
