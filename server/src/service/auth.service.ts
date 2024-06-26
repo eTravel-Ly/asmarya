@@ -8,6 +8,8 @@ import { Payload } from '../security/payload.interface';
 import { AuthorityRepository } from '../repository/authority.repository';
 import { UserService } from '../service/user.service';
 import { UserDTO } from './dto/user.dto';
+import * as console from 'console';
+import { Authority } from '../domain/authority.entity';
 
 @Injectable()
 export class AuthService {
@@ -111,5 +113,13 @@ export class AuthService {
 
   async getAllUsers(options: FindManyOptions<UserDTO>): Promise<[UserDTO[], number]> {
     return await this.userService.findAndCount(options);
+  }
+
+  async getAllAuthorities(): Promise<Authority[]> {
+    // const authorities = await this.authorityRepository.find();
+    // console.log(authorities);
+    // const authorities2 = authorities.map(authority => authority.name)
+    // console.log(authorities2);
+    return await this.authorityRepository.find();
   }
 }

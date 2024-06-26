@@ -43,10 +43,6 @@ export class PublicUserController {
     isArray: true,
   })
   getAuthorities(@Req() req: any): any {
-    const user: any = req.user;
-    if (!user) {
-      return [];
-    }
-    return user.authorities;
+    return this.authService.getAllAuthorities();
   }
 }

@@ -15,7 +15,6 @@ export interface IUser {
 }
 
 export const defaultValue: Readonly<IUser> = {
-  id: '',
   login: '',
   firstName: '',
   lastName: '',
