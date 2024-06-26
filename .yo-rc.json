@@ -1,0 +1,28 @@
+{
+  "generator-jhipster": {
+    "applicationType": "monolith",
+    "authenticationType": "jwt",
+    "baseName": "asmarya",
+    "blueprints": [
+      {
+        "name": "generator-jhipster-nodejs",
+        "version": "3.0.0"
+      }
+    ],
+    "clientFramework": "react",
+    "clientTestFrameworks": [],
+    "clientTheme": "none",
+    "creationTimestamp": 1719387627479,
+    "devServerPort": 9060,
+    "enableTranslation": false,
+    "entities": [],
+    "jhipsterVersion": "8.5.0",
+    "microfrontend": null,
+    "microfrontends": [],
+    "nativeLanguage": "en",
+    "prodDatabaseType": "mysql",
+    "serverPort": null,
+    "testFrameworks": [],
+    "withAdminUi": true
+  }
+}
