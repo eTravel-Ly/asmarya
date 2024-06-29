@@ -1,0 +1,30 @@
+{
+  "annotations": {
+    "changelogDate": "20240629143418"
+  },
+  "applications": "*",
+  "dto": true,
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "key",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "value",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "AppSetting",
+  "pagination": "pagination",
+  "relationships": [],
+  "service": "serviceClass"
+}

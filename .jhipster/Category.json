@@ -1,0 +1,58 @@
+{
+  "annotations": {
+    "changelogDate": "20240629143422"
+  },
+  "applications": "*",
+  "dto": true,
+  "fields": [
+    {
+      "fieldName": "nameAr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nameEn",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "menuOrder",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "imageFileUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "imageFile",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "isActive",
+      "fieldType": "Boolean"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Category",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "book",
+      "otherEntityRelationshipName": "categories",
+      "relationshipName": "book",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "course",
+      "otherEntityRelationshipName": "categories",
+      "relationshipName": "course",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

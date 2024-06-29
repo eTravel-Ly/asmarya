@@ -1,0 +1,101 @@
+{
+  "annotations": {
+    "changelogDate": "20240629143419"
+  },
+  "applications": "*",
+  "dto": true,
+  "fields": [
+    {
+      "fieldName": "title",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "author",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "publicationDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "isbn",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "genre",
+      "fieldType": "BookGenre",
+      "fieldValues": "BIOGRAPHY,CHILDREN,FANTASY,FICTION,HISTORY,MYSTERY,NON_FICTION,POETRY,RELIGIOUS,ROMANCE,SCIENCE_FICTION,SELF_HELP,THRILLER,YOUNG_ADULT"
+    },
+    {
+      "fieldName": "publisher",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pageCount",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "language",
+      "fieldType": "Language",
+      "fieldValues": "ARABIC,ENGLISH"
+    },
+    {
+      "fieldName": "coverImageFile",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "coverImageUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bookFile",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "bookUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "price",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "studentsPrice",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "numberOfBooksAvailable",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "keywords",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bookAvailability",
+      "fieldType": "BookAvailability",
+      "fieldValues": "AVAILABLE_BOTH,AVAILABLE_LIBRARY_ONLY,AVAILABLE_ONLINE_ONLY,RESERVED,UNAVAILABLE"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Book",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "category",
+      "otherEntityRelationshipName": "book",
+      "relationshipName": "categories",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

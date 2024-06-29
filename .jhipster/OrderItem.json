@@ -1,0 +1,44 @@
+{
+  "annotations": {
+    "changelogDate": "20240629143430"
+  },
+  "applications": "*",
+  "dto": true,
+  "fields": [
+    {
+      "fieldName": "total",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "discount",
+      "fieldType": "Float"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "OrderItem",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "orderNo",
+      "otherEntityName": "order",
+      "relationshipName": "order",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "book",
+      "relationshipName": "book",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "course",
+      "relationshipName": "course",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

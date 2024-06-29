@@ -1,0 +1,40 @@
+{
+  "annotations": {
+    "changelogDate": "20240629143421"
+  },
+  "applications": "*",
+  "dto": true,
+  "fields": [
+    {
+      "fieldName": "quantity",
+      "fieldType": "Integer"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "CartItem",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "firstName",
+      "otherEntityName": "learner",
+      "relationshipName": "learner",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "book",
+      "relationshipName": "book",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "course",
+      "relationshipName": "course",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

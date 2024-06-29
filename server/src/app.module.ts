@@ -4,6 +4,22 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { AuthModule } from './module/auth.module';
 import { ormConfig } from './orm.config';
 import { config } from './config';
+import { ActivationModule } from './module/activation.module';
+import { AppSettingModule } from './module/app-setting.module';
+import { BookModule } from './module/book.module';
+import { BookBorrowRequestModule } from './module/book-borrow-request.module';
+import { CartItemModule } from './module/cart-item.module';
+import { CategoryModule } from './module/category.module';
+import { CommentModule } from './module/comment.module';
+import { CourseModule } from './module/course.module';
+import { CourseVideoModule } from './module/course-video.module';
+import { FavoriteModule } from './module/favorite.module';
+import { LearnerModule } from './module/learner.module';
+import { NotificationModule } from './module/notification.module';
+import { OrderModule } from './module/order.module';
+import { OrderItemModule } from './module/order-item.module';
+import { PaymentMethodModule } from './module/payment-method.module';
+import { SliderModule } from './module/slider.module';
 // jhipster-needle-add-entity-module-to-main-import - JHipster will import entity modules here, do not remove
 // jhipster-needle-add-controller-module-to-main-import - JHipster will import controller modules here, do not remove
 // jhipster-needle-add-service-module-to-main-import - JHipster will import service modules here, do not remove
@@ -15,6 +31,22 @@ import { config } from './config';
       rootPath: config.getClientPath(),
     }),
     AuthModule,
+    ActivationModule,
+    AppSettingModule,
+    BookModule,
+    BookBorrowRequestModule,
+    CartItemModule,
+    CategoryModule,
+    CommentModule,
+    CourseModule,
+    CourseVideoModule,
+    FavoriteModule,
+    LearnerModule,
+    NotificationModule,
+    OrderModule,
+    OrderItemModule,
+    PaymentMethodModule,
+    SliderModule,
     // jhipster-needle-add-entity-module-to-main - JHipster will add entity modules here, do not remove
   ],
   controllers: [

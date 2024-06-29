@@ -1,0 +1,52 @@
+{
+  "annotations": {
+    "changelogDate": "20240629143429"
+  },
+  "applications": "*",
+  "dto": true,
+  "fields": [
+    {
+      "fieldName": "orderNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "total",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "discount",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "paymentType",
+      "fieldType": "PaymentType",
+      "fieldValues": "ADFALI,CASH,MASTERCARD,MOBICASH,MOAMALAT,SADAD,TADAWUL"
+    },
+    {
+      "fieldName": "orderStatus",
+      "fieldType": "OrderStatus",
+      "fieldValues": "CANCELLED,FAILED,PAYED,PENDING"
+    },
+    {
+      "fieldName": "payedAt",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Order",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "firstName",
+      "otherEntityName": "learner",
+      "relationshipName": "learner",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

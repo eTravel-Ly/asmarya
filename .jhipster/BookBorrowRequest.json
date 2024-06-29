@@ -1,0 +1,46 @@
+{
+  "annotations": {
+    "changelogDate": "20240629143420"
+  },
+  "applications": "*",
+  "dto": true,
+  "fields": [
+    {
+      "fieldName": "requestDate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "collectDate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "returnDate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "bookBorrowRequestStatus",
+      "fieldType": "BookBorrowRequestStatus",
+      "fieldValues": "APPROVED,COLLECTED,PENDING,REJECTED,RETURNED"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "BookBorrowRequest",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "book",
+      "relationshipName": "book",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "firstName",
+      "otherEntityName": "learner",
+      "relationshipName": "learner",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

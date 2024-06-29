@@ -1,0 +1,101 @@
+{
+  "annotations": {
+    "changelogDate": "20240629143427"
+  },
+  "applications": "*",
+  "dto": true,
+  "fields": [
+    {
+      "fieldName": "firstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "birthYear",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mobileNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "googleId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "facebookId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "appleId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "isBanned",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "verifiedByEmail",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "verifiedByMobileNo",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "imageFile",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "imageFileUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nationalityCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "city",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "learnerType",
+      "fieldType": "LearnerType",
+      "fieldValues": "EXTERNAL_STUDENT,INSTRUCTOR,INTERNAL_STUDENT,PUBLIC"
+    },
+    {
+      "fieldName": "studentId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Learner",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "learner",
+      "relationshipName": "user",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one",
+      "relationshipWithBuiltInEntity": true
+    }
+  ],
+  "service": "serviceClass"
+}

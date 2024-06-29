@@ -1,0 +1,38 @@
+{
+  "annotations": {
+    "changelogDate": "20240629143417"
+  },
+  "applications": "*",
+  "dto": true,
+  "fields": [
+    {
+      "fieldName": "mobileNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sentOn",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "validUntil",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "isUsed",
+      "fieldType": "Boolean"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Activation",
+  "pagination": "pagination",
+  "relationships": [],
+  "service": "serviceClass"
+}

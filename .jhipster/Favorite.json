@@ -1,0 +1,35 @@
+{
+  "annotations": {
+    "changelogDate": "20240629143426"
+  },
+  "applications": "*",
+  "dto": true,
+  "fields": [],
+  "jpaMetamodelFiltering": true,
+  "name": "Favorite",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "firstName",
+      "otherEntityName": "learner",
+      "relationshipName": "learner",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "book",
+      "relationshipName": "book",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "course",
+      "relationshipName": "course",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

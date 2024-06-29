@@ -1,0 +1,56 @@
+{
+  "annotations": {
+    "changelogDate": "20240629143431"
+  },
+  "applications": "*",
+  "dto": true,
+  "fields": [
+    {
+      "fieldName": "nameAr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nameEn",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "menuOrder",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "imageFileUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "imageFile",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "details",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "feePercentage",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "paymentType",
+      "fieldType": "PaymentType",
+      "fieldValues": "ADFALI,CASH,MASTERCARD,MOBICASH,MOAMALAT,SADAD,TADAWUL"
+    },
+    {
+      "fieldName": "isActive",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "PaymentMethod",
+  "pagination": "pagination",
+  "relationships": [],
+  "service": "serviceClass"
+}

@@ -1,0 +1,43 @@
+{
+  "annotations": {
+    "changelogDate": "20240629143432"
+  },
+  "applications": "*",
+  "dto": true,
+  "fields": [
+    {
+      "fieldName": "detailsAr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "detailsEn",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "menuOrder",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "imageFileUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "imageFile",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "link",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Slider",
+  "pagination": "pagination",
+  "relationships": [],
+  "service": "serviceClass"
+}
