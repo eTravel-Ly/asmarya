@@ -12,7 +12,7 @@
     ]
   },
   "scripts": {
-    "app:up": "docker compose -f docker/app.yml up --wait",
+    "app:up": "docker compose -f docker/app.yml up --build --force-recreate --wait",
     "build:app": "cd server && npm run build",
     "ci:e2e:prepare": "npm run ci:e2e:prepare:docker",
     "ci:e2e:prepare:docker": "npm run services:up --if-present && docker ps -a",
