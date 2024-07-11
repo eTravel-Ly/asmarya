@@ -1,9 +1,12 @@
-import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, FindOneOptions } from 'typeorm';
 import { LearnerDTO } from '../service/dto/learner.dto';
 import { LearnerMapper } from '../service/mapper/learner.mapper';
 import { LearnerRepository } from '../repository/learner.repository';
+import { LearnerVM } from './dto/vm/learner.vm';
+import { UserDTO } from './dto/user.dto';
+import { AuthService } from './auth.service';
 
 const relationshipNames = [];
 
@@ -11,7 +14,10 @@ const relationshipNames = [];
 export class LearnerService {
   logger = new Logger('LearnerService');
 
-  constructor(@InjectRepository(LearnerRepository) private learnerRepository: LearnerRepository) {}
+  constructor(
+    @InjectRepository(LearnerRepository) private learnerRepository: LearnerRepository,
+    private authService: AuthService,
+  ) {}
 
   async findById(id: number): Promise<LearnerDTO | undefined> {
     const options = { relations: relationshipNames };
@@ -63,5 +69,32 @@ export class LearnerService {
       throw new HttpException('Error, entity not deleted!', HttpStatus.NOT_FOUND);
     }
     return;
+  }
+
+  async register(learnerVM: LearnerVM) {
+    const learnerDTO = new LearnerDTO();
+    learnerDTO.firstName = learnerVM.firstName;
+    learnerDTO.lastName = learnerVM.lastName;
+    learnerDTO.birthYear = learnerVM.birthYear;
+    learnerDTO.email = learnerVM.email;
+    learnerDTO.mobileNo = learnerVM.mobileNo;
+    learnerDTO.learnerType = learnerVM.learnerType;
+
+    //create new user and save it and use the user in learnerDTO.user
+
+    const newUser = new UserDTO();
+    newUser.login = learnerVM.email;
+    newUser.firstName = learnerVM.firstName;
+    newUser.lastName = learnerVM.lastName;
+    newUser.email = learnerVM.email;
+    newUser.password = learnerVM.password;
+    newUser.activated = true;
+    newUser.langKey = 'en';
+    learnerDTO.user = await this.authService.registerNewUser(newUser);
+
+    //learnerDTO.password = learnerVM.password;
+    const entity = LearnerMapper.fromDTOtoEntity(learnerDTO);
+    const result = await this.learnerRepository.save(entity);
+    return LearnerMapper.fromEntityToDTO(result);
   }
 }

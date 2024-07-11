@@ -8,14 +8,14 @@ import {
   Param,
   Post as PostMethod,
   Put,
-  UseGuards,
   Req,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LearnerDTO } from '../../service/dto/learner.dto';
 import { LearnerService } from '../../service/learner.service';
-import { PageRequest, Page } from '../../domain/base/pagination.entity';
+import { Page, PageRequest } from '../../domain/base/pagination.entity';
 import { AuthGuard, Roles, RolesGuard, RoleType } from '../../security';
 import { HeaderUtil } from '../../client/header-util';
 import { Request } from '../../client/request';
