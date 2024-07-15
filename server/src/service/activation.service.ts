@@ -82,8 +82,9 @@ export class ActivationService {
     newActivation.email = email;
     newActivation.code = code;
     newActivation.isUsed = false;
-    newActivation.validUntil = new Date().getTime() + 1000 * 60 * 5;
-    newActivation.sentOn = new Date().getTime();
+    newActivation.validUntil = new Date(Date.now() + 1000 * 60 * 60).toISOString().slice(0, 19).replace('T', ' ');
+    newActivation.sentOn = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
     const result = await this.activationRepository.save(newActivation);
 
     const user = { email, login: email, resetKey: result.code };
