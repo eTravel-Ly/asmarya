@@ -90,7 +90,7 @@ export class ActivationService {
     const user = { email, login: email, resetKey: result.code };
     await this.mailService.sendMail({
       from: 'Test otp <otp@network.com.ly>',
-      to: 'osamaeshmilh@gmail.com',
+      to: email,
       subject: `Otp for activation`,
       text: code.toString(),
     });
