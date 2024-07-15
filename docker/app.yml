@@ -6,8 +6,8 @@ services:
       - BACKEND_ENV=prod
     ports:
       - 8080:8080
-    depends_on:
-      - mysql
+#    depends_on:
+#      - mysql
 #  mysql:
 #    extends:
 #      file: ./mysql.yml
