@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=4444
+    ports:
+      - '80:80'
+    depends_on:
+      - mysql
