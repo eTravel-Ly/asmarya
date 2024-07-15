@@ -7,8 +7,7 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      mysql:
-        condition: service_healthy
+      - mysql
   mysql:
     extends:
       file: ./mysql.yml
@@ -18,9 +17,9 @@ services:
     environment:
       - PMA_HOST=mysql
       - PMA_USER=root
-      - PMA_PASSWORD=4444 # Set your MySQL root password here
+      - PMA_PASSWORD=4444
     ports:
-      - '8081:80' # Adjust the port if needed
+      - '80:80'
     depends_on:
       - mysql
   portainer:
