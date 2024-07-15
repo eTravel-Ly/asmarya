@@ -19,3 +19,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=4444
