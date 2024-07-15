@@ -1,4 +1,5 @@
-version: '3.8'
+# This configuration is intended for development purpose, it's **your** responsibility to harden it for production
+name: asmarya
 services:
   mysql:
     image: mysql:8.4.0
@@ -18,9 +19,3 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      - PMA_HOST=mysql
-      - PMA_USER=root
-      - PMA_PASSWORD=4444
