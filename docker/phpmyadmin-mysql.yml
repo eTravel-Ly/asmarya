@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=4444
+    ports:
+      - '8080:80'
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - ./config/mysql:/etc/mysql/conf.d
+      # - ~/volumes/jhipster/asmarya/mysql/:/var/lib/mysql/
+    environment:
+      MYSQL_ROOT_PASSWORD: '4444'
+      MYSQL_DATABASE: asmarya
+    ports:
+      - 127.0.0.1:3306:3306
+    command: mysqld --lower_case_table_names=1 --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
