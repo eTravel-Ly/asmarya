@@ -12,7 +12,7 @@
     ]
   },
   "scripts": {
-    "app:down": "docker compose -f docker/app.yml down -v --remove-orphans --volumes",
+    "app:down": "docker compose -f docker/app.yml down -v --remove-orphans --volumes --rmi all",
     "app:up": "docker compose -f docker/app.yml up --wait",
     "build:app": "cd server && npm run build",
     "ci:e2e:prepare": "npm run ci:e2e:prepare:docker",
