@@ -1,13 +1,11 @@
-version: '3.8'
-
+name: asmarya
 services:
   app:
-    build:
-      context: .
+    build: ..
     environment:
       - BACKEND_ENV=prod
     ports:
-      - '8080:8080'
+      - 8080:8080
 #    depends_on:
 #      - mysql
 #  mysql:
