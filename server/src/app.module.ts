@@ -34,10 +34,10 @@ import { MailerModule } from '@nestjs-modules/mailer';
     }),
     MailerModule.forRoot({
       transport: {
-        host: process.env.EMAIL_HOST,
+        host: 'network.com.ly',
         auth: {
-          user: process.env.EMAIL_USERNAME,
-          pass: process.env.EMAIL_PASSWORD,
+          user: 'otp@network.com.ly',
+          pass: 'jtw7[tEkV(YBbn',
         },
       },
     }),

@@ -1,4 +1,4 @@
-import { Body, Controller, Logger, Req, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, HttpException, HttpStatus, Logger, Req, UseInterceptors } from '@nestjs/common';
 import { Request } from 'express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoggingInterceptor } from '../../client/interceptors/logging.interceptor';
@@ -40,6 +40,11 @@ export class WebsiteController {
     type: LearnerDTO,
   })
   async register(@Req() req: Request, @Body() learnerVM: LearnerVM): Promise<LearnerDTO> {
+    // check otp
+    if (!this.activationService.checkOTP(learnerVM.email, learnerVM.otp)) {
+      throw new HttpException('Invalid OTP', HttpStatus.BAD_REQUEST);
+    }
+
     const created = await this.learnerService.register(learnerVM);
     HeaderUtil.addEntityCreatedHeaders(req.res, 'Learner', created.id);
     return created;
