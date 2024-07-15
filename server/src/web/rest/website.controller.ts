@@ -7,6 +7,8 @@ import { Post as PostMethod } from '@nestjs/common/decorators/http/request-mappi
 import { LearnerVM } from '../../service/dto/vm/learner.vm';
 import { LearnerDTO } from '../../service/dto/learner.dto';
 import { HeaderUtil } from '../../client/header-util';
+import { ActivationService } from '../../service/activation.service';
+import { RequestOtpVm } from '../../service/dto/vm/request-otp.vm';
 
 @Controller('api')
 @UseInterceptors(LoggingInterceptor)
@@ -14,7 +16,21 @@ import { HeaderUtil } from '../../client/header-util';
 export class WebsiteController {
   logger = new Logger('WebsiteController');
 
-  constructor(private readonly learnerService: LearnerService) {}
+  constructor(
+    private readonly learnerService: LearnerService,
+    private readonly activationService: ActivationService,
+  ) {}
+
+  @PostMethod('/public/activation/request-otp')
+  @ApiOperation({ summary: 'Request OTP for activation' })
+  @ApiResponse({
+    status: 201,
+    description: 'The record has been successfully created.',
+  })
+  async requestOTP(@Req() req: Request, @Body() requestOtpVm: RequestOtpVm): Promise<void> {
+    await this.activationService.requestOTP(requestOtpVm);
+    HeaderUtil.addEntityCreatedHeaders(req.res, 'Activation', 'OTP');
+  }
 
   @PostMethod('/public/learner/register')
   @ApiOperation({ summary: 'Register learner' })

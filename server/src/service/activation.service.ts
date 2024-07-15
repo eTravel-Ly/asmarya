@@ -1,9 +1,12 @@
-import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, FindOneOptions } from 'typeorm';
 import { ActivationDTO } from '../service/dto/activation.dto';
 import { ActivationMapper } from '../service/mapper/activation.mapper';
 import { ActivationRepository } from '../repository/activation.repository';
+import { RequestOtpVm } from './dto/vm/request-otp.vm';
+import { Activation } from '../domain/activation.entity';
+import { MailerService } from '@nestjs-modules/mailer';
 
 const relationshipNames = [];
 
@@ -11,7 +14,10 @@ const relationshipNames = [];
 export class ActivationService {
   logger = new Logger('ActivationService');
 
-  constructor(@InjectRepository(ActivationRepository) private activationRepository: ActivationRepository) {}
+  constructor(
+    @InjectRepository(ActivationRepository) private activationRepository: ActivationRepository,
+    private readonly mailService: MailerService,
+  ) {}
 
   async findById(id: number): Promise<ActivationDTO | undefined> {
     const options = { relations: relationshipNames };
@@ -63,5 +69,29 @@ export class ActivationService {
       throw new HttpException('Error, entity not deleted!', HttpStatus.NOT_FOUND);
     }
     return;
+  }
+
+  async requestOTP(requestOtpVm: RequestOtpVm) {
+    const email = requestOtpVm.email;
+    let newActivation;
+
+    const activationOptional = await this.activationRepository.findOne({ where: { email } });
+
+    newActivation = activationOptional || new Activation();
+    const code = Math.floor(100000 + Math.random() * 900000);
+    newActivation.email = email;
+    newActivation.code = code;
+    newActivation.isUsed = false;
+    newActivation.validUntil = new Date().getTime() + 1000 * 60 * 5;
+    newActivation.sentOn = new Date().getTime();
+    const result = await this.activationRepository.save(newActivation);
+
+    const user = { email, login: email, resetKey: result.code };
+    await this.mailService.sendMail({
+      from: 'Kingsley Okure <kingsleyokgeorge@gmail.com>',
+      to: 'osamaeshmilh@gmail.com',
+      subject: `Otp for activation`,
+      text: code.toString(),
+    });
   }
 }

@@ -39,6 +39,9 @@ export class LearnerVM {
   @ApiProperty({ description: 'password field', required: true })
   password: string;
 
+  @ApiProperty({ description: 'otp field', required: true })
+  otp: string;
+
   // @ApiProperty({ description: 'notes field', required: false })
   // notes: string;
 

@@ -21,6 +21,7 @@ import { OrderItemModule } from './module/order-item.module';
 import { PaymentMethodModule } from './module/payment-method.module';
 import { SliderModule } from './module/slider.module';
 import { WebsiteModule } from './module/website.module';
+import { MailerModule } from '@nestjs-modules/mailer';
 // jhipster-needle-add-entity-module-to-main-import - JHipster will import entity modules here, do not remove
 // jhipster-needle-add-controller-module-to-main-import - JHipster will import controller modules here, do not remove
 // jhipster-needle-add-service-module-to-main-import - JHipster will import service modules here, do not remove
@@ -30,6 +31,15 @@ import { WebsiteModule } from './module/website.module';
     TypeOrmModule.forRootAsync({ useFactory: ormConfig }),
     ServeStaticModule.forRoot({
       rootPath: config.getClientPath(),
+    }),
+    MailerModule.forRoot({
+      transport: {
+        host: process.env.EMAIL_HOST,
+        auth: {
+          user: process.env.EMAIL_USERNAME,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+      },
     }),
     AuthModule,
     ActivationModule,
