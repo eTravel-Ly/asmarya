@@ -91,26 +91,19 @@ Navbar styles
 }
 
 .brand-logo {
-  &:hover {
-    text-decoration: none;
-  }
-  .brand-icon {
-    height: 35px;
-    width: auto;
-    display: inline-block;
-    img {
-      width: 45px;
-    }
-  }
+  display: flex;
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
+  background-color: #ffffff; /* Background color for the logo area */
 }
 
-.brand-title {
-  font-size: 1.25rem;
-  margin-left: 0.25rem;
-  color: $header-color;
-  &:hover {
-    color: $header-color-hover;
-    text-decoration: none;
+.brand-icon {
+  height: 85px;
+  width: auto;
+
+  img {
+    max-height: 100%; /* Ensure the image scales properly */
+    max-width: 100%; /* Ensure the image scales properly */
   }
 }
 
