@@ -19,6 +19,7 @@ import Order from './order';
 import OrderItem from './order-item';
 import PaymentMethod from './payment-method';
 import Slider from './slider';
+import Dashboard from './dashboard';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
 export default () => {
@@ -26,6 +27,7 @@ export default () => {
     <div>
       <ErrorBoundaryRoutes>
         {/* prettier-ignore */}
+        <Route path="dashboard/*" element={<Dashboard/>}/>
         <Route path="activation/*" element={<Activation />} />
         <Route path="app-setting/*" element={<AppSetting />} />
         <Route path="book/*" element={<Book />} />

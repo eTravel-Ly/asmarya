@@ -2,8 +2,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import './app.scss';
 import 'app/config/dayjs';
 
-import React, { useEffect } from 'react';
-import { Card, Nav, NavItem, NavLink } from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { Card, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem, NavLink } from 'reactstrap';
 import { BrowserRouter, NavLink as Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
@@ -17,11 +17,14 @@ import ErrorBoundary from 'app/shared/error/error-boundary';
 import { AUTHORITIES } from 'app/config/constants';
 import AppRoutes from 'app/routes';
 import { Brand } from 'app/shared/layout/header/header-components';
+import { faBook, faDashboard, faFileAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
 const App = () => {
   const dispatch = useAppDispatch();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     dispatch(getSession());
@@ -33,6 +36,7 @@ const App = () => {
   const ribbonEnv = useAppSelector(state => state.applicationProfile.ribbonEnv);
   const isInProduction = true;
   const isOpenAPIEnabled = useAppSelector(state => state.applicationProfile.isOpenAPIEnabled);
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   return (
     <BrowserRouter basename={baseHref}>
@@ -56,85 +60,100 @@ const App = () => {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={Link} to="/activation" className="d-flex align-items-center">
-                  Activation
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/app-setting" className="d-flex align-items-center">
-                  App Setting
+                <NavLink tag={Link} to="/dashboard" className="d-flex align-items-center">
+                  <FontAwesomeIcon icon={faDashboard} className="m-2" />
+                  الرئيسية
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} to="/book" className="d-flex align-items-center">
-                  Book
+                  <FontAwesomeIcon icon={faBook} className="m-2" />
+                  الكتب
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} to="/book-borrow-request" className="d-flex align-items-center">
-                  Book Borrow Request
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/cart-item" className="d-flex align-items-center">
-                  Cart Item
+                  <FontAwesomeIcon icon={faBook} className="m-2" />
+                  طلبات استعارة الكتب
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} to="/category" className="d-flex align-items-center">
-                  Category
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/comment" className="d-flex align-items-center">
-                  Comment
+                  <FontAwesomeIcon icon={faBook} className="m-2" />
+                  التصنيفات
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} to="/course" className="d-flex align-items-center">
-                  Course
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/course-video" className="d-flex align-items-center">
-                  Course Video
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/favorite" className="d-flex align-items-center">
-                  Favorite
+                  <FontAwesomeIcon icon={faBook} className="m-2" />
+                  الدورات التدريبة
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} to="/learner" className="d-flex align-items-center">
-                  Learner
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/notification" className="d-flex align-items-center">
-                  Notification
+                  <FontAwesomeIcon icon={faBook} className="m-2" />
+                  المتدربين
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} to="/order" className="d-flex align-items-center">
-                  Order
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/order-item" className="d-flex align-items-center">
-                  Order Item
+                  <FontAwesomeIcon icon={faBook} className="m-2" />
+                  الطلبات
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} to="/payment-method" className="d-flex align-items-center">
-                  Payment Method
+                  <FontAwesomeIcon icon={faBook} className="m-2" />
+                  طرق الدفع
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} to="/slider" className="d-flex align-items-center">
-                  Slider
+                  <FontAwesomeIcon icon={faBook} className="m-2" />
+                  الشريط الدعائي
                 </NavLink>
               </NavItem>
+
+              <Dropdown nav inNavbar isOpen={dropdownOpen} toggle={toggleDropdown}>
+                <DropdownToggle nav caret className="d-flex align-items-center">
+                  <FontAwesomeIcon icon={faBook} className="m-2" />
+                  اجزاء النظام
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem tag={Link} to="/activation" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faFileAlt} className="m-2" />
+                    رموز التفعيل
+                  </DropdownItem>
+                  <DropdownItem tag={Link} to="/app-setting" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faFileAlt} className="m-2" />
+                    اعدادات النظام
+                  </DropdownItem>
+                  <DropdownItem tag={Link} to="/order-item" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    عناصر الطلبات
+                  </DropdownItem>
+                  <DropdownItem tag={Link} to="/favorite" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    المفضلة
+                  </DropdownItem>
+                  <DropdownItem tag={Link} to="/notification" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    الاشعارات
+                  </DropdownItem>
+                  <DropdownItem tag={Link} to="/course-video" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    فيديوات الدوارات
+                  </DropdownItem>
+                  <DropdownItem tag={Link} to="/comment" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    التعليقات
+                  </DropdownItem>
+                  <DropdownItem tag={Link} to="/cart-item" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    السلة
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
             </Nav>
           </nav>
           <div className="content">
