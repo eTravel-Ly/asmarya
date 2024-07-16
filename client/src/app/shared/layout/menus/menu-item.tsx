@@ -16,8 +16,9 @@ const MenuItem = (props: IMenuItem) => {
   const { to, icon, id, children } = props;
 
   return (
-    <DropdownItem tag={Link} to={to} id={id} data-cy={props['data-cy']}>
-      <FontAwesomeIcon icon={icon} fixedWidth /> {children}
+    <DropdownItem tag={Link} to={to} id={id} data-cy={props['data-cy']} className="text-end">
+      <FontAwesomeIcon icon={icon} fixedWidth className="me-2" />
+      {children}
     </DropdownItem>
   );
 };

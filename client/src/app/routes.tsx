@@ -14,6 +14,7 @@ import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
+import ApiDocsEmbed from 'app/modules/api/api-docs-embed';
 
 const loading = <div>loading ...</div>;
 
@@ -33,6 +34,10 @@ const AppRoutes = () => {
         <Route index element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="logout" element={<Logout />} />
+        <Route
+          path="api-docs" // Define your route path for API documentation
+          element={<ApiDocsEmbed />} // Render your ApiDocsEmbed component here
+        />
         <Route path="account">
           <Route
             path="*"

@@ -52,110 +52,136 @@ const App = () => {
           />
         </ErrorBoundary>
         <div className="view-container">
-          <nav className="sidebar">
-            <Nav vertical>
-              <NavItem>
-                <NavLink tag={Link} to="/" className="d-flex align-items-center">
-                  <Brand />
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/dashboard" className="d-flex align-items-center">
-                  <FontAwesomeIcon icon={faDashboard} className="m-2" />
-                  الرئيسية
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/book" className="d-flex align-items-center">
-                  <FontAwesomeIcon icon={faBook} className="m-2" />
-                  الكتب
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/book-borrow-request" className="d-flex align-items-center">
-                  <FontAwesomeIcon icon={faBook} className="m-2" />
-                  طلبات استعارة الكتب
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/category" className="d-flex align-items-center">
-                  <FontAwesomeIcon icon={faBook} className="m-2" />
-                  التصنيفات
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/course" className="d-flex align-items-center">
-                  <FontAwesomeIcon icon={faBook} className="m-2" />
-                  الدورات التدريبة
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/learner" className="d-flex align-items-center">
-                  <FontAwesomeIcon icon={faBook} className="m-2" />
-                  المتدربين
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/order" className="d-flex align-items-center">
-                  <FontAwesomeIcon icon={faBook} className="m-2" />
-                  الطلبات
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/payment-method" className="d-flex align-items-center">
-                  <FontAwesomeIcon icon={faBook} className="m-2" />
-                  طرق الدفع
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/slider" className="d-flex align-items-center">
-                  <FontAwesomeIcon icon={faBook} className="m-2" />
-                  الشريط الدعائي
-                </NavLink>
-              </NavItem>
+          {isAuthenticated && ( // Conditional rendering based on authentication status
+            <nav className="sidebar">
+              <Nav vertical>
+                <NavItem>
+                  <NavLink tag={Link} to="/" className="d-flex align-items-center">
+                    <Brand />
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} to="/dashboard" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faDashboard} className="m-2" />
+                    الرئيسية
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} to="/book" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    الكتب
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} to="/book-borrow-request" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    طلبات استعارة الكتب
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} to="/category" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    التصنيفات
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} to="/course" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    الدورات التدريبة
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} to="/learner" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    المتدربين
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} to="/order" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    الطلبات
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} to="/payment-method" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    طرق الدفع
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} to="/slider" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    الشريط الدعائي
+                  </NavLink>
+                </NavItem>
 
-              <Dropdown nav inNavbar isOpen={dropdownOpen} toggle={toggleDropdown}>
-                <DropdownToggle nav caret className="d-flex align-items-center">
-                  <FontAwesomeIcon icon={faBook} className="m-2" />
-                  اجزاء النظام
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem tag={Link} to="/activation" className="d-flex align-items-center">
-                    <FontAwesomeIcon icon={faFileAlt} className="m-2" />
-                    رموز التفعيل
-                  </DropdownItem>
-                  <DropdownItem tag={Link} to="/app-setting" className="d-flex align-items-center">
-                    <FontAwesomeIcon icon={faFileAlt} className="m-2" />
-                    اعدادات النظام
-                  </DropdownItem>
-                  <DropdownItem tag={Link} to="/order-item" className="d-flex align-items-center">
+                <Dropdown nav inNavbar isOpen={dropdownOpen} toggle={toggleDropdown}>
+                  <DropdownToggle nav caret className="d-flex align-items-center">
                     <FontAwesomeIcon icon={faBook} className="m-2" />
-                    عناصر الطلبات
-                  </DropdownItem>
-                  <DropdownItem tag={Link} to="/favorite" className="d-flex align-items-center">
-                    <FontAwesomeIcon icon={faBook} className="m-2" />
-                    المفضلة
-                  </DropdownItem>
-                  <DropdownItem tag={Link} to="/notification" className="d-flex align-items-center">
-                    <FontAwesomeIcon icon={faBook} className="m-2" />
-                    الاشعارات
-                  </DropdownItem>
-                  <DropdownItem tag={Link} to="/course-video" className="d-flex align-items-center">
-                    <FontAwesomeIcon icon={faBook} className="m-2" />
-                    فيديوات الدوارات
-                  </DropdownItem>
-                  <DropdownItem tag={Link} to="/comment" className="d-flex align-items-center">
-                    <FontAwesomeIcon icon={faBook} className="m-2" />
-                    التعليقات
-                  </DropdownItem>
-                  <DropdownItem tag={Link} to="/cart-item" className="d-flex align-items-center">
-                    <FontAwesomeIcon icon={faBook} className="m-2" />
-                    السلة
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </Nav>
-          </nav>
+                    اجزاء النظام
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    <DropdownItem tag={Link} to="/activation" className="d-flex align-items-center">
+                      <FontAwesomeIcon icon={faFileAlt} className="m-2" />
+                      رموز التفعيل
+                    </DropdownItem>
+                    <DropdownItem tag={Link} to="/app-setting" className="d-flex align-items-center">
+                      <FontAwesomeIcon icon={faFileAlt} className="m-2" />
+                      اعدادات النظام
+                    </DropdownItem>
+                    <DropdownItem tag={Link} to="/order-item" className="d-flex align-items-center">
+                      <FontAwesomeIcon icon={faBook} className="m-2" />
+                      عناصر الطلبات
+                    </DropdownItem>
+                    <DropdownItem tag={Link} to="/favorite" className="d-flex align-items-center">
+                      <FontAwesomeIcon icon={faBook} className="m-2" />
+                      المفضلة
+                    </DropdownItem>
+                    <DropdownItem tag={Link} to="/notification" className="d-flex align-items-center">
+                      <FontAwesomeIcon icon={faBook} className="m-2" />
+                      الاشعارات
+                    </DropdownItem>
+                    <DropdownItem tag={Link} to="/course-video" className="d-flex align-items-center">
+                      <FontAwesomeIcon icon={faBook} className="m-2" />
+                      فيديوات الدوارات
+                    </DropdownItem>
+                    <DropdownItem tag={Link} to="/comment" className="d-flex align-items-center">
+                      <FontAwesomeIcon icon={faBook} className="m-2" />
+                      التعليقات
+                    </DropdownItem>
+                    <DropdownItem tag={Link} to="/cart-item" className="d-flex align-items-center">
+                      <FontAwesomeIcon icon={faBook} className="m-2" />
+                      السلة
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+
+                {isAdmin && (
+                  <>
+                    <NavItem>
+                      <NavLink tag={Link} to="/admin/user-management" className="d-flex align-items-center">
+                        <FontAwesomeIcon icon={faBook} className="m-2" />
+                        ادارة المستخدمين
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink href="/api/v2/api-docs/" target="_blank" rel="noopener noreferrer" className="d-flex align-items-center">
+                        <FontAwesomeIcon icon={faBook} className="m-2" />
+                        API
+                      </NavLink>
+                    </NavItem>
+                    {/*<NavItem>*/}
+                    {/*  <NavLink tag={Link} to="/api-docs" className="d-flex align-items-center">*/}
+                    {/*    <FontAwesomeIcon icon={faBook} className="m-2"/>*/}
+                    {/*    API Documentation*/}
+                    {/*  </NavLink>*/}
+                    {/*</NavItem>*/}
+                  </>
+                )}
+              </Nav>
+            </nav>
+          )}
+
           <div className="content">
             <Card className="jh-card">
               <ErrorBoundary>
