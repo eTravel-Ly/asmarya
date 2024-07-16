@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 import { BaseEntity } from './base/base.entity';
 
 import { Category } from './category.entity';
@@ -39,7 +39,7 @@ export class Book extends BaseEntity {
   @Column({ type: 'simple-enum', name: 'language', enum: Language })
   language: Language;
 
-  @Column({ type: 'blob', name: 'cover_image_file', nullable: true })
+  @Column({ type: 'longblob', name: 'cover_image_file', nullable: true })
   coverImageFile: any;
 
   @Column({ name: 'cover_image_file_content_type', nullable: true })
@@ -47,7 +47,7 @@ export class Book extends BaseEntity {
   @Column({ name: 'cover_image_url', nullable: true })
   coverImageUrl: string;
 
-  @Column({ type: 'blob', name: 'book_file', nullable: true })
+  @Column({ type: 'longblob', name: 'book_file', nullable: true })
   bookFile: any;
 
   @Column({ name: 'book_file_content_type', nullable: true })

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Entity, Column } from 'typeorm';
+import { Column, Entity } from 'typeorm';
 import { BaseEntity } from './base/base.entity';
 
 /**
@@ -19,7 +19,7 @@ export class Slider extends BaseEntity {
   @Column({ name: 'image_file_url', nullable: true })
   imageFileUrl: string;
 
-  @Column({ type: 'blob', name: 'image_file', nullable: true })
+  @Column({ type: 'longblob', name: 'image_file', nullable: true })
   imageFile: any;
 
   @Column({ name: 'image_file_content_type', nullable: true })

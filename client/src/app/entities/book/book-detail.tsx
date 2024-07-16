@@ -1,13 +1,10 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Button, Row, Col } from 'reactstrap';
-import { openFile, byteSize, TextFormat } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntity } from './book.reducer';
+import { Button, Col, Row } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const BookDetail = () => {
   const dispatch = useAppDispatch();
@@ -23,128 +20,87 @@ export const BookDetail = () => {
     <Row>
       <Col md="8">
         <h2 data-cy="bookDetailsHeading">Book</h2>
-        <dl className="jh-entity-details">
-          <dt>
-            <span id="id">ID</span>
-          </dt>
-          <dd>{bookEntity.id}</dd>
-          <dt>
-            <span id="title">Title</span>
-          </dt>
-          <dd>{bookEntity.title}</dd>
-          <dt>
-            <span id="author">Author</span>
-          </dt>
-          <dd>{bookEntity.author}</dd>
-          <dt>
-            <span id="publicationDate">Publication Date</span>
-          </dt>
-          <dd>
-            {bookEntity.publicationDate ? (
-              <TextFormat value={bookEntity.publicationDate} type="date" format={APP_LOCAL_DATE_FORMAT} />
-            ) : null}
-          </dd>
-          <dt>
-            <span id="isbn">Isbn</span>
-          </dt>
-          <dd>{bookEntity.isbn}</dd>
-          <dt>
-            <span id="description">Description</span>
-          </dt>
-          <dd>{bookEntity.description}</dd>
-          <dt>
-            <span id="genre">Genre</span>
-          </dt>
-          <dd>{bookEntity.genre}</dd>
-          <dt>
-            <span id="publisher">Publisher</span>
-          </dt>
-          <dd>{bookEntity.publisher}</dd>
-          <dt>
-            <span id="pageCount">Page Count</span>
-          </dt>
-          <dd>{bookEntity.pageCount}</dd>
-          <dt>
-            <span id="language">Language</span>
-          </dt>
-          <dd>{bookEntity.language}</dd>
-          <dt>
-            <span id="coverImageFile">Cover Image File</span>
-          </dt>
-          <dd>
-            {bookEntity.coverImageFile ? (
-              <div>
-                {bookEntity.coverImageFileContentType ? (
-                  <a onClick={openFile(bookEntity.coverImageFileContentType, bookEntity.coverImageFile)}>
-                    <img
-                      src={`data:${bookEntity.coverImageFileContentType};base64,${bookEntity.coverImageFile}`}
-                      style={{ maxHeight: '30px' }}
-                    />
-                  </a>
-                ) : null}
-                <span>
-                  {bookEntity.coverImageFileContentType}, {byteSize(bookEntity.coverImageFile)}
-                </span>
-              </div>
-            ) : null}
-          </dd>
-          <dt>
-            <span id="coverImageUrl">Cover Image Url</span>
-          </dt>
-          <dd>{bookEntity.coverImageUrl}</dd>
-          <dt>
-            <span id="bookFile">Book File</span>
-          </dt>
-          <dd>
-            {bookEntity.bookFile ? (
-              <div>
-                {bookEntity.bookFileContentType ? (
-                  <a onClick={openFile(bookEntity.bookFileContentType, bookEntity.bookFile)}>
-                    <img src={`data:${bookEntity.bookFileContentType};base64,${bookEntity.bookFile}`} style={{ maxHeight: '30px' }} />
-                  </a>
-                ) : null}
-                <span>
-                  {bookEntity.bookFileContentType}, {byteSize(bookEntity.bookFile)}
-                </span>
-              </div>
-            ) : null}
-          </dd>
-          <dt>
-            <span id="bookUrl">Book Url</span>
-          </dt>
-          <dd>{bookEntity.bookUrl}</dd>
-          <dt>
-            <span id="price">Price</span>
-          </dt>
-          <dd>{bookEntity.price}</dd>
-          <dt>
-            <span id="studentsPrice">Students Price</span>
-          </dt>
-          <dd>{bookEntity.studentsPrice}</dd>
-          <dt>
-            <span id="numberOfBooksAvailable">Number Of Books Available</span>
-          </dt>
-          <dd>{bookEntity.numberOfBooksAvailable}</dd>
-          <dt>
-            <span id="keywords">Keywords</span>
-          </dt>
-          <dd>{bookEntity.keywords}</dd>
-          <dt>
-            <span id="bookAvailability">Book Availability</span>
-          </dt>
-          <dd>{bookEntity.bookAvailability}</dd>
-          <dt>Categories</dt>
-          <dd>
-            {bookEntity.categories
-              ? bookEntity.categories.map((val, i) => (
-                  <span key={val.id}>
-                    <a>{val.id}</a>
-                    {bookEntity.categories && i === bookEntity.categories.length - 1 ? '' : ', '}
-                  </span>
-                ))
-              : null}
-          </dd>
-        </dl>
+        <table className="table table-bordered table-hover table-custom">
+          <tbody>
+            <tr>
+              <th scope="row">العنوان</th>
+              <td colSpan={3}>{bookEntity.title}</td>
+            </tr>
+            <tr>
+              <th scope="row">المؤلف</th>
+              <td colSpan={3}>{bookEntity.author}</td>
+            </tr>
+            <tr>
+              <th scope="row">تاريخ النشر</th>
+              <td colSpan={3}>{bookEntity.publicationDate}</td>
+            </tr>
+            <tr>
+              <th scope="row">رقم الـ ISBN</th>
+              <td colSpan={3}>{bookEntity.isbn}</td>
+            </tr>
+            <tr>
+              <th scope="row">الوصف</th>
+              <td colSpan={3}>{bookEntity.description}</td>
+            </tr>
+            <tr>
+              <th scope="row">النوع</th>
+              <td colSpan={3}>{bookEntity.genre}</td>
+            </tr>
+            <tr>
+              <th scope="row">الناشر</th>
+              <td colSpan={3}>{bookEntity.publisher}</td>
+            </tr>
+            <tr>
+              <th scope="row">عدد الصفحات</th>
+              <td colSpan={3}>{bookEntity.pageCount}</td>
+            </tr>
+            <tr>
+              <th scope="row">اللغة</th>
+              <td colSpan={3}>{bookEntity.language}</td>
+            </tr>
+            <tr>
+              <th scope="row">رابط صورة الغلاف</th>
+              <td colSpan={3}>{bookEntity.coverImageUrl}</td>
+            </tr>
+            <tr>
+              <th scope="row">رابط الكتاب</th>
+              <td colSpan={3}>{bookEntity.bookUrl}</td>
+            </tr>
+            <tr>
+              <th scope="row">السعر</th>
+              <td colSpan={3}>{bookEntity.price}</td>
+            </tr>
+            <tr>
+              <th scope="row">سعر الطلاب</th>
+              <td colSpan={3}>{bookEntity.studentsPrice}</td>
+            </tr>
+            <tr>
+              <th scope="row">عدد النسخ المتاحة</th>
+              <td colSpan={3}>{bookEntity.numberOfBooksAvailable}</td>
+            </tr>
+            <tr>
+              <th scope="row">الكلمات الدالة</th>
+              <td colSpan={3}>{bookEntity.keywords}</td>
+            </tr>
+            <tr>
+              <th scope="row">توافر الكتاب</th>
+              <td colSpan={3}>{bookEntity.bookAvailability}</td>
+            </tr>
+            <tr>
+              <th>الفئات</th>
+              <td colSpan={3}>
+                {bookEntity.categories
+                  ? bookEntity.categories.map((category, index) => (
+                      <span key={index}>
+                        {category.name}
+                        {index !== bookEntity.categories.length - 1 ? ', ' : ''}
+                      </span>
+                    ))
+                  : null}
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <Button tag={Link} to="/book" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">رجوع</span>
         </Button>
@@ -152,6 +108,9 @@ export const BookDetail = () => {
         <Button tag={Link} to={`/book/${bookEntity.id}/edit`} replace color="primary">
           <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">تعديل</span>
         </Button>
+      </Col>
+      <Col md="4">
+        <img src={`/api/uploads/file/download/${bookEntity.coverImageUrl}`} alt={bookEntity.title} className="img-fluid" />
       </Col>
     </Row>
   );

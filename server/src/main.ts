@@ -6,6 +6,7 @@ import { BadRequestException, Logger, ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { setupSwagger } from './swagger';
 import { config } from './config';
+import * as bodyParser from 'body-parser';
 
 const logger: Logger = new Logger('Main');
 const port = process.env.NODE_SERVER_PORT || config.get('server.port');
@@ -22,6 +23,8 @@ async function bootstrap(): Promise<void> {
       exceptionFactory: (): BadRequestException => new BadRequestException('Validation error'),
     }),
   );
+  app.use(bodyParser.json({ limit: '50mb' }));
+  app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
   // Disable cache.
   app.getHttpAdapter().getInstance().set('etag', false);
 

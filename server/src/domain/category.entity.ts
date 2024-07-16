@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Entity, Column, ManyToMany } from 'typeorm';
+import { Column, Entity, ManyToMany } from 'typeorm';
 import { BaseEntity } from './base/base.entity';
 
 import { Book } from './book.entity';
@@ -22,7 +22,7 @@ export class Category extends BaseEntity {
   @Column({ name: 'image_file_url', nullable: true })
   imageFileUrl: string;
 
-  @Column({ type: 'blob', name: 'image_file', nullable: true })
+  @Column({ type: 'longblob', name: 'image_file', nullable: true })
   imageFile: any;
 
   @Column({ name: 'image_file_content_type', nullable: true })

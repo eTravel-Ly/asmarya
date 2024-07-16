@@ -1,5 +1,5 @@
-import { Body, Controller, HttpException, HttpStatus, Logger, Req, UseInterceptors } from '@nestjs/common';
-import { Request } from 'express';
+import { Body, Controller, Get, HttpException, HttpStatus, Logger, Param, Req, Res, UseInterceptors } from '@nestjs/common';
+import { Request, Response } from 'express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoggingInterceptor } from '../../client/interceptors/logging.interceptor';
 import { LearnerService } from '../../service/learner.service';
@@ -9,6 +9,9 @@ import { LearnerDTO } from '../../service/dto/learner.dto';
 import { HeaderUtil } from '../../client/header-util';
 import { ActivationService } from '../../service/activation.service';
 import { RequestOtpVm } from '../../service/dto/vm/request-otp.vm';
+import path from 'path';
+import fs from 'fs';
+import * as os from 'os';
 
 @Controller('api')
 @UseInterceptors(LoggingInterceptor)
@@ -48,5 +51,34 @@ export class WebsiteController {
     const created = await this.learnerService.register(learnerVM);
     HeaderUtil.addEntityCreatedHeaders(req.res, 'Learner', created.id);
     return created;
+  }
+
+  @Get('/uploads/file/download/:fileName')
+  async downloadFile(@Param('fileName') fileName: string, @Res() res: Response) {
+    try {
+      const uploadDir = os.homedir() + '/uploads/asmarya/';
+      const fileContent = await fs.promises.readFile(path.join(uploadDir, fileName));
+
+      console.log('fileName', fileName);
+      // console.log('fileContent', fileContent);
+      console.log('uploadDir', uploadDir);
+
+      if (fileName.endsWith('.png')) {
+        res.setHeader('Content-Type', 'image/png');
+      } else if (fileName.endsWith('.jpeg') || fileName.endsWith('.jpg')) {
+        res.setHeader('Content-Type', 'image/jpeg');
+      } else if (fileName.endsWith('.gif')) {
+        res.setHeader('Content-Type', 'image/gif');
+      } else if (fileName.endsWith('.svg')) {
+        res.setHeader('Content-Type', 'image/svg+xml');
+      } else if (fileName.endsWith('.pdf')) {
+        res.setHeader('Content-Type', 'application/pdf');
+      } else {
+        res.setHeader('Content-Type', 'application/octet-stream');
+      }
+      res.end(fileContent);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }

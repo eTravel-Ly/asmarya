@@ -1,9 +1,10 @@
-import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, FindOneOptions } from 'typeorm';
 import { BookDTO } from '../service/dto/book.dto';
 import { BookMapper } from '../service/mapper/book.mapper';
 import { BookRepository } from '../repository/book.repository';
+import { Helpers } from './utils/helpers';
 
 const relationshipNames = [];
 relationshipNames.push('categories');
@@ -44,6 +45,12 @@ export class BookService {
       }
       entity.lastModifiedBy = creator;
     }
+
+    if (bookDTO.coverImageFile != null) {
+      entity.coverImageUrl = await Helpers.saveFile(bookDTO.coverImageFile, bookDTO.coverImageFileContentType);
+      entity.coverImageFile = null;
+    }
+
     const result = await this.bookRepository.save(entity);
     return BookMapper.fromEntityToDTO(result);
   }
@@ -53,6 +60,12 @@ export class BookService {
     if (updater) {
       entity.lastModifiedBy = updater;
     }
+
+    if (bookDTO.coverImageFile != null) {
+      entity.coverImageUrl = await Helpers.saveFile(bookDTO.coverImageFile, bookDTO.coverImageFileContentType);
+      entity.coverImageFile = null;
+    }
+
     const result = await this.bookRepository.save(entity);
     return BookMapper.fromEntityToDTO(result);
   }

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Entity, Column, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { BaseEntity } from './base/base.entity';
 
 import { LearnerType } from './enumeration/learner-type';
@@ -44,7 +44,7 @@ export class Learner extends BaseEntity {
   @Column({ type: 'boolean', name: 'verified_by_mobile_no', nullable: true })
   verifiedByMobileNo: boolean;
 
-  @Column({ type: 'blob', name: 'image_file', nullable: true })
+  @Column({ type: 'longblob', name: 'image_file', nullable: true })
   imageFile: any;
 
   @Column({ name: 'image_file_content_type', nullable: true })
