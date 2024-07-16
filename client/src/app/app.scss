@@ -346,19 +346,15 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
 .sidebar .nav {
   display: flex;
   flex-direction: column;
-  gap: 1rem; /* Spacing between nav items */
   padding: 1rem;
 }
 
-/* Individual nav item styling */
 .sidebar .nav-item {
   width: 100%;
 }
 
-/* Styling for the navigation links */
 .sidebar .nav-link {
-  color: #424242; /* Dark text color */
-  padding: 10px 15px; /* Adjust padding for better touch targets */
+  color: #424242;
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -366,9 +362,8 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
   transition: background-color 0.3s; /* Transition background color on hover */
 }
 
-/* Icon styling */
-.sidebar .nav-link .icon {
-  margin-right: 10px;
+.sidebar .nav-link:hover {
+  background-color: #f0f0f0; /* Light gray background on hover */
 }
 
 /* Optional: Styling for additional cards or sections */
