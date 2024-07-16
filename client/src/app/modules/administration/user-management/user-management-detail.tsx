@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Button, Row, Badge } from 'reactstrap';
+import { Badge, Button, Row } from 'reactstrap';
 import { TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -23,34 +23,34 @@ export const UserManagementDetail = () => {
   return (
     <div>
       <h2>
-        User [<strong>{user.login}</strong>]
+        المستخدم [<strong>{user.login}</strong>]
       </h2>
       <Row size="md">
         <dl className="jh-entity-details">
-          <dt>Login</dt>
+          <dt>اسم الدخول</dt>
           <dd>
             <span>{user.login}</span>&nbsp;
-            {user.activated ? <Badge color="success">Activated</Badge> : <Badge color="danger">Deactivated</Badge>}
+            {user.activated ? <Badge color="success">مفعل</Badge> : <Badge color="danger">غير مفعل</Badge>}
           </dd>
-          <dt>First name</dt>
+          <dt>الاسم الأول</dt>
           <dd>{user.firstName}</dd>
-          <dt>Last name</dt>
+          <dt>الاسم الأخير</dt>
           <dd>{user.lastName}</dd>
-          <dt>Email</dt>
+          <dt>البريد الإلكتروني</dt>
           <dd>{user.email}</dd>
-          <dt>Created by</dt>
+          <dt>المنشئ</dt>
           <dd>{user.createdBy}</dd>
-          <dt>Created date</dt>
+          <dt>تاريخ الإنشاء</dt>
           <dd>{user.createdDate ? <TextFormat value={user.createdDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid /> : null}</dd>
-          <dt>Modified by</dt>
+          <dt>المعدل</dt>
           <dd>{user.lastModifiedBy}</dd>
-          <dt>Modified date</dt>
+          <dt>تاريخ التعديل</dt>
           <dd>
             {user.lastModifiedDate ? (
               <TextFormat value={user.lastModifiedDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid />
             ) : null}
           </dd>
-          <dt>Profiles</dt>
+          <dt>الصلاحيات</dt>
           <dd>
             <ul className="list-unstyled">
               {user.authorities
@@ -65,7 +65,7 @@ export const UserManagementDetail = () => {
         </dl>
       </Row>
       <Button tag={Link} to="/admin/user-management" replace color="info">
-        <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>
+        <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">الرجوع</span>
       </Button>
     </div>
   );

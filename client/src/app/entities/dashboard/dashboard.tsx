@@ -14,8 +14,9 @@ import {
 } from 'chart.js';
 import { Card, CardBody, CardText, CardTitle, Col, Row } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDashboard } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faVideo } from '@fortawesome/free-solid-svg-icons';
 import './dashboard.scss';
+import { faGraduationCap } from '@fortawesome/free-solid-svg-icons/faGraduationCap';
 
 // Register required components from Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend, ArcElement, PointElement, LineController, LineElement);
@@ -98,8 +99,8 @@ const Dashboard = () => {
             <Card className="counter-card">
               <CardBody>
                 <CardTitle tag="h5">
-                  <FontAwesomeIcon icon={faDashboard} />
-                  عدد الطلبة المسجلين
+                  <FontAwesomeIcon icon={faGraduationCap} style={{ marginLeft: '10px' }} />
+                  عدد الطلبة
                 </CardTitle>
                 <CardText className="fw-bold fs-3">{counters.counter1}</CardText>
               </CardBody>
@@ -109,10 +110,10 @@ const Dashboard = () => {
             <Card className="counter-card">
               <CardBody>
                 <CardTitle tag="h5">
-                  <FontAwesomeIcon icon={faDashboard}></FontAwesomeIcon>
-                  عدد المدربين المسجلين
+                  <FontAwesomeIcon icon={faGraduationCap} style={{ marginLeft: '10px' }} />
+                  عدد المدربين
                 </CardTitle>
-                <CardText className="fw-bold fs-3">{counters.counter1}</CardText>
+                <CardText className="fw-bold fs-3">{counters.counter2}</CardText>
               </CardBody>
             </Card>
           </Col>
@@ -120,10 +121,10 @@ const Dashboard = () => {
             <Card className="counter-card">
               <CardBody>
                 <CardTitle tag="h5">
-                  <FontAwesomeIcon icon={faDashboard}></FontAwesomeIcon>
-                  عدد الكتب المتاحة
+                  <FontAwesomeIcon icon={faBook} style={{ marginLeft: '10px' }}></FontAwesomeIcon>
+                  عدد الكتب
                 </CardTitle>
-                <CardText className="fw-bold fs-3">{counters.counter1}</CardText>
+                <CardText className="fw-bold fs-3">{counters.counter3}</CardText>
               </CardBody>
             </Card>
           </Col>
@@ -131,10 +132,10 @@ const Dashboard = () => {
             <Card className="counter-card">
               <CardBody>
                 <CardTitle tag="h5">
-                  <FontAwesomeIcon icon={faDashboard}></FontAwesomeIcon>
-                  عدد الدورات المتاحة
+                  <FontAwesomeIcon icon={faVideo} style={{ marginLeft: '10px' }}></FontAwesomeIcon>
+                  عدد الدورات
                 </CardTitle>
-                <CardText className="fw-bold fs-3">{counters.counter1}</CardText>
+                <CardText className="fw-bold fs-3">{counters.counter4}</CardText>
               </CardBody>
             </Card>
           </Col>

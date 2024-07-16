@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { Button, Col, Row } from 'reactstrap';
-import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
+import { isEmail, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getSession } from 'app/shared/reducers/authentication';
-import { saveAccountSettings, reset } from './settings.reducer';
+import { reset, saveAccountSettings } from './settings.reducer';
 
 export const SettingsPage = () => {
   const dispatch = useAppDispatch();
@@ -39,48 +39,48 @@ export const SettingsPage = () => {
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="settings-title">
-            User settings for [<strong>{account.login}</strong>]
+            إعدادات المستخدم لـ [<strong>{account.login}</strong>]
           </h2>
           <ValidatedForm id="settings-form" onSubmit={handleValidSubmit} defaultValues={account}>
             <ValidatedField
               name="firstName"
-              label="First Name"
+              label="الاسم الأول"
               id="firstName"
-              placeholder="Your first name"
+              placeholder="الاسم الأول"
               validate={{
-                required: { value: true, message: 'Your first name is required.' },
-                minLength: { value: 1, message: 'Your first name is required to be at least 1 character' },
-                maxLength: { value: 50, message: 'Your first name cannot be longer than 50 characters' },
+                required: { value: true, message: 'الاسم الأول مطلوب.' },
+                minLength: { value: 1, message: 'يجب أن يتكون الاسم الأول من حرف واحد على الأقل.' },
+                maxLength: { value: 50, message: 'لا يمكن أن يتجاوز الاسم الأول 50 حرفًا.' },
               }}
               data-cy="firstname"
             />
             <ValidatedField
               name="lastName"
-              label="Last Name"
+              label="اسم العائلة"
               id="lastName"
-              placeholder="Your last name"
+              placeholder="اسم العائلة"
               validate={{
-                required: { value: true, message: 'Your last name is required.' },
-                minLength: { value: 1, message: 'Your last name is required to be at least 1 character' },
-                maxLength: { value: 50, message: 'Your last name cannot be longer than 50 characters' },
+                required: { value: true, message: 'اسم العائلة مطلوب.' },
+                minLength: { value: 1, message: 'يجب أن يتكون اسم العائلة من حرف واحد على الأقل.' },
+                maxLength: { value: 50, message: 'لا يمكن أن يتجاوز اسم العائلة 50 حرفًا.' },
               }}
               data-cy="lastname"
             />
             <ValidatedField
               name="email"
-              label="Email"
-              placeholder="Your email"
+              label="البريد الإلكتروني"
+              placeholder="البريد الإلكتروني"
               type="email"
               validate={{
-                required: { value: true, message: 'Your email is required.' },
-                minLength: { value: 5, message: 'Your email is required to be at least 5 characters.' },
-                maxLength: { value: 254, message: 'Your email cannot be longer than 50 characters.' },
-                validate: v => isEmail(v) || 'Your email is invalid.',
+                required: { value: true, message: 'البريد الإلكتروني مطلوب.' },
+                minLength: { value: 5, message: 'يجب أن يتكون البريد الإلكتروني من 5 أحرف على الأقل.' },
+                maxLength: { value: 254, message: 'لا يمكن أن يتجاوز البريد الإلكتروني 50 حرفًا.' },
+                validate: v => isEmail(v) || 'البريد الإلكتروني غير صالح.',
               }}
               data-cy="email"
             />
             <Button color="primary" type="submit" data-cy="submit">
-              Save
+              حفظ
             </Button>
           </ValidatedForm>
         </Col>

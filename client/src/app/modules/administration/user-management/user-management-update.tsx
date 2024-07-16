@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Button, Row, Col, FormText } from 'reactstrap';
-import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
+import { Button, Col, Row } from 'reactstrap';
+import { isEmail, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getUser, getRoles, updateUser, createUser, reset } from './user-management.reducer';
+import { createUser, getRoles, getUser, reset, updateUser } from './user-management.reducer';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 export const UserManagementUpdate = () => {
@@ -50,85 +50,87 @@ export const UserManagementUpdate = () => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h1>Create or edit a user</h1>
+          <h1>إنشاء أو تعديل مستخدم</h1>
         </Col>
       </Row>
       <Row className="justify-content-center">
         <Col md="8">
           {loading ? (
-            <p>Loading...</p>
+            <p>جاري التحميل...</p>
           ) : (
             <ValidatedForm onSubmit={saveUser} defaultValues={user}>
-              {user.id ? <ValidatedField type="text" name="id" required readOnly label="ID" validate={{ required: true }} /> : null}
+              {user.id ? (
+                <ValidatedField type="text" name="id" required readOnly label="الرقم التعريفي" validate={{ required: true }} />
+              ) : null}
               <ValidatedField
                 type="text"
                 name="login"
-                label="Login"
+                label="اسم الدخول"
                 validate={{
                   required: {
                     value: true,
-                    message: 'Your username is required.',
+                    message: 'اسم المستخدم مطلوب.',
                   },
                   pattern: {
                     value: /^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$/,
-                    message: 'Your username is invalid.',
+                    message: 'اسم المستخدم غير صحيح.',
                   },
                   minLength: {
                     value: 1,
-                    message: 'Your username is required to be at least 1 character.',
+                    message: 'اسم المستخدم يجب أن يكون على الأقل 1 حرفًا.',
                   },
                   maxLength: {
                     value: 50,
-                    message: 'Your username cannot be longer than 50 characters.',
+                    message: 'اسم المستخدم لا يمكن أن يتجاوز 50 حرفًا.',
                   },
                 }}
               />
               <ValidatedField
                 type="text"
                 name="firstName"
-                label="First name"
+                label="الاسم الأول"
                 validate={{
                   maxLength: {
                     value: 50,
-                    message: 'This field cannot be longer than 50 characters.',
+                    message: 'هذا الحقل لا يمكن أن يتجاوز 50 حرفًا.',
                   },
                 }}
               />
               <ValidatedField
                 type="text"
                 name="lastName"
-                label="Last name"
+                label="الاسم الأخير"
                 validate={{
                   maxLength: {
                     value: 50,
-                    message: 'This field cannot be longer than 50 characters.',
+                    message: 'هذا الحقل لا يمكن أن يتجاوز 50 حرفًا.',
                   },
                 }}
               />
-              <FormText>This field cannot be longer than 50 characters.</FormText>
+              {/*<FormText>هذا الحقل لا يمكن أن يتجاوز 50 حرفًا.</FormText>*/}
               <ValidatedField
                 name="email"
-                label="Email"
-                placeholder="Your email"
+                label="البريد الإلكتروني"
+                placeholder="بريدك الإلكتروني"
                 type="email"
                 validate={{
                   required: {
                     value: true,
-                    message: 'Your email is required.',
+                    message: 'البريد الإلكتروني مطلوب.',
                   },
                   minLength: {
                     value: 5,
-                    message: 'Your email is required to be at least 5 characters.',
+                    message: 'البريد الإلكتروني يجب أن يكون على الأقل 5 أحرف.',
                   },
                   maxLength: {
                     value: 254,
-                    message: 'Your email cannot be longer than 50 characters.',
+                    message: 'البريد الإلكتروني لا يمكن أن يتجاوز 50 حرفًا.',
                   },
-                  validate: v => isEmail(v) || 'Your email is invalid.',
+                  validate: v => isEmail(v) || 'البريد الإلكتروني غير صحيح.',
                 }}
               />
-              <ValidatedField type="checkbox" name="activated" check value={true} disabled={!user.id} label="Activated" />
-              <ValidatedField type="select" name="authorities" multiple label="Profiles">
+              <ValidatedField type="checkbox" name="activated" check value={true} disabled={!user.id} label="مفعل" />
+              <ValidatedField type="select" name="authorities" multiple label="الصلاحيات">
                 {authorities.map(role => (
                   <option value={role} key={role}>
                     {role}
@@ -138,12 +140,12 @@ export const UserManagementUpdate = () => {
               <Button tag={Link} to="/admin/user-management" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
-                <span className="d-none d-md-inline">Back</span>
+                <span className="d-none d-md-inline">الرجوع</span>
               </Button>
               &nbsp;
               <Button color="primary" type="submit" disabled={isInvalid || updating}>
                 <FontAwesomeIcon icon="save" />
-                &nbsp; Save
+                &nbsp; حفظ
               </Button>
             </ValidatedForm>
           )}

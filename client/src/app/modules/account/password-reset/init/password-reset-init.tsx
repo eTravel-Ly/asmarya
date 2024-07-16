@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
-import { Button, Alert, Col, Row } from 'reactstrap';
+import { isEmail, ValidatedField, ValidatedForm } from 'react-jhipster';
+import { Alert, Button, Col, Row } from 'reactstrap';
 import { toast } from 'react-toastify';
 
 import { handlePasswordResetInit, reset } from '../password-reset.reducer';
@@ -32,26 +32,26 @@ export const PasswordResetInit = () => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h1>Reset your password</h1>
+          <h1>إعادة تعيين كلمة المرور</h1>
           <Alert color="warning">
-            <p>Enter the email address you used to register</p>
+            <p>الرجاء إدخال عنوان البريد الإلكتروني الذي استخدمته في التسجيل</p>
           </Alert>
           <ValidatedForm onSubmit={handleValidSubmit}>
             <ValidatedField
               name="email"
-              label="Email"
-              placeholder="Your email"
+              label="البريد الإلكتروني"
+              placeholder="البريد الإلكتروني الخاص بك"
               type="email"
               validate={{
-                required: { value: true, message: 'Your email is required.' },
-                minLength: { value: 5, message: 'Your email is required to be at least 5 characters.' },
-                maxLength: { value: 254, message: 'Your email cannot be longer than 50 characters.' },
-                validate: v => isEmail(v) || 'Your email is invalid.',
+                required: { value: true, message: 'البريد الإلكتروني مطلوب.' },
+                minLength: { value: 5, message: 'يجب أن يكون البريد الإلكتروني على الأقل 5 أحرف.' },
+                maxLength: { value: 254, message: 'البريد الإلكتروني لا يمكن أن يكون أطول من 50 حرفًا.' },
+                validate: v => isEmail(v) || 'البريد الإلكتروني غير صالح.',
               }}
               data-cy="emailResetPassword"
             />
             <Button color="primary" type="submit" data-cy="submit">
-              Reset password
+              إعادة تعيين كلمة المرور
             </Button>
           </ValidatedForm>
         </Col>

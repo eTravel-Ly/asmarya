@@ -1,6 +1,6 @@
 import React from 'react';
 import { ValidatedField } from 'react-jhipster';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert, Row, Col, Form } from 'reactstrap';
+import { Alert, Button, Col, Form, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { type FieldError, useForm } from 'react-hook-form';
 
@@ -32,26 +32,26 @@ const LoginModal = (props: ILoginModalProps) => {
     <Modal isOpen={props.showModal} toggle={handleClose} backdrop="static" id="login-page" autoFocus={false}>
       <Form onSubmit={handleLoginSubmit}>
         <ModalHeader id="login-title" data-cy="loginTitle" toggle={handleClose}>
-          Sign in
+          تسجيل الدخول
         </ModalHeader>
         <ModalBody>
           <Row>
             <Col md="12">
               {loginError ? (
                 <Alert color="danger" data-cy="loginError">
-                  <strong>Failed to sign in!</strong> Please check your credentials and try again.
+                  <strong>فشل تسجيل الدخول!</strong> يرجى التحقق من بيانات الدخول والمحاولة مرة أخرى.
                 </Alert>
               ) : null}
             </Col>
             <Col md="12">
               <ValidatedField
                 name="username"
-                label="Username"
-                placeholder="Your username"
+                label="اسم المستخدم"
+                placeholder="اسم المستخدم الخاص بك"
                 required
                 autoFocus
                 data-cy="username"
-                validate={{ required: 'Username cannot be empty!' }}
+                validate={{ required: 'يجب ألا يكون اسم المستخدم فارغاً!' }}
                 register={register}
                 error={errors.username as FieldError}
                 isTouched={touchedFields.username}
@@ -59,34 +59,31 @@ const LoginModal = (props: ILoginModalProps) => {
               <ValidatedField
                 name="password"
                 type="password"
-                label="Password"
-                placeholder="Your password"
+                label="كلمة المرور"
+                placeholder="كلمة المرور الخاصة بك"
                 required
                 data-cy="password"
-                validate={{ required: 'Password cannot be empty!' }}
+                validate={{ required: 'يجب ألا تكون كلمة المرور فارغة!' }}
                 register={register}
                 error={errors.password as FieldError}
                 isTouched={touchedFields.password}
               />
-              <ValidatedField name="rememberMe" type="checkbox" check label="Remember me" value={true} register={register} />
+              <ValidatedField name="rememberMe" type="checkbox" check label="تذكرني" value={true} register={register} />
             </Col>
           </Row>
           <div className="mt-1">&nbsp;</div>
           <Alert color="warning">
             <Link to="/account/reset/request" data-cy="forgetYourPasswordSelector">
-              Did you forget your password?
+              هل نسيت كلمة المرور؟
             </Link>
-          </Alert>
-          <Alert color="warning">
-            <span>You don&apos;t have an account yet?</span> <Link to="/account/register">Register a new account</Link>
           </Alert>
         </ModalBody>
         <ModalFooter>
           <Button color="secondary" onClick={handleClose} tabIndex={1}>
-            Cancel
+            إلغاء
           </Button>{' '}
           <Button color="primary" type="submit" data-cy="submit">
-            Sign in
+            تسجيل الدخول
           </Button>
         </ModalFooter>
       </Form>

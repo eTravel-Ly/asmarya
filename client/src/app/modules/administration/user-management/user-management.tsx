@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Button, Table, Badge } from 'reactstrap';
-import { TextFormat, JhiPagination, JhiItemCount, getPaginationState } from 'react-jhipster';
+import { Badge, Button, Table } from 'reactstrap';
+import { getPaginationState, JhiItemCount, JhiPagination, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
+import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
 
 import { APP_DATE_FORMAT } from 'app/config/constants';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
@@ -97,13 +97,13 @@ export const UserManagement = () => {
   return (
     <div>
       <h2 id="user-management-page-heading" data-cy="userManagementPageHeading">
-        Users
+        المستخدمين
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} /> Refresh list
+            <FontAwesomeIcon icon="sync" spin={loading} /> تحديث القائمة
           </Button>
           <Link to="new" className="btn btn-primary jh-create-entity">
-            <FontAwesomeIcon icon="plus" /> Create a new user
+            <FontAwesomeIcon icon="plus" /> إنشاء مستخدم جديد
           </Link>
         </div>
       </h2>
@@ -111,24 +111,24 @@ export const UserManagement = () => {
         <thead>
           <tr>
             <th className="hand" onClick={sort('id')}>
-              ID <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+              الرقم التسلسلي <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
             </th>
             <th className="hand" onClick={sort('login')}>
-              Login <FontAwesomeIcon icon={getSortIconByFieldName('login')} />
+              اسم الدخول <FontAwesomeIcon icon={getSortIconByFieldName('login')} />
             </th>
             <th className="hand" onClick={sort('email')}>
-              Email <FontAwesomeIcon icon={getSortIconByFieldName('email')} />
+              البريد الإلكتروني <FontAwesomeIcon icon={getSortIconByFieldName('email')} />
             </th>
             <th />
-            <th>Profiles</th>
+            <th>الصلاحيات</th>
             <th className="hand" onClick={sort('createdDate')}>
-              Created date <FontAwesomeIcon icon={getSortIconByFieldName('createdDate')} />
+              تاريخ الإنشاء <FontAwesomeIcon icon={getSortIconByFieldName('createdDate')} />
             </th>
             <th className="hand" onClick={sort('lastModifiedBy')}>
-              Modified by <FontAwesomeIcon icon={getSortIconByFieldName('lastModifiedBy')} />
+              معدل بواسطة <FontAwesomeIcon icon={getSortIconByFieldName('lastModifiedBy')} />
             </th>
             <th id="modified-date-sort" className="hand" onClick={sort('lastModifiedDate')}>
-              Modified date <FontAwesomeIcon icon={getSortIconByFieldName('lastModifiedDate')} />
+              تاريخ التعديل <FontAwesomeIcon icon={getSortIconByFieldName('lastModifiedDate')} />
             </th>
             <th />
           </tr>
@@ -146,11 +146,11 @@ export const UserManagement = () => {
               <td>
                 {user.activated ? (
                   <Button color="success" onClick={toggleActive(user)}>
-                    Activated
+                    مفعل
                   </Button>
                 ) : (
                   <Button color="danger" onClick={toggleActive(user)}>
-                    Deactivated
+                    غير مفعل
                   </Button>
                 )}
               </td>
@@ -175,13 +175,13 @@ export const UserManagement = () => {
               <td className="text-end">
                 <div className="btn-group flex-btn-group-container">
                   <Button tag={Link} to={user.login} color="info" size="sm">
-                    <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
+                    <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">عرض</span>
                   </Button>
                   <Button tag={Link} to={`${user.login}/edit`} color="primary" size="sm">
-                    <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
+                    <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">تعديل</span>
                   </Button>
                   <Button tag={Link} to={`${user.login}/delete`} color="danger" size="sm" disabled={account.login === user.login}>
-                    <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
+                    <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">حذف</span>
                   </Button>
                 </div>
               </td>

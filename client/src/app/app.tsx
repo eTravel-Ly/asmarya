@@ -17,8 +17,13 @@ import ErrorBoundary from 'app/shared/error/error-boundary';
 import { AUTHORITIES } from 'app/config/constants';
 import AppRoutes from 'app/routes';
 import { Brand } from 'app/shared/layout/header/header-components';
-import { faBook, faDashboard, faFileAlt } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faDashboard, faFileAlt, faImage, faList, faUsers, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCode } from '@fortawesome/free-solid-svg-icons/faCode';
+import { faGraduationCap } from '@fortawesome/free-solid-svg-icons/faGraduationCap';
+import { faBox } from '@fortawesome/free-solid-svg-icons/faBox';
+import { faMoneyBill } from '@fortawesome/free-solid-svg-icons/faMoneyBill';
+import { faBookOpen } from '@fortawesome/free-solid-svg-icons/faBookOpen';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
@@ -74,43 +79,43 @@ const App = () => {
                 </NavItem>
                 <NavItem>
                   <NavLink tag={Link} to="/book-borrow-request" className="d-flex align-items-center">
-                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    <FontAwesomeIcon icon={faBookOpen} className="m-2" />
                     طلبات استعارة الكتب
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink tag={Link} to="/category" className="d-flex align-items-center">
-                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    <FontAwesomeIcon icon={faList} className="m-2" />
                     التصنيفات
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink tag={Link} to="/course" className="d-flex align-items-center">
-                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    <FontAwesomeIcon icon={faVideo} className="m-2" />
                     الدورات التدريبة
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink tag={Link} to="/learner" className="d-flex align-items-center">
-                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    <FontAwesomeIcon icon={faGraduationCap} className="m-2" />
                     المتدربين
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink tag={Link} to="/order" className="d-flex align-items-center">
-                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    <FontAwesomeIcon icon={faBox} className="m-2" />
                     الطلبات
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink tag={Link} to="/payment-method" className="d-flex align-items-center">
-                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    <FontAwesomeIcon icon={faMoneyBill} className="m-2" />
                     طرق الدفع
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink tag={Link} to="/slider" className="d-flex align-items-center">
-                    <FontAwesomeIcon icon={faBook} className="m-2" />
+                    <FontAwesomeIcon icon={faImage} className="m-2" />
                     الشريط الدعائي
                   </NavLink>
                 </NavItem>
@@ -160,13 +165,13 @@ const App = () => {
                   <>
                     <NavItem>
                       <NavLink tag={Link} to="/admin/user-management" className="d-flex align-items-center">
-                        <FontAwesomeIcon icon={faBook} className="m-2" />
+                        <FontAwesomeIcon icon={faUsers} className="m-2" />
                         ادارة المستخدمين
                       </NavLink>
                     </NavItem>
                     <NavItem>
                       <NavLink href="/api/v2/api-docs/" target="_blank" rel="noopener noreferrer" className="d-flex align-items-center">
-                        <FontAwesomeIcon icon={faBook} className="m-2" />
+                        <FontAwesomeIcon icon={faCode} className="m-2" />
                         API
                       </NavLink>
                     </NavItem>

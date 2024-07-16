@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Col, Row, Button } from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Row } from 'reactstrap';
 import { ValidatedField, ValidatedForm } from 'react-jhipster';
 import { useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -32,13 +32,13 @@ export const PasswordResetFinishPage = () => {
       <ValidatedForm onSubmit={handleValidSubmit}>
         <ValidatedField
           name="newPassword"
-          label="New password"
-          placeholder="New password"
+          label="كلمة المرور الجديدة"
+          placeholder="كلمة المرور الجديدة"
           type="password"
           validate={{
-            required: { value: true, message: 'Your password is required.' },
-            minLength: { value: 4, message: 'Your password is required to be at least 4 characters.' },
-            maxLength: { value: 50, message: 'Your password cannot be longer than 50 characters.' },
+            required: { value: true, message: 'كلمة المرور مطلوبة.' },
+            minLength: { value: 4, message: 'يجب أن تتكون كلمة المرور من 4 أحرف على الأقل.' },
+            maxLength: { value: 50, message: 'لا يمكن أن تتجاوز كلمة المرور 50 حرفًا.' },
           }}
           onChange={updatePassword}
           data-cy="resetPassword"
@@ -46,19 +46,19 @@ export const PasswordResetFinishPage = () => {
         <PasswordStrengthBar password={password} />
         <ValidatedField
           name="confirmPassword"
-          label="New password confirmation"
-          placeholder="Confirm the new password"
+          label="تأكيد كلمة المرور الجديدة"
+          placeholder="تأكيد كلمة المرور الجديدة"
           type="password"
           validate={{
-            required: { value: true, message: 'Your confirmation password is required.' },
-            minLength: { value: 4, message: 'Your confirmation password is required to be at least 4 characters.' },
-            maxLength: { value: 50, message: 'Your confirmation password cannot be longer than 50 characters.' },
-            validate: v => v === password || 'The password and its confirmation do not match!',
+            required: { value: true, message: 'كلمة المرور للتأكيد مطلوبة.' },
+            minLength: { value: 4, message: 'يجب أن تتكون كلمة المرور للتأكيد من 4 أحرف على الأقل.' },
+            maxLength: { value: 50, message: 'لا يمكن أن تتجاوز كلمة المرور للتأكيد 50 حرفًا.' },
+            validate: v => v === password || 'كلمة المرور وتأكيدها غير متطابقين!',
           }}
           data-cy="confirmResetPassword"
         />
         <Button color="success" type="submit" data-cy="submit">
-          Validate new password
+          تأكيد كلمة المرور الجديدة
         </Button>
       </ValidatedForm>
     );
@@ -76,7 +76,7 @@ export const PasswordResetFinishPage = () => {
     <div>
       <Row className="justify-content-center">
         <Col md="4">
-          <h1>Reset password</h1>
+          <h1>إعادة تعيين كلمة المرور</h1>
           <div>{key ? getResetForm() : null}</div>
         </Col>
       </Row>
