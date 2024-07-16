@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Button, Row, Col } from 'reactstrap';
-import { openFile, byteSize } from 'react-jhipster';
+import { Button, Col, Row } from 'reactstrap';
+import { byteSize, openFile } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
@@ -70,11 +70,11 @@ export const SliderDetail = () => {
           <dd>{sliderEntity.notes}</dd>
         </dl>
         <Button tag={Link} to="/slider" replace color="info" data-cy="entityDetailsBackButton">
-          <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>
+          <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">رجوع</span>
         </Button>
         &nbsp;
         <Button tag={Link} to={`/slider/${sliderEntity.id}/edit`} replace color="primary">
-          <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
+          <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">تعديل</span>
         </Button>
       </Col>
     </Row>

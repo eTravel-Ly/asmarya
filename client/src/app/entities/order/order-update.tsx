@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Button, Row, Col, FormText } from 'reactstrap';
-import { isNumber, ValidatedField, ValidatedForm } from 'react-jhipster';
+import { Button, Col, Row } from 'reactstrap';
+import { ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-
-import { ILearner } from 'app/shared/model/learner.model';
 import { getEntities as getLearners } from 'app/entities/learner/learner.reducer';
-import { IOrder } from 'app/shared/model/order.model';
 import { PaymentType } from 'app/shared/model/enumerations/payment-type.model';
 import { OrderStatus } from 'app/shared/model/enumerations/order-status.model';
-import { getEntity, updateEntity, createEntity, reset } from './order.reducer';
+import { createEntity, getEntity, reset, updateEntity } from './order.reducer';
 
 export const OrderUpdate = () => {
   const dispatch = useAppDispatch();
@@ -145,12 +141,12 @@ export const OrderUpdate = () => {
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/order" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
-                <span className="d-none d-md-inline">Back</span>
+                <span className="d-none d-md-inline">رجوع</span>
               </Button>
               &nbsp;
               <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
                 <FontAwesomeIcon icon="save" />
-                &nbsp; Save
+                &nbsp; حفظ
               </Button>
             </ValidatedForm>
           )}

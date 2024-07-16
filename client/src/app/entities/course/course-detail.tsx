@@ -88,11 +88,11 @@ export const CourseDetail = () => {
           </dd>
         </dl>
         <Button tag={Link} to="/course" replace color="info" data-cy="entityDetailsBackButton">
-          <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>
+          <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">رجوع</span>
         </Button>
         &nbsp;
         <Button tag={Link} to={`/course/${courseEntity.id}/edit`} replace color="primary">
-          <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
+          <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">تعديل</span>
         </Button>
       </Col>
     </Row>

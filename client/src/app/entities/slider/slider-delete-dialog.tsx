@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getEntity, deleteEntity } from './slider.reducer';
+import { deleteEntity, getEntity } from './slider.reducer';
 
 export const SliderDeleteDialog = () => {
   const dispatch = useAppDispatch();
@@ -48,11 +48,11 @@ export const SliderDeleteDialog = () => {
       <ModalFooter>
         <Button color="secondary" onClick={handleClose}>
           <FontAwesomeIcon icon="ban" />
-          &nbsp; Cancel
+          &nbsp; الغاء
         </Button>
         <Button id="jhi-confirm-delete-slider" data-cy="entityConfirmDeleteButton" color="danger" onClick={confirmDelete}>
           <FontAwesomeIcon icon="trash" />
-          &nbsp; Delete
+          &nbsp; حذف
         </Button>
       </ModalFooter>
     </Modal>

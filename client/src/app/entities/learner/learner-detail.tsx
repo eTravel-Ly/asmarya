@@ -123,11 +123,11 @@ export const LearnerDetail = () => {
           <dd>{learnerEntity.user ? learnerEntity.user.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/learner" replace color="info" data-cy="entityDetailsBackButton">
-          <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>
+          <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">رجوع</span>
         </Button>
         &nbsp;
         <Button tag={Link} to={`/learner/${learnerEntity.id}/edit`} replace color="primary">
-          <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
+          <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">تعديل</span>
         </Button>
       </Col>
     </Row>

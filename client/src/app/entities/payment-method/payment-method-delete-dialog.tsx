@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getEntity, deleteEntity } from './payment-method.reducer';
+import { deleteEntity, getEntity } from './payment-method.reducer';
 
 export const PaymentMethodDeleteDialog = () => {
   const dispatch = useAppDispatch();
@@ -50,11 +50,11 @@ export const PaymentMethodDeleteDialog = () => {
       <ModalFooter>
         <Button color="secondary" onClick={handleClose}>
           <FontAwesomeIcon icon="ban" />
-          &nbsp; Cancel
+          &nbsp; الغاء
         </Button>
         <Button id="jhi-confirm-delete-paymentMethod" data-cy="entityConfirmDeleteButton" color="danger" onClick={confirmDelete}>
           <FontAwesomeIcon icon="trash" />
-          &nbsp; Delete
+          &nbsp; حذف
         </Button>
       </ModalFooter>
     </Modal>

@@ -48,11 +48,11 @@ export const OrderDeleteDialog = () => {
       <ModalFooter>
         <Button color="secondary" onClick={handleClose}>
           <FontAwesomeIcon icon="ban" />
-          &nbsp; Cancel
+          &nbsp; الغاء
         </Button>
         <Button id="jhi-confirm-delete-order" data-cy="entityConfirmDeleteButton" color="danger" onClick={confirmDelete}>
           <FontAwesomeIcon icon="trash" />
-          &nbsp; Delete
+          &nbsp; حذف
         </Button>
       </ModalFooter>
     </Modal>

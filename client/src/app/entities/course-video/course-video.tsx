@@ -95,7 +95,7 @@ export const CourseVideo = () => {
         Course Videos
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} /> Refresh list
+            <FontAwesomeIcon icon="sync" spin={loading} /> نحديث
           </Button>
           <Link to="/course-video/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
@@ -160,7 +160,7 @@ export const CourseVideo = () => {
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/course-video/${courseVideo.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
+                        <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">عرض</span>
                       </Button>
                       <Button
                         tag={Link}
@@ -169,7 +169,7 @@ export const CourseVideo = () => {
                         size="sm"
                         data-cy="entityEditButton"
                       >
-                        <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
+                        <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">تعديل</span>
                       </Button>
                       <Button
                         onClick={() =>
@@ -179,7 +179,7 @@ export const CourseVideo = () => {
                         size="sm"
                         data-cy="entityDeleteButton"
                       >
-                        <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
+                        <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">حذف</span>
                       </Button>
                     </div>
                   </td>

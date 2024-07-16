@@ -50,11 +50,11 @@ export const BookBorrowRequestDeleteDialog = () => {
       <ModalFooter>
         <Button color="secondary" onClick={handleClose}>
           <FontAwesomeIcon icon="ban" />
-          &nbsp; Cancel
+          &nbsp; الغاء
         </Button>
         <Button id="jhi-confirm-delete-bookBorrowRequest" data-cy="entityConfirmDeleteButton" color="danger" onClick={confirmDelete}>
           <FontAwesomeIcon icon="trash" />
-          &nbsp; Delete
+          &nbsp; حذف
         </Button>
       </ModalFooter>
     </Modal>

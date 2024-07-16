@@ -62,11 +62,11 @@ export const BookBorrowRequestDetail = () => {
           <dd>{bookBorrowRequestEntity.learner ? bookBorrowRequestEntity.learner.firstName : ''}</dd>
         </dl>
         <Button tag={Link} to="/book-borrow-request" replace color="info" data-cy="entityDetailsBackButton">
-          <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>
+          <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">رجوع</span>
         </Button>
         &nbsp;
         <Button tag={Link} to={`/book-borrow-request/${bookBorrowRequestEntity.id}/edit`} replace color="primary">
-          <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
+          <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">تعديل</span>
         </Button>
       </Col>
     </Row>
