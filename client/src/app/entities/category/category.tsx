@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { openFile, byteSize, Translate, getPaginationState, JhiPagination, JhiItemCount } from 'react-jhipster';
+import { byteSize, getPaginationState, JhiItemCount, JhiPagination, openFile } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faSort, faSortDown, faSortUp, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntities } from './category.reducer';
+import { ActionMenu } from 'app/shared/ui/action-menu';
 
 export const Category = () => {
   const dispatch = useAppDispatch();
@@ -163,32 +164,15 @@ export const Category = () => {
                     ) : null}
                   </td>
                   <td>{category.notes}</td>
-                  <td>{category.isActive ? 'true' : 'false'}</td>
-                  <td className="text-end">
-                    <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`/category/${category.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">عرض</span>
-                      </Button>
-                      <Button
-                        tag={Link}
-                        to={`/category/${category.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                        color="primary"
-                        size="sm"
-                        data-cy="entityEditButton"
-                      >
-                        <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">تعديل</span>
-                      </Button>
-                      <Button
-                        onClick={() =>
-                          (window.location.href = `/category/${category.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`)
-                        }
-                        color="danger"
-                        size="sm"
-                        data-cy="entityDeleteButton"
-                      >
-                        <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">حذف</span>
-                      </Button>
-                    </div>
+                  <td>
+                    {category.isActive ? (
+                      <FontAwesomeIcon icon={faCheck} style={{ color: 'green' }} />
+                    ) : (
+                      <FontAwesomeIcon icon={faTimes} style={{ color: 'red' }} />
+                    )}
+                  </td>
+                  <td className="text-start">
+                    <ActionMenu route={'category'} item={category} paginationState={paginationState} />
                   </td>
                 </tr>
               ))}

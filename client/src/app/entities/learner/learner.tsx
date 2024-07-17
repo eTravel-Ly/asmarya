@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { openFile, byteSize, Translate, getPaginationState, JhiPagination, JhiItemCount } from 'react-jhipster';
+import { byteSize, getPaginationState, JhiItemCount, JhiPagination, openFile } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
+import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntities } from './learner.reducer';
+import { ActionMenu } from 'app/shared/ui/action-menu';
 
 export const Learner = () => {
   const dispatch = useAppDispatch();
@@ -216,31 +217,9 @@ export const Learner = () => {
                   <td>{learner.studentId}</td>
                   <td>{learner.notes}</td>
                   <td>{learner.user ? learner.user.id : ''}</td>
-                  <td className="text-end">
-                    <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`/learner/${learner.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">عرض</span>
-                      </Button>
-                      <Button
-                        tag={Link}
-                        to={`/learner/${learner.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                        color="primary"
-                        size="sm"
-                        data-cy="entityEditButton"
-                      >
-                        <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">تعديل</span>
-                      </Button>
-                      <Button
-                        onClick={() =>
-                          (window.location.href = `/learner/${learner.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`)
-                        }
-                        color="danger"
-                        size="sm"
-                        data-cy="entityDeleteButton"
-                      >
-                        <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">حذف</span>
-                      </Button>
-                    </div>
+
+                  <td className="text-start">
+                    <ActionMenu route={'learner'} item={learner} paginationState={paginationState} />
                   </td>
                 </tr>
               ))}

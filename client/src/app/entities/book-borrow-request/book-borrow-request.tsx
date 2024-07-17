@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { Translate, TextFormat, getPaginationState, JhiPagination, JhiItemCount } from 'react-jhipster';
+import { getPaginationState, JhiItemCount, JhiPagination, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
+import { APP_DATE_FORMAT } from 'app/config/constants';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntities } from './book-borrow-request.reducer';
+import { ActionMenu } from 'app/shared/ui/action-menu';
 
 export const BookBorrowRequest = () => {
   const dispatch = useAppDispatch();
@@ -93,11 +94,11 @@ export const BookBorrowRequest = () => {
   return (
     <div>
       <h2 id="book-borrow-request-heading" data-cy="BookBorrowRequestHeading">
-        Book Borrow Requests
+        طلبات استعارة الكتب
         <div className="d-flex justify-content-end">
-          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} /> نحديث
-          </Button>
+          {/*<Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>*/}
+          {/*  <FontAwesomeIcon icon="sync" spin={loading}/> تحديث*/}
+          {/*</Button>*/}
           <Link
             to="/book-borrow-request/new"
             className="btn btn-primary jh-create-entity"
@@ -105,7 +106,7 @@ export const BookBorrowRequest = () => {
             data-cy="entityCreateButton"
           >
             <FontAwesomeIcon icon="plus" />
-            &nbsp; Create a new Book Borrow Request
+            &nbsp; إنشاء طلب استعارة كتاب جديد
           </Link>
         </div>
       </h2>
@@ -115,25 +116,25 @@ export const BookBorrowRequest = () => {
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
-                  ID <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+                  الرقم <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
                 <th className="hand" onClick={sort('requestDate')}>
-                  Request Date <FontAwesomeIcon icon={getSortIconByFieldName('requestDate')} />
+                  تاريخ الطلب <FontAwesomeIcon icon={getSortIconByFieldName('requestDate')} />
                 </th>
                 <th className="hand" onClick={sort('collectDate')}>
-                  Collect Date <FontAwesomeIcon icon={getSortIconByFieldName('collectDate')} />
+                  تاريخ الاستلام <FontAwesomeIcon icon={getSortIconByFieldName('collectDate')} />
                 </th>
                 <th className="hand" onClick={sort('returnDate')}>
-                  Return Date <FontAwesomeIcon icon={getSortIconByFieldName('returnDate')} />
+                  تاريخ الإرجاع <FontAwesomeIcon icon={getSortIconByFieldName('returnDate')} />
                 </th>
                 <th className="hand" onClick={sort('bookBorrowRequestStatus')}>
-                  Book Borrow Request Status <FontAwesomeIcon icon={getSortIconByFieldName('bookBorrowRequestStatus')} />
+                  حالة طلب استعارة الكتاب <FontAwesomeIcon icon={getSortIconByFieldName('bookBorrowRequestStatus')} />
                 </th>
                 <th>
-                  Book <FontAwesomeIcon icon="sort" />
+                  الكتاب <FontAwesomeIcon icon="sort" />
                 </th>
                 <th>
-                  Learner <FontAwesomeIcon icon="sort" />
+                  المستعير <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -172,44 +173,15 @@ export const BookBorrowRequest = () => {
                       ''
                     )}
                   </td>
-                  <td className="text-end">
-                    <div className="btn-group flex-btn-group-container">
-                      <Button
-                        tag={Link}
-                        to={`/book-borrow-request/${bookBorrowRequest.id}`}
-                        color="info"
-                        size="sm"
-                        data-cy="entityDetailsButton"
-                      >
-                        <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">عرض</span>
-                      </Button>
-                      <Button
-                        tag={Link}
-                        to={`/book-borrow-request/${bookBorrowRequest.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                        color="primary"
-                        size="sm"
-                        data-cy="entityEditButton"
-                      >
-                        <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">تعديل</span>
-                      </Button>
-                      <Button
-                        onClick={() =>
-                          (window.location.href = `/book-borrow-request/${bookBorrowRequest.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`)
-                        }
-                        color="danger"
-                        size="sm"
-                        data-cy="entityDeleteButton"
-                      >
-                        <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">حذف</span>
-                      </Button>
-                    </div>
+                  <td className="text-start">
+                    <ActionMenu route={'book-borrow-request'} item={bookBorrowRequest} paginationState={paginationState} />
                   </td>
                 </tr>
               ))}
             </tbody>
           </Table>
         ) : (
-          !loading && <div className="alert alert-warning">No Book Borrow Requests found</div>
+          !loading && <div className="alert alert-warning">لا توجد طلبات استعارة كتب</div>
         )}
       </div>
       {totalItems ? (

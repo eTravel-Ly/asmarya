@@ -9,6 +9,7 @@ import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-u
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntities } from './payment-method.reducer';
+import { ActionMenu } from 'app/shared/ui/action-menu';
 
 export const PaymentMethod = () => {
   const dispatch = useAppDispatch();
@@ -179,31 +180,8 @@ export const PaymentMethod = () => {
                   <td>{paymentMethod.paymentType}</td>
                   <td>{paymentMethod.isActive ? 'true' : 'false'}</td>
                   <td>{paymentMethod.notes}</td>
-                  <td className="text-end">
-                    <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`/payment-method/${paymentMethod.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">عرض</span>
-                      </Button>
-                      <Button
-                        tag={Link}
-                        to={`/payment-method/${paymentMethod.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                        color="primary"
-                        size="sm"
-                        data-cy="entityEditButton"
-                      >
-                        <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">تعديل</span>
-                      </Button>
-                      <Button
-                        onClick={() =>
-                          (window.location.href = `/payment-method/${paymentMethod.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`)
-                        }
-                        color="danger"
-                        size="sm"
-                        data-cy="entityDeleteButton"
-                      >
-                        <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">حذف</span>
-                      </Button>
-                    </div>
+                  <td className="text-start">
+                    <ActionMenu route={'payment-method'} item={paymentMethod} paginationState={paginationState} />
                   </td>
                 </tr>
               ))}
