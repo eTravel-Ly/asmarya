@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { byteSize, getPaginationState, JhiItemCount, JhiPagination, openFile } from 'react-jhipster';
+import { getPaginationState, JhiItemCount, JhiPagination } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
@@ -106,12 +106,13 @@ export const Course = () => {
       </h2>
       <div className="table-responsive">
         {courseList && courseList.length > 0 ? (
-          <Table responsive>
+          <Table responsive striped>
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
-                  المعرف <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+                  # <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
+                <th></th>
                 <th className="hand" onClick={sort('title')}>
                   العنوان <FontAwesomeIcon icon={getSortIconByFieldName('title')} />
                 </th>
@@ -120,12 +121,6 @@ export const Course = () => {
                 </th>
                 <th className="hand" onClick={sort('language')}>
                   اللغة <FontAwesomeIcon icon={getSortIconByFieldName('language')} />
-                </th>
-                <th className="hand" onClick={sort('coverImageFile')}>
-                  ملف الصورة الرئيسية <FontAwesomeIcon icon={getSortIconByFieldName('coverImageFile')} />
-                </th>
-                <th className="hand" onClick={sort('coverImageUrl')}>
-                  رابط الصورة الرئيسية <FontAwesomeIcon icon={getSortIconByFieldName('coverImageUrl')} />
                 </th>
                 <th className="hand" onClick={sort('price')}>
                   السعر <FontAwesomeIcon icon={getSortIconByFieldName('price')} />
@@ -147,28 +142,14 @@ export const Course = () => {
                       {course.id}
                     </Button>
                   </td>
+                  <td>
+                    {course.coverImageUrl ? (
+                      <img src={`/api/uploads/file/download/${course.coverImageUrl}`} alt={course.id} style={{ maxHeight: '60px' }} />
+                    ) : null}
+                  </td>
                   <td>{course.title}</td>
                   <td>{course.description}</td>
                   <td>{course.language}</td>
-                  <td>
-                    {course.coverImageFile ? (
-                      <div>
-                        {course.coverImageFileContentType ? (
-                          <a onClick={openFile(course.coverImageFileContentType, course.coverImage)}>
-                            <img
-                              src={`data:${course.coverImageFileContentType};base64,${course.coverImageFile}`}
-                              style={{ maxHeight: '30px' }}
-                            />
-                            &nbsp;
-                          </a>
-                        ) : null}
-                        <span>
-                          {course.coverImageFileContentType}, {byteSize(course.coverImageFile)}
-                        </span>
-                      </div>
-                    ) : null}
-                  </td>
-                  <td>{course.coverImageUrl}</td>
                   <td>{course.price}</td>
                   <td>{course.studentsPrice}</td>
                   <td>{course.keywords}</td>

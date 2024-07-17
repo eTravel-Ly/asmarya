@@ -42,15 +42,13 @@ export const PaymentMethodDeleteDialog = () => {
   return (
     <Modal isOpen toggle={handleClose}>
       <ModalHeader toggle={handleClose} data-cy="paymentMethodDeleteDialogHeading">
-        Confirm delete operation
+        تأكيد عملية الحذف
       </ModalHeader>
-      <ModalBody id="asmaryaApp.paymentMethod.delete.question">
-        Are you sure you want to delete Payment Method {paymentMethodEntity.id}?
-      </ModalBody>
+      <ModalBody id="asmaryaApp.paymentMethod.delete.question">هل أنت متأكد أنك تريد حذف طريقة الدفع {paymentMethodEntity.id}؟</ModalBody>
       <ModalFooter>
         <Button color="secondary" onClick={handleClose}>
           <FontAwesomeIcon icon="ban" />
-          &nbsp; الغاء
+          &nbsp; إلغاء
         </Button>
         <Button id="jhi-confirm-delete-paymentMethod" data-cy="entityConfirmDeleteButton" color="danger" onClick={confirmDelete}>
           <FontAwesomeIcon icon="trash" />

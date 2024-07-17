@@ -112,7 +112,7 @@ export const BookBorrowRequest = () => {
       </h2>
       <div className="table-responsive">
         {bookBorrowRequestList && bookBorrowRequestList.length > 0 ? (
-          <Table responsive>
+          <Table responsive striped>
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getEntity, deleteEntity } from './order.reducer';
+import { deleteEntity, getEntity } from './order.reducer';
 
 export const OrderDeleteDialog = () => {
   const dispatch = useAppDispatch();
@@ -42,13 +42,13 @@ export const OrderDeleteDialog = () => {
   return (
     <Modal isOpen toggle={handleClose}>
       <ModalHeader toggle={handleClose} data-cy="orderDeleteDialogHeading">
-        Confirm delete operation
+        تأكيد عملية الحذف
       </ModalHeader>
-      <ModalBody id="asmaryaApp.order.delete.question">Are you sure you want to delete Order {orderEntity.id}?</ModalBody>
+      <ModalBody id="asmaryaApp.order.delete.question">هل أنت متأكد أنك تريد حذف الطلب {orderEntity.id}؟</ModalBody>
       <ModalFooter>
         <Button color="secondary" onClick={handleClose}>
           <FontAwesomeIcon icon="ban" />
-          &nbsp; الغاء
+          &nbsp; إلغاء
         </Button>
         <Button id="jhi-confirm-delete-order" data-cy="entityConfirmDeleteButton" color="danger" onClick={confirmDelete}>
           <FontAwesomeIcon icon="trash" />

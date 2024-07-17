@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { byteSize, getPaginationState, JhiItemCount, JhiPagination, openFile } from 'react-jhipster';
+import { getPaginationState, JhiItemCount, JhiPagination } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faSort, faSortDown, faSortUp, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
@@ -106,12 +106,13 @@ export const Category = () => {
       </h2>
       <div className="table-responsive">
         {categoryList && categoryList.length > 0 ? (
-          <Table responsive>
+          <Table responsive striped>
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
-                  المعرف <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+                  # <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
+                <th className="hand"></th>
                 <th className="hand" onClick={sort('nameAr')}>
                   الاسم بالعربية <FontAwesomeIcon icon={getSortIconByFieldName('nameAr')} />
                 </th>
@@ -121,12 +122,12 @@ export const Category = () => {
                 <th className="hand" onClick={sort('menuOrder')}>
                   ترتيب القائمة <FontAwesomeIcon icon={getSortIconByFieldName('menuOrder')} />
                 </th>
-                <th className="hand" onClick={sort('imageFileUrl')}>
-                  عنوان ملف الصورة <FontAwesomeIcon icon={getSortIconByFieldName('imageFileUrl')} />
-                </th>
-                <th className="hand" onClick={sort('imageFile')}>
-                  ملف الصورة <FontAwesomeIcon icon={getSortIconByFieldName('imageFile')} />
-                </th>
+                {/*<th className="hand" onClick={sort('imageFileUrl')}>*/}
+                {/*  عنوان ملف الصورة <FontAwesomeIcon icon={getSortIconByFieldName('imageFileUrl')} />*/}
+                {/*</th>*/}
+                {/*<th className="hand" onClick={sort('imageFile')}>*/}
+                {/*  ملف الصورة <FontAwesomeIcon icon={getSortIconByFieldName('imageFile')} />*/}
+                {/*</th>*/}
                 <th className="hand" onClick={sort('notes')}>
                   ملاحظات <FontAwesomeIcon icon={getSortIconByFieldName('notes')} />
                 </th>
@@ -144,25 +145,34 @@ export const Category = () => {
                       {category.id}
                     </Button>
                   </td>
+                  <td>
+                    {category.imageFileUrl ? (
+                      <img
+                        src={`/api/uploads/file/download/${category.imageFileUrl}`}
+                        alt={category.nameEn}
+                        style={{ maxHeight: '60px' }}
+                      />
+                    ) : null}
+                  </td>
                   <td>{category.nameAr}</td>
                   <td>{category.nameEn}</td>
                   <td>{category.menuOrder}</td>
-                  <td>{category.imageFileUrl}</td>
-                  <td>
-                    {category.imageFile ? (
-                      <div>
-                        {category.imageFileContentType ? (
-                          <a onClick={openFile(category.imageFileContentType, category.imageFile)}>
-                            <img src={`data:${category.imageFileContentType};base64,${category.imageFile}`} style={{ maxHeight: '30px' }} />
-                            &nbsp;
-                          </a>
-                        ) : null}
-                        <span>
-                          {category.imageFileContentType}, {byteSize(category.imageFile)}
-                        </span>
-                      </div>
-                    ) : null}
-                  </td>
+                  {/*<td>{category.imageFileUrl}</td>*/}
+                  {/*<td>*/}
+                  {/*  {category.imageFile ? (*/}
+                  {/*    <div>*/}
+                  {/*      {category.imageFileContentType ? (*/}
+                  {/*        <a onClick={openFile(category.imageFileContentType, category.imageFile)}>*/}
+                  {/*          <img src={`data:${category.imageFileContentType};base64,${category.imageFile}`} style={{ maxHeight: '30px' }} />*/}
+                  {/*          &nbsp;*/}
+                  {/*        </a>*/}
+                  {/*      ) : null}*/}
+                  {/*      <span>*/}
+                  {/*        {category.imageFileContentType}, {byteSize(category.imageFile)}*/}
+                  {/*      </span>*/}
+                  {/*    </div>*/}
+                  {/*  ) : null}*/}
+                  {/*</td>*/}
                   <td>{category.notes}</td>
                   <td>
                     {category.isActive ? (

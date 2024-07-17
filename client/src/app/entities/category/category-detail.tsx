@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Button, Row, Col } from 'reactstrap';
-import { openFile, byteSize } from 'react-jhipster';
+import { Button, Col, Row } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntity } from './category.reducer';
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 export const CategoryDetail = () => {
   const dispatch = useAppDispatch();
@@ -21,57 +21,42 @@ export const CategoryDetail = () => {
   return (
     <Row>
       <Col md="8">
-        <h2 data-cy="categoryDetailsHeading">Category</h2>
-        <dl className="jh-entity-details">
-          <dt>
-            <span id="id">ID</span>
-          </dt>
-          <dd>{categoryEntity.id}</dd>
-          <dt>
-            <span id="nameAr">Name Ar</span>
-          </dt>
-          <dd>{categoryEntity.nameAr}</dd>
-          <dt>
-            <span id="nameEn">Name En</span>
-          </dt>
-          <dd>{categoryEntity.nameEn}</dd>
-          <dt>
-            <span id="menuOrder">Menu Order</span>
-          </dt>
-          <dd>{categoryEntity.menuOrder}</dd>
-          <dt>
-            <span id="imageFileUrl">Image File Url</span>
-          </dt>
-          <dd>{categoryEntity.imageFileUrl}</dd>
-          <dt>
-            <span id="imageFile">Image File</span>
-          </dt>
-          <dd>
-            {categoryEntity.imageFile ? (
-              <div>
-                {categoryEntity.imageFileContentType ? (
-                  <a onClick={openFile(categoryEntity.imageFileContentType, categoryEntity.imageFile)}>
-                    <img
-                      src={`data:${categoryEntity.imageFileContentType};base64,${categoryEntity.imageFile}`}
-                      style={{ maxHeight: '30px' }}
-                    />
-                  </a>
-                ) : null}
-                <span>
-                  {categoryEntity.imageFileContentType}, {byteSize(categoryEntity.imageFile)}
-                </span>
-              </div>
-            ) : null}
-          </dd>
-          <dt>
-            <span id="notes">Notes</span>
-          </dt>
-          <dd>{categoryEntity.notes}</dd>
-          <dt>
-            <span id="isActive">Is Active</span>
-          </dt>
-          <dd>{categoryEntity.isActive ? 'true' : 'false'}</dd>
-        </dl>
+        <h2 data-cy="categoryDetailsHeading">التصنيف</h2>
+        <br />
+        <table className="table table-bordered table-hover table-custom">
+          <tbody>
+            <tr>
+              <th scope="row">رقم ت.</th>
+              <td>{categoryEntity.id}</td>
+            </tr>
+            <tr>
+              <th scope="row">الاسم عربي</th>
+              <td>{categoryEntity.nameAr}</td>
+            </tr>
+            <tr>
+              <th scope="row">الاسم انجليزي</th>
+              <td>{categoryEntity.nameEn}</td>
+            </tr>
+            <tr>
+              <th scope="row">الترتيب</th>
+              <td>{categoryEntity.menuOrder}</td>
+            </tr>
+            <tr>
+              <th scope="row">الملاحظات</th>
+              <td>{categoryEntity.notes}</td>
+            </tr>
+            <tr>
+              <th scope="row">الحالة</th>
+              <td>
+                {categoryEntity.isActive ? (
+                  <FontAwesomeIcon icon={faCheck} style={{ color: 'green' }} />
+                ) : (
+                  <FontAwesomeIcon icon={faTimes} style={{ color: 'red' }} />
+                )}
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <Button tag={Link} to="/category" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">رجوع</span>
         </Button>
@@ -79,6 +64,9 @@ export const CategoryDetail = () => {
         <Button tag={Link} to={`/category/${categoryEntity.id}/edit`} replace color="primary">
           <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">تعديل</span>
         </Button>
+      </Col>
+      <Col md="4">
+        <img src={`/api/uploads/file/download/${categoryEntity.imageFileUrl}`} alt={categoryEntity.nameEn} className="img-fluid" />
       </Col>
     </Row>
   );

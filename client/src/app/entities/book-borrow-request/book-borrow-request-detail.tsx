@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Button, Row, Col } from 'reactstrap';
+import { Button, Col, Row } from 'reactstrap';
 import { TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { APP_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntity } from './book-borrow-request.reducer';
@@ -23,44 +23,52 @@ export const BookBorrowRequestDetail = () => {
     <Row>
       <Col md="8">
         <h2 data-cy="bookBorrowRequestDetailsHeading">Book Borrow Request</h2>
-        <dl className="jh-entity-details">
-          <dt>
-            <span id="id">ID</span>
-          </dt>
-          <dd>{bookBorrowRequestEntity.id}</dd>
-          <dt>
-            <span id="requestDate">Request Date</span>
-          </dt>
-          <dd>
-            {bookBorrowRequestEntity.requestDate ? (
-              <TextFormat value={bookBorrowRequestEntity.requestDate} type="date" format={APP_DATE_FORMAT} />
-            ) : null}
-          </dd>
-          <dt>
-            <span id="collectDate">Collect Date</span>
-          </dt>
-          <dd>
-            {bookBorrowRequestEntity.collectDate ? (
-              <TextFormat value={bookBorrowRequestEntity.collectDate} type="date" format={APP_DATE_FORMAT} />
-            ) : null}
-          </dd>
-          <dt>
-            <span id="returnDate">Return Date</span>
-          </dt>
-          <dd>
-            {bookBorrowRequestEntity.returnDate ? (
-              <TextFormat value={bookBorrowRequestEntity.returnDate} type="date" format={APP_DATE_FORMAT} />
-            ) : null}
-          </dd>
-          <dt>
-            <span id="bookBorrowRequestStatus">Book Borrow Request Status</span>
-          </dt>
-          <dd>{bookBorrowRequestEntity.bookBorrowRequestStatus}</dd>
-          <dt>Book</dt>
-          <dd>{bookBorrowRequestEntity.book ? bookBorrowRequestEntity.book.title : ''}</dd>
-          <dt>Learner</dt>
-          <dd>{bookBorrowRequestEntity.learner ? bookBorrowRequestEntity.learner.firstName : ''}</dd>
-        </dl>
+        <br />
+        <table className="table table-bordered table-hover table-custom">
+          <tbody>
+            <tr>
+              <th scope="row">رقم ت.</th>
+              <td>{bookBorrowRequestEntity.id}</td>
+            </tr>
+            <tr>
+              <th scope="row">تاريخ الطلب</th>
+              <td>
+                {bookBorrowRequestEntity.requestDate ? (
+                  <TextFormat value={bookBorrowRequestEntity.requestDate} type="date" format={APP_DATE_FORMAT} />
+                ) : null}
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">تاريخ الاستلام</th>
+              <td>
+                {bookBorrowRequestEntity.collectDate ? (
+                  <TextFormat value={bookBorrowRequestEntity.collectDate} type="date" format={APP_DATE_FORMAT} />
+                ) : null}
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">تاريخ الارجاع</th>
+              <td>
+                {bookBorrowRequestEntity.returnDate ? (
+                  <TextFormat value={bookBorrowRequestEntity.returnDate} type="date" format={APP_DATE_FORMAT} />
+                ) : null}
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">الحالة</th>
+              <td>{bookBorrowRequestEntity.bookBorrowRequestStatus}</td>
+            </tr>
+            <tr>
+              <th scope="row">الكتاب</th>
+              <td>{bookBorrowRequestEntity.book ? bookBorrowRequestEntity.book.title : ''}</td>
+            </tr>
+            <tr>
+              <th scope="row">المتدرب</th>
+              <td>{bookBorrowRequestEntity.learner ? bookBorrowRequestEntity.learner.firstName : ''}</td>
+            </tr>
+          </tbody>
+        </table>
+        <br />
         <Button tag={Link} to="/book-borrow-request" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">رجوع</span>
         </Button>

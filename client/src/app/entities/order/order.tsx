@@ -96,22 +96,22 @@ export const Order = () => {
       <h2 id="order-heading" data-cy="OrderHeading">
         الطلبات
         <div className="d-flex justify-content-end">
-          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} /> نحديث
-          </Button>
-          <Link to="/order/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
-            <FontAwesomeIcon icon="plus" />
-            &nbsp; إنشاء طلب جديد
-          </Link>
+          {/*<Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>*/}
+          {/*  <FontAwesomeIcon icon="sync" spin={loading} /> نحديث*/}
+          {/*</Button>*/}
+          {/*<Link to="/order/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">*/}
+          {/*  <FontAwesomeIcon icon="plus" />*/}
+          {/*  &nbsp; إنشاء طلب جديد*/}
+          {/*</Link>*/}
         </div>
       </h2>
       <div className="table-responsive">
         {orderList && orderList.length > 0 ? (
-          <Table responsive>
+          <Table responsive striped>
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
-                  المعرف <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+                  # <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
                 <th className="hand" onClick={sort('orderNo')}>
                   رقم الطلب <FontAwesomeIcon icon={getSortIconByFieldName('orderNo')} />
@@ -129,13 +129,13 @@ export const Order = () => {
                   حالة الطلب <FontAwesomeIcon icon={getSortIconByFieldName('orderStatus')} />
                 </th>
                 <th className="hand" onClick={sort('payedAt')}>
-                  التاريخ والوقت <FontAwesomeIcon icon={getSortIconByFieldName('payedAt')} />
+                  تاريخ الدفع <FontAwesomeIcon icon={getSortIconByFieldName('payedAt')} />
                 </th>
-                <th className="hand" onClick={sort('notes')}>
-                  ملاحظات <FontAwesomeIcon icon={getSortIconByFieldName('notes')} />
-                </th>
+                {/*<th className="hand" onClick={sort('notes')}>*/}
+                {/*  ملاحظات <FontAwesomeIcon icon={getSortIconByFieldName('notes')} />*/}
+                {/*</th>*/}
                 <th>
-                  المتعلم <FontAwesomeIcon icon="sort" />
+                  المتدرب <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -154,7 +154,7 @@ export const Order = () => {
                   <td>{order.paymentType}</td>
                   <td>{order.orderStatus}</td>
                   <td>{order.payedAt ? <TextFormat type="date" value={order.payedAt} format={APP_DATE_FORMAT} /> : null}</td>
-                  <td>{order.notes}</td>
+                  {/*<td>{order.notes}</td>*/}
                   <td>{order.learner ? <Link to={`/learner/${order.learner.id}`}>{order.learner.firstName}</Link> : ''}</td>
 
                   <td className="text-start">

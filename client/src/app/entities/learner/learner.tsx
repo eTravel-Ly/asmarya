@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { byteSize, getPaginationState, JhiItemCount, JhiPagination, openFile } from 'react-jhipster';
+import { getPaginationState, JhiItemCount, JhiPagination } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
@@ -93,30 +93,30 @@ export const Learner = () => {
   return (
     <div>
       <h2 id="learner-heading" data-cy="LearnerHeading">
-        المتعلمون
+        المتدربين
         <div className="d-flex justify-content-end">
-          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} /> نحديث
-          </Button>
-          <Link to="/learner/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
-            <FontAwesomeIcon icon="plus" />
-            &nbsp; إنشاء متعلم جديد
-          </Link>
+          {/*<Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>*/}
+          {/*  <FontAwesomeIcon icon="sync" spin={loading} /> نحديث*/}
+          {/*</Button>*/}
+          {/*<Link to="/learner/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">*/}
+          {/*  <FontAwesomeIcon icon="plus" />*/}
+          {/*  &nbsp; إنشاء متدرب جديد*/}
+          {/*</Link>*/}
         </div>
       </h2>
       <div className="table-responsive">
         {learnerList && learnerList.length > 0 ? (
-          <Table responsive>
+          <Table responsive striped>
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
-                  المعرف <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+                  # <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
                 <th className="hand" onClick={sort('firstName')}>
-                  الاسم الأول <FontAwesomeIcon icon={getSortIconByFieldName('firstName')} />
+                  الاسم <FontAwesomeIcon icon={getSortIconByFieldName('firstName')} />
                 </th>
                 <th className="hand" onClick={sort('lastName')}>
-                  اسم العائلة <FontAwesomeIcon icon={getSortIconByFieldName('lastName')} />
+                  اللقب <FontAwesomeIcon icon={getSortIconByFieldName('lastName')} />
                 </th>
                 <th className="hand" onClick={sort('birthYear')}>
                   سنة الميلاد <FontAwesomeIcon icon={getSortIconByFieldName('birthYear')} />
@@ -125,52 +125,19 @@ export const Learner = () => {
                   البريد الإلكتروني <FontAwesomeIcon icon={getSortIconByFieldName('email')} />
                 </th>
                 <th className="hand" onClick={sort('mobileNo')}>
-                  رقم الجوال <FontAwesomeIcon icon={getSortIconByFieldName('mobileNo')} />
+                  الهاتف <FontAwesomeIcon icon={getSortIconByFieldName('mobileNo')} />
                 </th>
-                <th className="hand" onClick={sort('googleId')}>
-                  Google Id <FontAwesomeIcon icon={getSortIconByFieldName('googleId')} />
-                </th>
-                <th className="hand" onClick={sort('facebookId')}>
-                  Facebook Id <FontAwesomeIcon icon={getSortIconByFieldName('facebookId')} />
-                </th>
-                <th className="hand" onClick={sort('appleId')}>
-                  Apple Id <FontAwesomeIcon icon={getSortIconByFieldName('appleId')} />
-                </th>
-                <th className="hand" onClick={sort('isBanned')}>
-                  محظور <FontAwesomeIcon icon={getSortIconByFieldName('isBanned')} />
-                </th>
-                <th className="hand" onClick={sort('verifiedByEmail')}>
-                  تم التحقق من البريد الإلكتروني <FontAwesomeIcon icon={getSortIconByFieldName('verifiedByEmail')} />
-                </th>
-                <th className="hand" onClick={sort('verifiedByMobileNo')}>
-                  تم التحقق من رقم الجوال <FontAwesomeIcon icon={getSortIconByFieldName('verifiedByMobileNo')} />
-                </th>
-                <th className="hand" onClick={sort('imageFile')}>
-                  ملف الصورة <FontAwesomeIcon icon={getSortIconByFieldName('imageFile')} />
-                </th>
-                <th className="hand" onClick={sort('imageFileUrl')}>
-                  رابط ملف الصورة <FontAwesomeIcon icon={getSortIconByFieldName('imageFileUrl')} />
-                </th>
-                <th className="hand" onClick={sort('nationalityCode')}>
-                  رمز الجنسية <FontAwesomeIcon icon={getSortIconByFieldName('nationalityCode')} />
-                </th>
-                <th className="hand" onClick={sort('city')}>
-                  المدينة <FontAwesomeIcon icon={getSortIconByFieldName('city')} />
-                </th>
-                <th className="hand" onClick={sort('address')}>
-                  العنوان <FontAwesomeIcon icon={getSortIconByFieldName('address')} />
-                </th>
+                {/*<th className="hand" onClick={sort('nationalityCode')}>*/}
+                {/*  الجنسية <FontAwesomeIcon icon={getSortIconByFieldName('nationalityCode')} />*/}
+                {/*</th>*/}
+                {/*<th className="hand" onClick={sort('city')}>*/}
+                {/*  المدينة <FontAwesomeIcon icon={getSortIconByFieldName('city')} />*/}
+                {/*</th>*/}
                 <th className="hand" onClick={sort('learnerType')}>
-                  نوع المتعلم <FontAwesomeIcon icon={getSortIconByFieldName('learnerType')} />
+                  النوع <FontAwesomeIcon icon={getSortIconByFieldName('learnerType')} />
                 </th>
                 <th className="hand" onClick={sort('studentId')}>
                   معرف الطالب <FontAwesomeIcon icon={getSortIconByFieldName('studentId')} />
-                </th>
-                <th className="hand" onClick={sort('notes')}>
-                  ملاحظات <FontAwesomeIcon icon={getSortIconByFieldName('notes')} />
-                </th>
-                <th>
-                  المستخدم <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -188,35 +155,11 @@ export const Learner = () => {
                   <td>{learner.birthYear}</td>
                   <td>{learner.email}</td>
                   <td>{learner.mobileNo}</td>
-                  <td>{learner.googleId}</td>
-                  <td>{learner.facebookId}</td>
-                  <td>{learner.appleId}</td>
-                  <td>{learner.isBanned ? 'نعم' : 'لا'}</td>
-                  <td>{learner.verifiedByEmail ? 'نعم' : 'لا'}</td>
-                  <td>{learner.verifiedByMobileNo ? 'نعم' : 'لا'}</td>
-                  <td>
-                    {learner.imageFile ? (
-                      <div>
-                        {learner.imageFileContentType ? (
-                          <a onClick={openFile(learner.imageFileContentType, learner.imageFile)}>
-                            <img src={`data:${learner.imageFileContentType};base64,${learner.imageFile}`} style={{ maxHeight: '30px' }} />
-                            &nbsp;
-                          </a>
-                        ) : null}
-                        <span>
-                          {learner.imageFileContentType}, {byteSize(learner.imageFile)}
-                        </span>
-                      </div>
-                    ) : null}
-                  </td>
-                  <td>{learner.imageFileUrl}</td>
-                  <td>{learner.nationalityCode}</td>
-                  <td>{learner.city}</td>
-                  <td>{learner.address}</td>
+                  {/*<td>{learner.nationalityCode}</td>*/}
+                  {/*<td>{learner.city}</td>*/}
+                  {/*<td>{learner.address}</td>*/}
                   <td>{learner.learnerType}</td>
                   <td>{learner.studentId}</td>
-                  <td>{learner.notes}</td>
-                  <td>{learner.user ? learner.user.id : ''}</td>
 
                   <td className="text-start">
                     <ActionMenu route={'learner'} item={learner} paginationState={paginationState} />

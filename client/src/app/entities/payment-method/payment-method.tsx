@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { byteSize, getPaginationState, JhiItemCount, JhiPagination, openFile } from 'react-jhipster';
+import { getPaginationState, JhiItemCount, JhiPagination } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faSort, faSortDown, faSortUp, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
@@ -95,9 +95,6 @@ export const PaymentMethod = () => {
       <h2 id="payment-method-heading" data-cy="PaymentMethodHeading">
         طرق الدفع
         <div className="d-flex justify-content-end">
-          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} /> نحديث
-          </Button>
           <Link to="/payment-method/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
             &nbsp; إنشاء طريقة دفع جديدة
@@ -106,12 +103,13 @@ export const PaymentMethod = () => {
       </h2>
       <div className="table-responsive">
         {paymentMethodList && paymentMethodList.length > 0 ? (
-          <Table responsive>
+          <Table responsive striped>
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
-                  المعرف <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+                  # <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
+                <th className="hand"></th>
                 <th className="hand" onClick={sort('nameAr')}>
                   الاسم بالعربية <FontAwesomeIcon icon={getSortIconByFieldName('nameAr')} />
                 </th>
@@ -119,29 +117,23 @@ export const PaymentMethod = () => {
                   الاسم بالإنجليزية <FontAwesomeIcon icon={getSortIconByFieldName('nameEn')} />
                 </th>
                 <th className="hand" onClick={sort('menuOrder')}>
-                  ترتيب القائمة <FontAwesomeIcon icon={getSortIconByFieldName('menuOrder')} />
+                  ترتيب <FontAwesomeIcon icon={getSortIconByFieldName('menuOrder')} />
                 </th>
-                <th className="hand" onClick={sort('imageFileUrl')}>
-                  رابط ملف الصورة <FontAwesomeIcon icon={getSortIconByFieldName('imageFileUrl')} />
-                </th>
-                <th className="hand" onClick={sort('imageFile')}>
-                  ملف الصورة <FontAwesomeIcon icon={getSortIconByFieldName('imageFile')} />
-                </th>
-                <th className="hand" onClick={sort('details')}>
-                  التفاصيل <FontAwesomeIcon icon={getSortIconByFieldName('details')} />
-                </th>
+                {/*<th className="hand" onClick={sort('details')}>*/}
+                {/*  التفاصيل <FontAwesomeIcon icon={getSortIconByFieldName('details')} />*/}
+                {/*</th>*/}
                 <th className="hand" onClick={sort('feePercentage')}>
                   نسبة الرسوم <FontAwesomeIcon icon={getSortIconByFieldName('feePercentage')} />
                 </th>
-                <th className="hand" onClick={sort('paymentType')}>
-                  نوع الدفع <FontAwesomeIcon icon={getSortIconByFieldName('paymentType')} />
-                </th>
+                {/*<th className="hand" onClick={sort('paymentType')}>*/}
+                {/*  الدفع <FontAwesomeIcon icon={getSortIconByFieldName('paymentType')} />*/}
+                {/*</th>*/}
                 <th className="hand" onClick={sort('isActive')}>
                   مفعل <FontAwesomeIcon icon={getSortIconByFieldName('isActive')} />
                 </th>
-                <th className="hand" onClick={sort('notes')}>
-                  ملاحظات <FontAwesomeIcon icon={getSortIconByFieldName('notes')} />
-                </th>
+                {/*<th className="hand" onClick={sort('notes')}>*/}
+                {/*  ملاحظات <FontAwesomeIcon icon={getSortIconByFieldName('notes')} />*/}
+                {/*</th>*/}
                 <th />
               </tr>
             </thead>
@@ -153,31 +145,41 @@ export const PaymentMethod = () => {
                       {paymentMethod.id}
                     </Button>
                   </td>
+                  <td>
+                    <a href={`/api/uploads/file/download/${paymentMethod.imageFileUrl}`} target="_blank">
+                      <img
+                        className="img-fluid"
+                        src={`/api/uploads/file/download/${paymentMethod.imageFileUrl}`}
+                        style={{ maxHeight: '60px' }}
+                        alt=""
+                      />
+                    </a>
+                  </td>
                   <td>{paymentMethod.nameAr}</td>
                   <td>{paymentMethod.nameEn}</td>
                   <td>{paymentMethod.menuOrder}</td>
-                  <td>{paymentMethod.imageFileUrl}</td>
-                  <td>
-                    {paymentMethod.imageFile ? (
-                      <div>
-                        {paymentMethod.imageFileContentType ? (
-                          <a onClick={openFile(paymentMethod.imageFileContentType, paymentMethod.imageFile)}>
-                            <img
-                              src={`data:${paymentMethod.imageFileContentType};base64,${paymentMethod.imageFile}`}
-                              style={{ maxHeight: '30px' }}
-                            />
-                            &nbsp;
-                          </a>
-                        ) : null}
-                        <span>
-                          {paymentMethod.imageFileContentType}, {byteSize(paymentMethod.imageFile)}
-                        </span>
-                      </div>
-                    ) : null}
-                  </td>
-                  <td>{paymentMethod.details}</td>
+                  {/*<td>{paymentMethod.imageFileUrl}</td>*/}
+                  {/*<td>*/}
+                  {/*  {paymentMethod.imageFile ? (*/}
+                  {/*    <div>*/}
+                  {/*      {paymentMethod.imageFileContentType ? (*/}
+                  {/*        <a onClick={openFile(paymentMethod.imageFileContentType, paymentMethod.imageFile)}>*/}
+                  {/*          <img*/}
+                  {/*            src={`data:${paymentMethod.imageFileContentType};base64,${paymentMethod.imageFile}`}*/}
+                  {/*            style={{ maxHeight: '30px' }}*/}
+                  {/*          />*/}
+                  {/*          &nbsp;*/}
+                  {/*        </a>*/}
+                  {/*      ) : null}*/}
+                  {/*      <span>*/}
+                  {/*        {paymentMethod.imageFileContentType}, {byteSize(paymentMethod.imageFile)}*/}
+                  {/*      </span>*/}
+                  {/*    </div>*/}
+                  {/*  ) : null}*/}
+                  {/*</td>*/}
+                  {/*<td>{paymentMethod.details}</td>*/}
                   <td>{paymentMethod.feePercentage}</td>
-                  <td>{paymentMethod.paymentType}</td>
+                  {/*<td>{paymentMethod.paymentType}</td>*/}
                   <td>
                     {paymentMethod.isActive ? (
                       <FontAwesomeIcon icon={faCheck} style={{ color: 'green' }} />
@@ -185,7 +187,7 @@ export const PaymentMethod = () => {
                       <FontAwesomeIcon icon={faTimes} style={{ color: 'red' }} />
                     )}
                   </td>
-                  <td>{paymentMethod.notes}</td>
+                  {/*<td>{paymentMethod.notes}</td>*/}
                   <td className="text-start">
                     <ActionMenu route={'payment-method'} item={paymentMethod} paginationState={paginationState} />
                   </td>

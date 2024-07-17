@@ -23,6 +23,10 @@ export const BookDetail = () => {
         <table className="table table-bordered table-hover table-custom">
           <tbody>
             <tr>
+              <th scope="row">رقم ت.</th>
+              <td colSpan={3}>{bookEntity.id}</td>
+            </tr>
+            <tr>
               <th scope="row">العنوان</th>
               <td colSpan={3}>{bookEntity.title}</td>
             </tr>
@@ -92,7 +96,7 @@ export const BookDetail = () => {
                 {bookEntity.categories
                   ? bookEntity.categories.map((category, index) => (
                       <span key={index}>
-                        {category.name}
+                        {category.nameAr}
                         {index !== bookEntity.categories.length - 1 ? ', ' : ''}
                       </span>
                     ))
@@ -110,6 +114,8 @@ export const BookDetail = () => {
         </Button>
       </Col>
       <Col md="4">
+        <br />
+        <br />
         <img src={`/api/uploads/file/download/${bookEntity.coverImageUrl}`} alt={bookEntity.title} className="img-fluid" />
       </Col>
     </Row>

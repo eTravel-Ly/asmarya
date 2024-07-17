@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getEntity, deleteEntity } from './category.reducer';
+import { deleteEntity, getEntity } from './category.reducer';
 
 export const CategoryDeleteDialog = () => {
   const dispatch = useAppDispatch();
@@ -42,13 +42,13 @@ export const CategoryDeleteDialog = () => {
   return (
     <Modal isOpen toggle={handleClose}>
       <ModalHeader toggle={handleClose} data-cy="categoryDeleteDialogHeading">
-        Confirm delete operation
+        تأكيد عملية الحذف
       </ModalHeader>
-      <ModalBody id="asmaryaApp.category.delete.question">Are you sure you want to delete Category {categoryEntity.id}?</ModalBody>
+      <ModalBody id="asmaryaApp.category.delete.question">هل أنت متأكد أنك تريد حذف الفئة {categoryEntity.id}؟</ModalBody>
       <ModalFooter>
         <Button color="secondary" onClick={handleClose}>
           <FontAwesomeIcon icon="ban" />
-          &nbsp; الغاء
+          &nbsp; إلغاء
         </Button>
         <Button id="jhi-confirm-delete-category" data-cy="entityConfirmDeleteButton" color="danger" onClick={confirmDelete}>
           <FontAwesomeIcon icon="trash" />

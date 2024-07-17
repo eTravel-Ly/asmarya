@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { byteSize, getPaginationState, JhiItemCount, JhiPagination, openFile } from 'react-jhipster';
+import { getPaginationState, JhiItemCount, JhiPagination } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
@@ -93,46 +93,47 @@ export const Slider = () => {
   return (
     <div>
       <h2 id="slider-heading" data-cy="SliderHeading">
-        Sliders
+        الشريط دعائي
         <div className="d-flex justify-content-end">
-          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} /> نحديث
-          </Button>
+          {/*<Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>*/}
+          {/*  <FontAwesomeIcon icon="sync" spin={loading} /> نحديث*/}
+          {/*</Button>*/}
           <Link to="/slider/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
-            &nbsp; Create a new Slider
+            &nbsp; إنشاء شريط دعائي جديد
           </Link>
         </div>
       </h2>
       <div className="table-responsive">
         {sliderList && sliderList.length > 0 ? (
-          <Table responsive>
+          <Table responsive striped>
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
-                  ID <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+                  # <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
+                <th className="hand"></th>
                 <th className="hand" onClick={sort('detailsAr')}>
-                  Details Ar <FontAwesomeIcon icon={getSortIconByFieldName('detailsAr')} />
+                  التفاصيل بالعربية <FontAwesomeIcon icon={getSortIconByFieldName('detailsAr')} />
                 </th>
                 <th className="hand" onClick={sort('detailsEn')}>
-                  Details En <FontAwesomeIcon icon={getSortIconByFieldName('detailsEn')} />
+                  التفاصيل بالإنجليزية <FontAwesomeIcon icon={getSortIconByFieldName('detailsEn')} />
                 </th>
                 <th className="hand" onClick={sort('menuOrder')}>
-                  Menu Order <FontAwesomeIcon icon={getSortIconByFieldName('menuOrder')} />
+                  ترتيب <FontAwesomeIcon icon={getSortIconByFieldName('menuOrder')} />
                 </th>
-                <th className="hand" onClick={sort('imageFileUrl')}>
-                  Image File Url <FontAwesomeIcon icon={getSortIconByFieldName('imageFileUrl')} />
-                </th>
-                <th className="hand" onClick={sort('imageFile')}>
-                  Image File <FontAwesomeIcon icon={getSortIconByFieldName('imageFile')} />
-                </th>
+                {/*<th className="hand" onClick={sort('imageFileUrl')}>*/}
+                {/*  عنوان ملف الصورة <FontAwesomeIcon icon={getSortIconByFieldName('imageFileUrl')} />*/}
+                {/*</th>*/}
+                {/*<th className="hand" onClick={sort('imageFile')}>*/}
+                {/*  ملف الصورة <FontAwesomeIcon icon={getSortIconByFieldName('imageFile')} />*/}
+                {/*</th>*/}
                 <th className="hand" onClick={sort('link')}>
-                  Link <FontAwesomeIcon icon={getSortIconByFieldName('link')} />
+                  الرابط <FontAwesomeIcon icon={getSortIconByFieldName('link')} />
                 </th>
-                <th className="hand" onClick={sort('notes')}>
-                  Notes <FontAwesomeIcon icon={getSortIconByFieldName('notes')} />
-                </th>
+                {/*<th className="hand" onClick={sort('notes')}>*/}
+                {/*  ملاحظات <FontAwesomeIcon icon={getSortIconByFieldName('notes')} />*/}
+                {/*</th>*/}
                 <th />
               </tr>
             </thead>
@@ -144,27 +145,37 @@ export const Slider = () => {
                       {slider.id}
                     </Button>
                   </td>
+                  <td>
+                    <a href={`/api/uploads/file/download/${slider.imageFileUrl}`} target="_blank">
+                      <img
+                        className="img-fluid"
+                        src={`/api/uploads/file/download/${slider.imageFileUrl}`}
+                        style={{ maxHeight: '60px' }}
+                        alt=""
+                      />
+                    </a>
+                  </td>
                   <td>{slider.detailsAr}</td>
                   <td>{slider.detailsEn}</td>
                   <td>{slider.menuOrder}</td>
-                  <td>{slider.imageFileUrl}</td>
-                  <td>
-                    {slider.imageFile ? (
-                      <div>
-                        {slider.imageFileContentType ? (
-                          <a onClick={openFile(slider.imageFileContentType, slider.imageFile)}>
-                            <img src={`data:${slider.imageFileContentType};base64,${slider.imageFile}`} style={{ maxHeight: '30px' }} />
-                            &nbsp;
-                          </a>
-                        ) : null}
-                        <span>
-                          {slider.imageFileContentType}, {byteSize(slider.imageFile)}
-                        </span>
-                      </div>
-                    ) : null}
-                  </td>
+                  {/*<td>{slider.imageFileUrl}</td>*/}
+                  {/*<td>*/}
+                  {/*  {slider.imageFile ? (*/}
+                  {/*    <div>*/}
+                  {/*      {slider.imageFileContentType ? (*/}
+                  {/*        <a onClick={openFile(slider.imageFileContentType, slider.imageFile)}>*/}
+                  {/*          <img src={`data:${slider.imageFileContentType};base64,${slider.imageFile}`} style={{ maxHeight: '30px' }} />*/}
+                  {/*          &nbsp;*/}
+                  {/*        </a>*/}
+                  {/*      ) : null}*/}
+                  {/*      <span>*/}
+                  {/*        {slider.imageFileContentType}, {byteSize(slider.imageFile)}*/}
+                  {/*      </span>*/}
+                  {/*    </div>*/}
+                  {/*  ) : null}*/}
+                  {/*</td>*/}
                   <td>{slider.link}</td>
-                  <td>{slider.notes}</td>
+                  {/*<td>{slider.notes}</td>*/}
                   <td className="text-start">
                     <ActionMenu route={'slider'} item={slider} paginationState={paginationState} />
                   </td>
@@ -173,7 +184,7 @@ export const Slider = () => {
             </tbody>
           </Table>
         ) : (
-          !loading && <div className="alert alert-warning">No Sliders found</div>
+          !loading && <div className="alert alert-warning">لا توجد سلايدرات</div>
         )}
       </div>
       {totalItems ? (
