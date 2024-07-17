@@ -82,7 +82,7 @@ export class ActivationService {
     newActivation.email = email;
     newActivation.code = code;
     newActivation.isUsed = false;
-    newActivation.validUntil = new Date(Date.now() + 1000 * 60 * 60).toISOString().slice(0, 19).replace('T', ' ');
+    newActivation.validUntil = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' ');
     newActivation.sentOn = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
     const result = await this.activationRepository.save(newActivation);
@@ -96,7 +96,19 @@ export class ActivationService {
     });
   }
 
-  checkOTP(email: string, otp: string) {
-    return true;
+  async checkOTP(email: string, otp: string): Promise<boolean> {
+    const activation = await this.activationRepository.findOne({ where: { email } });
+
+    if (!activation || activation.code !== otp) {
+      throw new HttpException('INVALID_OTP', HttpStatus.BAD_REQUEST);
+    } else if (activation.isUsed) {
+      throw new HttpException('OTP_ALREADY_USED', HttpStatus.BAD_REQUEST);
+    } else if (new Date(activation.validUntil) < new Date()) {
+      throw new HttpException('OTP_EXPIRED', HttpStatus.BAD_REQUEST);
+    } else {
+      activation.isUsed = true;
+      await this.activationRepository.save(activation);
+      return true;
+    }
   }
 }

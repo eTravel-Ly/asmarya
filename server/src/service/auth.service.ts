@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -8,7 +8,6 @@ import { Payload } from '../security/payload.interface';
 import { AuthorityRepository } from '../repository/authority.repository';
 import { UserService } from '../service/user.service';
 import { UserDTO } from './dto/user.dto';
-import * as console from 'console';
 import { Authority } from '../domain/authority.entity';
 
 @Injectable()
@@ -79,16 +78,19 @@ export class AuthService {
     return;
   }
 
-  async registerNewUser(newUser: UserDTO): Promise<UserDTO> {
+  async registerNewUser(newUser: UserDTO, moreRoles: string[] = []): Promise<UserDTO> {
     let userFind: UserDTO = await this.userService.findByFields({ where: { login: newUser.login } });
     if (userFind) {
       throw new HttpException('Login name already used!', HttpStatus.BAD_REQUEST);
     }
+
     userFind = await this.userService.findByFields({ where: { email: newUser.email } });
     if (userFind) {
       throw new HttpException('Email is already in use!', HttpStatus.BAD_REQUEST);
     }
-    newUser.authorities = ['ROLE_USER'];
+
+    newUser.authorities = ['ROLE_USER', ...moreRoles];
+
     const user: UserDTO = await this.userService.save(newUser, newUser.login, true);
     return user;
   }

@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, getRepository } from 'typeorm';
+import { getRepository, MigrationInterface, QueryRunner } from 'typeorm';
 import { User } from '../domain/user.entity';
 import { transformPassword } from '../security';
 import { Authority } from '../domain/authority.entity';
@@ -7,6 +7,11 @@ export class SeedUsersRoles1570200490072 implements MigrationInterface {
   role1: Authority = { name: 'ROLE_ADMIN' };
 
   role2: Authority = { name: 'ROLE_USER' };
+
+  role3: Authority = { name: 'ROLE_INTERNAL_STUDENT' };
+  role4: Authority = { name: 'ROLE_EXTERNAL_STUDENT' };
+  role5: Authority = { name: 'ROLE_INSTRUCTOR' };
+  role6: Authority = { name: 'ROLE_PUBLIC' };
 
   user1: User = {
     login: 'system',
@@ -66,6 +71,10 @@ export class SeedUsersRoles1570200490072 implements MigrationInterface {
 
     const adminRole = await authorityRepository.save(this.role1);
     const userRole = await authorityRepository.save(this.role2);
+    const internalStudentRole = await authorityRepository.save(this.role3);
+    const externalStudentRole = await authorityRepository.save(this.role4);
+    const instructorRole = await authorityRepository.save(this.role5);
+    const publicRole = await authorityRepository.save(this.role6);
 
     const userRepository = getRepository('jhi_user');
 

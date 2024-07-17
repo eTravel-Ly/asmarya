@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Logger, Param, Req, Res, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Param, Req, Res, UseInterceptors } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoggingInterceptor } from '../../client/interceptors/logging.interceptor';
@@ -43,14 +43,15 @@ export class WebsiteController {
     type: LearnerDTO,
   })
   async register(@Req() req: Request, @Body() learnerVM: LearnerVM): Promise<LearnerDTO> {
-    // check otp
-    if (!this.activationService.checkOTP(learnerVM.email, learnerVM.otp)) {
-      throw new HttpException('Invalid OTP', HttpStatus.BAD_REQUEST);
+    try {
+      // Check OTP
+      await this.activationService.checkOTP(learnerVM.email, learnerVM.otp);
+      const created = await this.learnerService.register(learnerVM);
+      HeaderUtil.addEntityCreatedHeaders(req.res, 'Learner', created.id);
+      return created;
+    } catch (error) {
+      throw error;
     }
-
-    const created = await this.learnerService.register(learnerVM);
-    HeaderUtil.addEntityCreatedHeaders(req.res, 'Learner', created.id);
-    return created;
   }
 
   @Get('/uploads/file/download/:fileName')

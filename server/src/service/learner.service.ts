@@ -7,6 +7,7 @@ import { LearnerRepository } from '../repository/learner.repository';
 import { LearnerVM } from './dto/vm/learner.vm';
 import { UserDTO } from './dto/user.dto';
 import { AuthService } from './auth.service';
+import { LearnerType } from '../domain/enumeration/learner-type';
 
 const relationshipNames = [];
 
@@ -90,7 +91,19 @@ export class LearnerService {
     newUser.password = learnerVM.password;
     newUser.activated = true;
     newUser.langKey = 'en';
-    learnerDTO.user = await this.authService.registerNewUser(newUser);
+
+    let roles: string[] = [];
+    if (learnerVM.learnerType === LearnerType.INTERNAL_STUDENT) {
+      roles = ['ROLE_INTERNAL_STUDENT'];
+    } else if (learnerVM.learnerType === LearnerType.EXTERNAL_STUDENT) {
+      roles = ['ROLE_EXTERNAL_STUDENT'];
+    } else if (learnerVM.learnerType === LearnerType.INSTRUCTOR) {
+      roles = ['ROLE_INSTRUCTOR'];
+    } else if (learnerVM.learnerType === LearnerType.PUBLIC) {
+      roles = ['ROLE_PUBLIC'];
+    }
+
+    learnerDTO.user = await this.authService.registerNewUser(newUser, roles);
 
     //learnerDTO.password = learnerVM.password;
     const entity = LearnerMapper.fromDTOtoEntity(learnerDTO);
