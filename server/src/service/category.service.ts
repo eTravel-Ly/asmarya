@@ -1,9 +1,10 @@
-import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, FindOneOptions } from 'typeorm';
 import { CategoryDTO } from '../service/dto/category.dto';
 import { CategoryMapper } from '../service/mapper/category.mapper';
 import { CategoryRepository } from '../repository/category.repository';
+import { Helpers } from './utils/helpers';
 
 const relationshipNames = [];
 
@@ -43,6 +44,12 @@ export class CategoryService {
       }
       entity.lastModifiedBy = creator;
     }
+
+    if (categoryDTO.imageFile != null) {
+      entity.imageFileUrl = await Helpers.saveFile(categoryDTO.imageFile, categoryDTO.imageFileContentType);
+      entity.imageFile = null;
+    }
+
     const result = await this.categoryRepository.save(entity);
     return CategoryMapper.fromEntityToDTO(result);
   }
@@ -52,6 +59,12 @@ export class CategoryService {
     if (updater) {
       entity.lastModifiedBy = updater;
     }
+
+    if (categoryDTO.imageFile != null) {
+      entity.imageFileUrl = await Helpers.saveFile(categoryDTO.imageFile, categoryDTO.imageFileContentType);
+      entity.imageFile = null;
+    }
+
     const result = await this.categoryRepository.save(entity);
     return CategoryMapper.fromEntityToDTO(result);
   }

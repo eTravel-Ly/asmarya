@@ -51,6 +51,11 @@ export class BookService {
       entity.coverImageFile = null;
     }
 
+    if (bookDTO.bookFile != null) {
+      entity.bookUrl = await Helpers.saveFile(bookDTO.bookFile, bookDTO.bookFileContentType);
+      entity.bookFile = null;
+    }
+
     const result = await this.bookRepository.save(entity);
     return BookMapper.fromEntityToDTO(result);
   }
@@ -64,6 +69,11 @@ export class BookService {
     if (bookDTO.coverImageFile != null) {
       entity.coverImageUrl = await Helpers.saveFile(bookDTO.coverImageFile, bookDTO.coverImageFileContentType);
       entity.coverImageFile = null;
+    }
+
+    if (bookDTO.bookFile != null) {
+      entity.bookUrl = await Helpers.saveFile(bookDTO.bookFile, bookDTO.bookFileContentType);
+      entity.bookFile = null;
     }
 
     const result = await this.bookRepository.save(entity);

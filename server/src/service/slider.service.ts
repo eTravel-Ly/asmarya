@@ -1,9 +1,10 @@
-import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, FindOneOptions } from 'typeorm';
 import { SliderDTO } from '../service/dto/slider.dto';
 import { SliderMapper } from '../service/mapper/slider.mapper';
 import { SliderRepository } from '../repository/slider.repository';
+import { Helpers } from './utils/helpers';
 
 const relationshipNames = [];
 
@@ -43,6 +44,12 @@ export class SliderService {
       }
       entity.lastModifiedBy = creator;
     }
+
+    if (sliderDTO.imageFile != null) {
+      entity.imageFileUrl = await Helpers.saveFile(sliderDTO.imageFile, sliderDTO.imageFileContentType);
+      entity.imageFile = null;
+    }
+
     const result = await this.sliderRepository.save(entity);
     return SliderMapper.fromEntityToDTO(result);
   }
@@ -52,6 +59,12 @@ export class SliderService {
     if (updater) {
       entity.lastModifiedBy = updater;
     }
+
+    if (sliderDTO.imageFile != null) {
+      entity.imageFileUrl = await Helpers.saveFile(sliderDTO.imageFile, sliderDTO.imageFileContentType);
+      entity.imageFile = null;
+    }
+
     const result = await this.sliderRepository.save(entity);
     return SliderMapper.fromEntityToDTO(result);
   }

@@ -1,9 +1,10 @@
-import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, FindOneOptions } from 'typeorm';
 import { PaymentMethodDTO } from '../service/dto/payment-method.dto';
 import { PaymentMethodMapper } from '../service/mapper/payment-method.mapper';
 import { PaymentMethodRepository } from '../repository/payment-method.repository';
+import { Helpers } from './utils/helpers';
 
 const relationshipNames = [];
 
@@ -43,6 +44,12 @@ export class PaymentMethodService {
       }
       entity.lastModifiedBy = creator;
     }
+
+    if (paymentMethodDTO.imageFile != null) {
+      entity.imageFileUrl = await Helpers.saveFile(paymentMethodDTO.imageFile, paymentMethodDTO.imageFileContentType);
+      entity.imageFile = null;
+    }
+
     const result = await this.paymentMethodRepository.save(entity);
     return PaymentMethodMapper.fromEntityToDTO(result);
   }
@@ -52,6 +59,12 @@ export class PaymentMethodService {
     if (updater) {
       entity.lastModifiedBy = updater;
     }
+
+    if (paymentMethodDTO.imageFile != null) {
+      entity.imageFileUrl = await Helpers.saveFile(paymentMethodDTO.imageFile, paymentMethodDTO.imageFileContentType);
+      entity.imageFile = null;
+    }
+
     const result = await this.paymentMethodRepository.save(entity);
     return PaymentMethodMapper.fromEntityToDTO(result);
   }

@@ -1,9 +1,10 @@
-import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, FindOneOptions } from 'typeorm';
 import { CourseDTO } from '../service/dto/course.dto';
 import { CourseMapper } from '../service/mapper/course.mapper';
 import { CourseRepository } from '../repository/course.repository';
+import { Helpers } from './utils/helpers';
 
 const relationshipNames = [];
 relationshipNames.push('categories');
@@ -44,6 +45,12 @@ export class CourseService {
       }
       entity.lastModifiedBy = creator;
     }
+
+    if (courseDTO.coverImageFile != null) {
+      entity.coverImageUrl = await Helpers.saveFile(courseDTO.coverImageFile, courseDTO.coverImageFileContentType);
+      entity.coverImageFile = null;
+    }
+
     const result = await this.courseRepository.save(entity);
     return CourseMapper.fromEntityToDTO(result);
   }
@@ -52,6 +59,11 @@ export class CourseService {
     const entity = CourseMapper.fromDTOtoEntity(courseDTO);
     if (updater) {
       entity.lastModifiedBy = updater;
+    }
+
+    if (courseDTO.coverImageFile != null) {
+      entity.coverImageUrl = await Helpers.saveFile(courseDTO.coverImageFile, courseDTO.coverImageFileContentType);
+      entity.coverImageFile = null;
     }
     const result = await this.courseRepository.save(entity);
     return CourseMapper.fromEntityToDTO(result);

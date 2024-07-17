@@ -1,9 +1,10 @@
-import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, FindOneOptions } from 'typeorm';
 import { CourseVideoDTO } from '../service/dto/course-video.dto';
 import { CourseVideoMapper } from '../service/mapper/course-video.mapper';
 import { CourseVideoRepository } from '../repository/course-video.repository';
+import { Helpers } from './utils/helpers';
 
 const relationshipNames = [];
 relationshipNames.push('course');
@@ -44,6 +45,12 @@ export class CourseVideoService {
       }
       entity.lastModifiedBy = creator;
     }
+
+    if (courseVideoDTO.file != null) {
+      entity.fileUrl = await Helpers.saveFile(courseVideoDTO.file, courseVideoDTO.fileContentType);
+      entity.file = null;
+    }
+
     const result = await this.courseVideoRepository.save(entity);
     return CourseVideoMapper.fromEntityToDTO(result);
   }
@@ -52,6 +59,11 @@ export class CourseVideoService {
     const entity = CourseVideoMapper.fromDTOtoEntity(courseVideoDTO);
     if (updater) {
       entity.lastModifiedBy = updater;
+    }
+
+    if (courseVideoDTO.file != null) {
+      entity.fileUrl = await Helpers.saveFile(courseVideoDTO.file, courseVideoDTO.fileContentType);
+      entity.file = null;
     }
     const result = await this.courseVideoRepository.save(entity);
     return CourseVideoMapper.fromEntityToDTO(result);
