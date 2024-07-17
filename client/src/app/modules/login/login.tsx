@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
@@ -22,10 +22,10 @@ export const Login = () => {
 
   const handleClose = () => {
     setShowModal(false);
-    navigate('/');
+    navigate('/dashboard');
   };
 
-  const { from } = pageLocation.state || { from: { pathname: '/', search: pageLocation.search } };
+  const { from } = pageLocation.state || { from: { pathname: '/dashboard', search: pageLocation.search } };
   if (isAuthenticated) {
     return <Navigate to={from} replace />;
   }

@@ -10,6 +10,9 @@ import { BookBorrowRequest } from '../domain/book-borrow-request.entity';
 import { Category } from '../domain/category.entity';
 import { PaymentMethod } from '../domain/payment-method.entity';
 import { PaymentType } from '../domain/enumeration/payment-type';
+import { Course } from '../domain/course.entity';
+import { Order } from '../domain/order.entity';
+import { OrderStatus } from '../domain/enumeration/order-status';
 
 export class SeedData1570200490073 implements MigrationInterface {
   books: Book[] = [
@@ -354,6 +357,83 @@ export class SeedData1570200490073 implements MigrationInterface {
     },
   ];
 
+  courses: Course[] = [
+    {
+      id: 1,
+      title: 'React Native Course',
+      description: 'Learn how to build mobile apps using React Native',
+      price: 100,
+      categories: [],
+      createdBy: 'admin',
+      lastModifiedBy: 'admin',
+      language: Language.ENGLISH,
+      coverImageUrl: 'https://example.com/react-native.jpg',
+      coverImageFile: null,
+      coverImageFileContentType: null,
+      studentsPrice: 80,
+      keywords: 'mobile development, cross-platform',
+    },
+    {
+      id: 2,
+      title: 'Angular Course',
+      description: 'Learn how to build web apps using Angular',
+      price: 150,
+      categories: [],
+      createdBy: 'admin',
+      lastModifiedBy: 'admin',
+      language: Language.ENGLISH,
+      coverImageUrl: 'https://example.com/react-native.jpg',
+      coverImageFile: null,
+      coverImageFileContentType: null,
+      studentsPrice: 80,
+      keywords: 'mobile development, cross-platform',
+    },
+    {
+      id: 3,
+      title: 'Node.js Course',
+      description: 'Learn how to build server-side apps using Node.js',
+      price: 120,
+      categories: [],
+      createdBy: 'admin',
+      lastModifiedBy: 'admin',
+      language: Language.ENGLISH,
+      coverImageUrl: 'https://example.com/react-native.jpg',
+      coverImageFile: null,
+      coverImageFileContentType: null,
+      studentsPrice: 80,
+      keywords: 'mobile development, cross-platform',
+    },
+  ];
+
+  orders: Order[] = [
+    {
+      id: 1,
+      orderNo: 'ORD-123',
+      total: 100,
+      discount: 10,
+      paymentType: PaymentType.MOAMALAT,
+      orderStatus: OrderStatus.PAYED,
+      payedAt: new Date('2024-01-10'),
+      notes: 'Order pending payment',
+      learner: { id: 1 } as Learner,
+      createdBy: 'admin',
+      lastModifiedBy: 'admin',
+    },
+    {
+      id: 2,
+      orderNo: 'ORD-456',
+      total: 150,
+      discount: 20,
+      paymentType: PaymentType.ADFALI,
+      orderStatus: OrderStatus.PENDING,
+      payedAt: new Date('2024-02-01'),
+      notes: 'Order paid successfully',
+      learner: { id: 1 } as Learner,
+      createdBy: 'admin',
+      lastModifiedBy: 'admin',
+    },
+  ];
+
   // eslint-disable-next-line
   public async up(queryRunner: QueryRunner): Promise<any> {
     const bookRepository = getRepository('book');
@@ -370,6 +450,12 @@ export class SeedData1570200490073 implements MigrationInterface {
 
     const paymentMethodRepository = getRepository('payment_method');
     await paymentMethodRepository.save(this.paymentMethods);
+
+    const courseRepository = getRepository('course');
+    await courseRepository.save(this.courses);
+
+    const orderRepository = getRepository('order');
+    await orderRepository.save(this.orders);
   }
 
   // eslint-disable-next-line
