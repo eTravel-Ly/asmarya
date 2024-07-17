@@ -93,14 +93,14 @@ export const Course = () => {
   return (
     <div>
       <h2 id="course-heading" data-cy="CourseHeading">
-        Courses
+        الدورات
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} /> نحديث
           </Button>
           <Link to="/course/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
-            &nbsp; Create a new Course
+            &nbsp; إنشاء دورة جديدة
           </Link>
         </div>
       </h2>
@@ -110,31 +110,31 @@ export const Course = () => {
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
-                  ID <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+                  المعرف <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
                 <th className="hand" onClick={sort('title')}>
-                  Title <FontAwesomeIcon icon={getSortIconByFieldName('title')} />
+                  العنوان <FontAwesomeIcon icon={getSortIconByFieldName('title')} />
                 </th>
                 <th className="hand" onClick={sort('description')}>
-                  Description <FontAwesomeIcon icon={getSortIconByFieldName('description')} />
+                  الوصف <FontAwesomeIcon icon={getSortIconByFieldName('description')} />
                 </th>
                 <th className="hand" onClick={sort('language')}>
-                  Language <FontAwesomeIcon icon={getSortIconByFieldName('language')} />
+                  اللغة <FontAwesomeIcon icon={getSortIconByFieldName('language')} />
                 </th>
                 <th className="hand" onClick={sort('coverImageFile')}>
-                  Cover Image File <FontAwesomeIcon icon={getSortIconByFieldName('coverImageFile')} />
+                  ملف الصورة الرئيسية <FontAwesomeIcon icon={getSortIconByFieldName('coverImageFile')} />
                 </th>
                 <th className="hand" onClick={sort('coverImageUrl')}>
-                  Cover Image Url <FontAwesomeIcon icon={getSortIconByFieldName('coverImageUrl')} />
+                  رابط الصورة الرئيسية <FontAwesomeIcon icon={getSortIconByFieldName('coverImageUrl')} />
                 </th>
                 <th className="hand" onClick={sort('price')}>
-                  Price <FontAwesomeIcon icon={getSortIconByFieldName('price')} />
+                  السعر <FontAwesomeIcon icon={getSortIconByFieldName('price')} />
                 </th>
                 <th className="hand" onClick={sort('studentsPrice')}>
-                  Students Price <FontAwesomeIcon icon={getSortIconByFieldName('studentsPrice')} />
+                  سعر الطلاب <FontAwesomeIcon icon={getSortIconByFieldName('studentsPrice')} />
                 </th>
                 <th className="hand" onClick={sort('keywords')}>
-                  Keywords <FontAwesomeIcon icon={getSortIconByFieldName('keywords')} />
+                  الكلمات الدلالية <FontAwesomeIcon icon={getSortIconByFieldName('keywords')} />
                 </th>
                 <th />
               </tr>
@@ -154,7 +154,7 @@ export const Course = () => {
                     {course.coverImageFile ? (
                       <div>
                         {course.coverImageFileContentType ? (
-                          <a onClick={openFile(course.coverImageFileContentType, course.coverImageFile)}>
+                          <a onClick={openFile(course.coverImageFileContentType, course.coverImage)}>
                             <img
                               src={`data:${course.coverImageFileContentType};base64,${course.coverImageFile}`}
                               style={{ maxHeight: '30px' }}
@@ -180,7 +180,7 @@ export const Course = () => {
             </tbody>
           </Table>
         ) : (
-          !loading && <div className="alert alert-warning">No Courses found</div>
+          !loading && <div className="alert alert-warning">لا توجد دورات</div>
         )}
       </div>
       {totalItems ? (

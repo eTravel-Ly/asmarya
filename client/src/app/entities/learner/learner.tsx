@@ -93,14 +93,14 @@ export const Learner = () => {
   return (
     <div>
       <h2 id="learner-heading" data-cy="LearnerHeading">
-        Learners
+        المتعلمون
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} /> نحديث
           </Button>
           <Link to="/learner/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
-            &nbsp; Create a new Learner
+            &nbsp; إنشاء متعلم جديد
           </Link>
         </div>
       </h2>
@@ -110,22 +110,22 @@ export const Learner = () => {
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
-                  ID <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+                  المعرف <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
                 <th className="hand" onClick={sort('firstName')}>
-                  First Name <FontAwesomeIcon icon={getSortIconByFieldName('firstName')} />
+                  الاسم الأول <FontAwesomeIcon icon={getSortIconByFieldName('firstName')} />
                 </th>
                 <th className="hand" onClick={sort('lastName')}>
-                  Last Name <FontAwesomeIcon icon={getSortIconByFieldName('lastName')} />
+                  اسم العائلة <FontAwesomeIcon icon={getSortIconByFieldName('lastName')} />
                 </th>
                 <th className="hand" onClick={sort('birthYear')}>
-                  Birth Year <FontAwesomeIcon icon={getSortIconByFieldName('birthYear')} />
+                  سنة الميلاد <FontAwesomeIcon icon={getSortIconByFieldName('birthYear')} />
                 </th>
                 <th className="hand" onClick={sort('email')}>
-                  Email <FontAwesomeIcon icon={getSortIconByFieldName('email')} />
+                  البريد الإلكتروني <FontAwesomeIcon icon={getSortIconByFieldName('email')} />
                 </th>
                 <th className="hand" onClick={sort('mobileNo')}>
-                  Mobile No <FontAwesomeIcon icon={getSortIconByFieldName('mobileNo')} />
+                  رقم الجوال <FontAwesomeIcon icon={getSortIconByFieldName('mobileNo')} />
                 </th>
                 <th className="hand" onClick={sort('googleId')}>
                   Google Id <FontAwesomeIcon icon={getSortIconByFieldName('googleId')} />
@@ -137,40 +137,40 @@ export const Learner = () => {
                   Apple Id <FontAwesomeIcon icon={getSortIconByFieldName('appleId')} />
                 </th>
                 <th className="hand" onClick={sort('isBanned')}>
-                  Is Banned <FontAwesomeIcon icon={getSortIconByFieldName('isBanned')} />
+                  محظور <FontAwesomeIcon icon={getSortIconByFieldName('isBanned')} />
                 </th>
                 <th className="hand" onClick={sort('verifiedByEmail')}>
-                  Verified By Email <FontAwesomeIcon icon={getSortIconByFieldName('verifiedByEmail')} />
+                  تم التحقق من البريد الإلكتروني <FontAwesomeIcon icon={getSortIconByFieldName('verifiedByEmail')} />
                 </th>
                 <th className="hand" onClick={sort('verifiedByMobileNo')}>
-                  Verified By Mobile No <FontAwesomeIcon icon={getSortIconByFieldName('verifiedByMobileNo')} />
+                  تم التحقق من رقم الجوال <FontAwesomeIcon icon={getSortIconByFieldName('verifiedByMobileNo')} />
                 </th>
                 <th className="hand" onClick={sort('imageFile')}>
-                  Image File <FontAwesomeIcon icon={getSortIconByFieldName('imageFile')} />
+                  ملف الصورة <FontAwesomeIcon icon={getSortIconByFieldName('imageFile')} />
                 </th>
                 <th className="hand" onClick={sort('imageFileUrl')}>
-                  Image File Url <FontAwesomeIcon icon={getSortIconByFieldName('imageFileUrl')} />
+                  رابط ملف الصورة <FontAwesomeIcon icon={getSortIconByFieldName('imageFileUrl')} />
                 </th>
                 <th className="hand" onClick={sort('nationalityCode')}>
-                  Nationality Code <FontAwesomeIcon icon={getSortIconByFieldName('nationalityCode')} />
+                  رمز الجنسية <FontAwesomeIcon icon={getSortIconByFieldName('nationalityCode')} />
                 </th>
                 <th className="hand" onClick={sort('city')}>
-                  City <FontAwesomeIcon icon={getSortIconByFieldName('city')} />
+                  المدينة <FontAwesomeIcon icon={getSortIconByFieldName('city')} />
                 </th>
                 <th className="hand" onClick={sort('address')}>
-                  Address <FontAwesomeIcon icon={getSortIconByFieldName('address')} />
+                  العنوان <FontAwesomeIcon icon={getSortIconByFieldName('address')} />
                 </th>
                 <th className="hand" onClick={sort('learnerType')}>
-                  Learner Type <FontAwesomeIcon icon={getSortIconByFieldName('learnerType')} />
+                  نوع المتعلم <FontAwesomeIcon icon={getSortIconByFieldName('learnerType')} />
                 </th>
                 <th className="hand" onClick={sort('studentId')}>
-                  Student Id <FontAwesomeIcon icon={getSortIconByFieldName('studentId')} />
+                  معرف الطالب <FontAwesomeIcon icon={getSortIconByFieldName('studentId')} />
                 </th>
                 <th className="hand" onClick={sort('notes')}>
-                  Notes <FontAwesomeIcon icon={getSortIconByFieldName('notes')} />
+                  ملاحظات <FontAwesomeIcon icon={getSortIconByFieldName('notes')} />
                 </th>
                 <th>
-                  User <FontAwesomeIcon icon="sort" />
+                  المستخدم <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -191,9 +191,9 @@ export const Learner = () => {
                   <td>{learner.googleId}</td>
                   <td>{learner.facebookId}</td>
                   <td>{learner.appleId}</td>
-                  <td>{learner.isBanned ? 'true' : 'false'}</td>
-                  <td>{learner.verifiedByEmail ? 'true' : 'false'}</td>
-                  <td>{learner.verifiedByMobileNo ? 'true' : 'false'}</td>
+                  <td>{learner.isBanned ? 'نعم' : 'لا'}</td>
+                  <td>{learner.verifiedByEmail ? 'نعم' : 'لا'}</td>
+                  <td>{learner.verifiedByMobileNo ? 'نعم' : 'لا'}</td>
                   <td>
                     {learner.imageFile ? (
                       <div>
@@ -226,7 +226,7 @@ export const Learner = () => {
             </tbody>
           </Table>
         ) : (
-          !loading && <div className="alert alert-warning">No Learners found</div>
+          !loading && <div className="alert alert-warning">لا توجد متعلمون</div>
         )}
       </div>
       {totalItems ? (

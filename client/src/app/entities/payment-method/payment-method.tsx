@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
 import { byteSize, getPaginationState, JhiItemCount, JhiPagination, openFile } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faSort, faSortDown, faSortUp, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
@@ -93,14 +93,14 @@ export const PaymentMethod = () => {
   return (
     <div>
       <h2 id="payment-method-heading" data-cy="PaymentMethodHeading">
-        Payment Methods
+        طرق الدفع
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} /> نحديث
           </Button>
           <Link to="/payment-method/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
-            &nbsp; Create a new Payment Method
+            &nbsp; إنشاء طريقة دفع جديدة
           </Link>
         </div>
       </h2>
@@ -110,37 +110,37 @@ export const PaymentMethod = () => {
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
-                  ID <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+                  المعرف <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
                 <th className="hand" onClick={sort('nameAr')}>
-                  Name Ar <FontAwesomeIcon icon={getSortIconByFieldName('nameAr')} />
+                  الاسم بالعربية <FontAwesomeIcon icon={getSortIconByFieldName('nameAr')} />
                 </th>
                 <th className="hand" onClick={sort('nameEn')}>
-                  Name En <FontAwesomeIcon icon={getSortIconByFieldName('nameEn')} />
+                  الاسم بالإنجليزية <FontAwesomeIcon icon={getSortIconByFieldName('nameEn')} />
                 </th>
                 <th className="hand" onClick={sort('menuOrder')}>
-                  Menu Order <FontAwesomeIcon icon={getSortIconByFieldName('menuOrder')} />
+                  ترتيب القائمة <FontAwesomeIcon icon={getSortIconByFieldName('menuOrder')} />
                 </th>
                 <th className="hand" onClick={sort('imageFileUrl')}>
-                  Image File Url <FontAwesomeIcon icon={getSortIconByFieldName('imageFileUrl')} />
+                  رابط ملف الصورة <FontAwesomeIcon icon={getSortIconByFieldName('imageFileUrl')} />
                 </th>
                 <th className="hand" onClick={sort('imageFile')}>
-                  Image File <FontAwesomeIcon icon={getSortIconByFieldName('imageFile')} />
+                  ملف الصورة <FontAwesomeIcon icon={getSortIconByFieldName('imageFile')} />
                 </th>
                 <th className="hand" onClick={sort('details')}>
-                  Details <FontAwesomeIcon icon={getSortIconByFieldName('details')} />
+                  التفاصيل <FontAwesomeIcon icon={getSortIconByFieldName('details')} />
                 </th>
                 <th className="hand" onClick={sort('feePercentage')}>
-                  Fee Percentage <FontAwesomeIcon icon={getSortIconByFieldName('feePercentage')} />
+                  نسبة الرسوم <FontAwesomeIcon icon={getSortIconByFieldName('feePercentage')} />
                 </th>
                 <th className="hand" onClick={sort('paymentType')}>
-                  Payment Type <FontAwesomeIcon icon={getSortIconByFieldName('paymentType')} />
+                  نوع الدفع <FontAwesomeIcon icon={getSortIconByFieldName('paymentType')} />
                 </th>
                 <th className="hand" onClick={sort('isActive')}>
-                  Is Active <FontAwesomeIcon icon={getSortIconByFieldName('isActive')} />
+                  مفعل <FontAwesomeIcon icon={getSortIconByFieldName('isActive')} />
                 </th>
                 <th className="hand" onClick={sort('notes')}>
-                  Notes <FontAwesomeIcon icon={getSortIconByFieldName('notes')} />
+                  ملاحظات <FontAwesomeIcon icon={getSortIconByFieldName('notes')} />
                 </th>
                 <th />
               </tr>
@@ -178,7 +178,13 @@ export const PaymentMethod = () => {
                   <td>{paymentMethod.details}</td>
                   <td>{paymentMethod.feePercentage}</td>
                   <td>{paymentMethod.paymentType}</td>
-                  <td>{paymentMethod.isActive ? 'true' : 'false'}</td>
+                  <td>
+                    {paymentMethod.isActive ? (
+                      <FontAwesomeIcon icon={faCheck} style={{ color: 'green' }} />
+                    ) : (
+                      <FontAwesomeIcon icon={faTimes} style={{ color: 'red' }} />
+                    )}
+                  </td>
                   <td>{paymentMethod.notes}</td>
                   <td className="text-start">
                     <ActionMenu route={'payment-method'} item={paymentMethod} paginationState={paginationState} />
@@ -188,7 +194,7 @@ export const PaymentMethod = () => {
             </tbody>
           </Table>
         ) : (
-          !loading && <div className="alert alert-warning">No Payment Methods found</div>
+          !loading && <div className="alert alert-warning">لا توجد طرق دفع</div>
         )}
       </div>
       {totalItems ? (

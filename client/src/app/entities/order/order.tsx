@@ -94,14 +94,14 @@ export const Order = () => {
   return (
     <div>
       <h2 id="order-heading" data-cy="OrderHeading">
-        Orders
+        الطلبات
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} /> نحديث
           </Button>
           <Link to="/order/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
-            &nbsp; Create a new Order
+            &nbsp; إنشاء طلب جديد
           </Link>
         </div>
       </h2>
@@ -111,31 +111,31 @@ export const Order = () => {
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
-                  ID <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+                  المعرف <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
                 <th className="hand" onClick={sort('orderNo')}>
-                  Order No <FontAwesomeIcon icon={getSortIconByFieldName('orderNo')} />
+                  رقم الطلب <FontAwesomeIcon icon={getSortIconByFieldName('orderNo')} />
                 </th>
                 <th className="hand" onClick={sort('total')}>
-                  Total <FontAwesomeIcon icon={getSortIconByFieldName('total')} />
+                  المجموع <FontAwesomeIcon icon={getSortIconByFieldName('total')} />
                 </th>
                 <th className="hand" onClick={sort('discount')}>
-                  Discount <FontAwesomeIcon icon={getSortIconByFieldName('discount')} />
+                  الخصم <FontAwesomeIcon icon={getSortIconByFieldName('discount')} />
                 </th>
                 <th className="hand" onClick={sort('paymentType')}>
-                  Payment Type <FontAwesomeIcon icon={getSortIconByFieldName('paymentType')} />
+                  نوع الدفع <FontAwesomeIcon icon={getSortIconByFieldName('paymentType')} />
                 </th>
                 <th className="hand" onClick={sort('orderStatus')}>
-                  Order Status <FontAwesomeIcon icon={getSortIconByFieldName('orderStatus')} />
+                  حالة الطلب <FontAwesomeIcon icon={getSortIconByFieldName('orderStatus')} />
                 </th>
                 <th className="hand" onClick={sort('payedAt')}>
-                  Payed At <FontAwesomeIcon icon={getSortIconByFieldName('payedAt')} />
+                  التاريخ والوقت <FontAwesomeIcon icon={getSortIconByFieldName('payedAt')} />
                 </th>
                 <th className="hand" onClick={sort('notes')}>
-                  Notes <FontAwesomeIcon icon={getSortIconByFieldName('notes')} />
+                  ملاحظات <FontAwesomeIcon icon={getSortIconByFieldName('notes')} />
                 </th>
                 <th>
-                  Learner <FontAwesomeIcon icon="sort" />
+                  المتعلم <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -165,7 +165,7 @@ export const Order = () => {
             </tbody>
           </Table>
         ) : (
-          !loading && <div className="alert alert-warning">No Orders found</div>
+          !loading && <div className="alert alert-warning">لا توجد طلبات</div>
         )}
       </div>
       {totalItems ? (

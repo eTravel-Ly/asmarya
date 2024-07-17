@@ -93,14 +93,14 @@ export const Category = () => {
   return (
     <div>
       <h2 id="category-heading" data-cy="CategoryHeading">
-        Categories
+        التصنيفات
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} /> نحديث
           </Button>
           <Link to="/category/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
-            &nbsp; Create a new Category
+            &nbsp; إنشاء تصنيف جديدة
           </Link>
         </div>
       </h2>
@@ -110,28 +110,28 @@ export const Category = () => {
             <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
-                  ID <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+                  المعرف <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
                 <th className="hand" onClick={sort('nameAr')}>
-                  Name Ar <FontAwesomeIcon icon={getSortIconByFieldName('nameAr')} />
+                  الاسم بالعربية <FontAwesomeIcon icon={getSortIconByFieldName('nameAr')} />
                 </th>
                 <th className="hand" onClick={sort('nameEn')}>
-                  Name En <FontAwesomeIcon icon={getSortIconByFieldName('nameEn')} />
+                  الاسم بالإنجليزية <FontAwesomeIcon icon={getSortIconByFieldName('nameEn')} />
                 </th>
                 <th className="hand" onClick={sort('menuOrder')}>
-                  Menu Order <FontAwesomeIcon icon={getSortIconByFieldName('menuOrder')} />
+                  ترتيب القائمة <FontAwesomeIcon icon={getSortIconByFieldName('menuOrder')} />
                 </th>
                 <th className="hand" onClick={sort('imageFileUrl')}>
-                  Image File Url <FontAwesomeIcon icon={getSortIconByFieldName('imageFileUrl')} />
+                  عنوان ملف الصورة <FontAwesomeIcon icon={getSortIconByFieldName('imageFileUrl')} />
                 </th>
                 <th className="hand" onClick={sort('imageFile')}>
-                  Image File <FontAwesomeIcon icon={getSortIconByFieldName('imageFile')} />
+                  ملف الصورة <FontAwesomeIcon icon={getSortIconByFieldName('imageFile')} />
                 </th>
                 <th className="hand" onClick={sort('notes')}>
-                  Notes <FontAwesomeIcon icon={getSortIconByFieldName('notes')} />
+                  ملاحظات <FontAwesomeIcon icon={getSortIconByFieldName('notes')} />
                 </th>
                 <th className="hand" onClick={sort('isActive')}>
-                  Is Active <FontAwesomeIcon icon={getSortIconByFieldName('isActive')} />
+                  نشط <FontAwesomeIcon icon={getSortIconByFieldName('isActive')} />
                 </th>
                 <th />
               </tr>
@@ -179,7 +179,7 @@ export const Category = () => {
             </tbody>
           </Table>
         ) : (
-          !loading && <div className="alert alert-warning">No Categories found</div>
+          !loading && <div className="alert alert-warning">لا توجد فئات</div>
         )}
       </div>
       {totalItems ? (
