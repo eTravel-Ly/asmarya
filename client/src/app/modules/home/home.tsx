@@ -13,7 +13,7 @@ export const Home = () => {
         <span className="hipster rounded" />
       </Col>
       <Col md="9">
-        <h1 className="display-4">الجامعة الاسمرية</h1>
+        <h1 className="display-4">مجمع القران الكريم</h1>
         <p className="lead">الصفحة الرئيسية</p>
         {account?.login ? (
           <div>

@@ -5,7 +5,7 @@ import { NavLink as Link } from 'react-router-dom';
 
 export const BrandIcon = props => (
   <div {...props} className="brand-icon">
-    <img src="content/images/logo_aiu.png" alt="Logo" />
+    <img src="content/images/logo.png" alt="Logo" />
   </div>
 );
 
@@ -18,7 +18,7 @@ export const Brand = () => (
 export const Home = () => (
   <NavItem>
     <NavLink tag={Link} to="/" className="d-flex align-items-center">
-      <span className="fw-bold text-white fs-6">الجامعة الاسمرية</span>
+      <span className="fw-bold text-white fs-6">مجمع القران الكريم</span>
     </NavLink>
   </NavItem>
 );
