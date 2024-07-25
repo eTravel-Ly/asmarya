@@ -63,12 +63,13 @@
     "nodemailer": "^6.9.14",
     "passport": "0.4.1",
     "passport-jwt": "4.0.0",
-    "reflect-metadata": "0.1.14",
+    "reflect-metadata": "^0.1.14",
     "rxjs": "6.6.3",
     "sqlite3": "5.1.6",
     "swagger-ui-express": "5.0.0",
-    "typeorm": "0.2.45",
-    "typeorm-encrypted": "0.5.6"
+    "typeorm": "^0.2.45",
+    "typeorm-encrypted": "0.5.6",
+    "typeorm-transactional-cls-hooked": "^0.1.21"
   },
   "devDependencies": {
     "@jest/globals": "29.7.0",

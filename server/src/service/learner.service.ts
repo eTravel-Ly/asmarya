@@ -8,6 +8,7 @@ import { LearnerVM } from './dto/vm/learner.vm';
 import { UserDTO } from './dto/user.dto';
 import { AuthService } from './auth.service';
 import { LearnerType } from '../domain/enumeration/learner-type';
+import { Transactional } from 'typeorm-transactional-cls-hooked';
 
 const relationshipNames = [];
 
@@ -72,6 +73,7 @@ export class LearnerService {
     return;
   }
 
+  @Transactional()
   async register(learnerVM: LearnerVM) {
     const learnerDTO = new LearnerDTO();
     learnerDTO.firstName = learnerVM.firstName;

@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '.env' });
+import { initializeTransactionalContext, patchTypeORMRepositoryWithBaseRepository } from 'typeorm-transactional-cls-hooked';
 import * as fs from 'fs';
 import { NestFactory } from '@nestjs/core';
 import cloudConfigClient from 'cloud-config-client';
@@ -7,12 +7,19 @@ import { AppModule } from './app.module';
 import { setupSwagger } from './swagger';
 import { config } from './config';
 import * as bodyParser from 'body-parser';
+import 'reflect-metadata';
+
+require('dotenv').config({ path: '.env' });
 
 const logger: Logger = new Logger('Main');
 const port = process.env.NODE_SERVER_PORT || config.get('server.port');
 const useJHipsterRegistry = config.get('eureka.client.enabled');
 
+// Initialize cls-hooked and patch TypeORM repository
+
 async function bootstrap(): Promise<void> {
+  initializeTransactionalContext();
+  patchTypeORMRepositoryWithBaseRepository();
   loadCloudConfig();
   registerAsEurekaService();
 
