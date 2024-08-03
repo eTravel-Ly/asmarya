@@ -27,6 +27,10 @@ import { CommentService } from '../../service/comment.service';
 import { NotificationService } from '../../service/notification.service';
 import { OrderService } from '../../service/order.service';
 import { FavoriteDTO } from '../../service/dto/favorite.dto';
+import { FavoriteToggleVM } from '../../service/dto/vm/favorite-toggle.vm';
+import { EntityType } from '../../domain/enumeration/entity-type';
+import { BookService } from '../../service/book.service';
+import { CourseService } from '../../service/course.service';
 
 @Controller('api')
 @UseInterceptors(LoggingInterceptor)
@@ -45,6 +49,8 @@ export class WebsiteController {
     public readonly bookBorrowRequestService: BookBorrowRequestService,
     public readonly commentService: CommentService,
     public readonly notificationService: NotificationService,
+    public readonly bookService: BookService,
+    public readonly courseService: CourseService,
   ) {}
 
   @PostMethod('/public/activation/request-otp')
@@ -183,12 +189,28 @@ export class WebsiteController {
     type: CartItemDTO,
     isArray: true,
   })
-  getMyCart(@Req() req: Request): any {
+  async getMyCart(@Req() req: Request): Promise<any> {
     const user: any = req.user;
-    const learner = this.learnerService.findByFields({ where: { user: { id: user.id } } });
-    return this.cartItemService.findAndCount({ where: { learner: learner } });
-  }
+    const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+    const [cartItems, _] = await this.cartItemService.findAndCount({ where: { learner: { id: learner.id } } });
 
+    const books = cartItems.filter(cartItem => cartItem.book !== null).map(cartItem => cartItem.book);
+    const courses = cartItems.filter(cartItem => cartItem.course !== null).map(cartItem => cartItem.course);
+
+    // Calculate the total price
+    const totalPrice = cartItems.reduce((total, item) => {
+      if (item.book) {
+        return total + item.book.price;
+      } else if (item.course) {
+        return total + item.course.price;
+      } else {
+        return total;
+      }
+    }, 0);
+    //TODO calculate price base on type
+
+    return { books, courses, total: totalPrice };
+  }
   @Get('/my-favorites')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
@@ -199,10 +221,64 @@ export class WebsiteController {
     type: FavoriteDTO,
     isArray: true,
   })
-  getMyFavorites(@Req() req: Request): any {
+  async getMyFavorites(@Req() req: Request): Promise<any> {
     const user: any = req.user;
-    const learner = this.learnerService.findByFields({ where: { user: { id: user.id } } });
-    return this.favoriteService.findAndCount({ where: { learner: learner } });
+    const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+    const [favorites, _] = await this.favoriteService.findAndCount({ where: { learner: { id: learner.id } } });
+
+    const books = favorites.filter(favorite => favorite.book !== null).map(favorite => favorite.book);
+    const courses = favorites.filter(favorite => favorite.course !== null).map(favorite => favorite.course);
+
+    return { books, courses };
+  }
+
+  @PostMethod('/toggle-favorite')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Toggle a favorite item' })
+  @ApiResponse({
+    status: 200,
+    description: 'The favorite has been successfully toggled.',
+  })
+  async toggleFavorite(@Req() req: Request, @Body() favoriteToggleVM: FavoriteToggleVM): Promise<any> {
+    const user: any = req.user;
+    const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+
+    // Check if the item is already a favorite
+    let existingFavorite;
+    if (favoriteToggleVM.type === EntityType.BOOK) {
+      existingFavorite = await this.favoriteService.findByFields({
+        where: {
+          learner: { id: learner.id },
+          book: { id: favoriteToggleVM.id },
+        },
+      });
+    } else if (favoriteToggleVM.type === EntityType.COURSE) {
+      existingFavorite = await this.favoriteService.findByFields({
+        where: {
+          learner: { id: learner.id },
+          course: { id: favoriteToggleVM.id },
+        },
+      });
+    }
+
+    if (existingFavorite) {
+      // If the item is already a favorite, remove it
+      await this.favoriteService.deleteById(existingFavorite.id);
+    } else {
+      // If the item is not a favorite, add it
+      const favoriteDTO = new FavoriteDTO();
+      favoriteDTO.learner = learner;
+      if (favoriteToggleVM.type === EntityType.BOOK) {
+        favoriteDTO.book = await this.bookService.findById(favoriteToggleVM.id);
+      } else if (favoriteToggleVM.type === EntityType.COURSE) {
+        favoriteDTO.course = await this.courseService.findById(favoriteToggleVM.id);
+      }
+      await this.favoriteService.save(favoriteDTO);
+    }
+
+    // Return the updated list of favorites
+    return this.favoriteService.findAndCount({ where: { learner: { id: learner.id } } });
   }
 
   @Get('/my-orders')

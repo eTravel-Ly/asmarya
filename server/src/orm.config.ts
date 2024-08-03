@@ -14,9 +14,13 @@ function ormConfig(): TypeOrmModuleOptions {
   let ormconfig: TypeOrmModuleOptions = {
     name: 'default',
     type: 'mysql',
-    database: '../target/db/sqlite-dev-db.sql',
-    logging: true,
-    synchronize: true,
+    database: 'asmarya',
+    host: 'localhost',
+    // port: ,
+    username: 'root',
+    password: '4444', // Ensure this matches the password set in Docker
+    logging: false,
+    synchronize: commonConf.SYNCRONIZE,
     entities: commonConf.ENTITIES,
     migrations: commonConf.MIGRATIONS,
     cli: commonConf.CLI,

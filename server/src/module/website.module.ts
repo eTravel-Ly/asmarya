@@ -10,6 +10,8 @@ import { BookBorrowRequestModule } from './book-borrow-request.module';
 import { NotificationModule } from './notification.module';
 import { SliderModule } from './slider.module';
 import { CommentModule } from './comment.module';
+import { BookModule } from './book.module';
+import { CourseModule } from './course.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { CommentModule } from './comment.module';
     NotificationModule,
     SliderModule,
     CommentModule,
+    BookModule,
+    CourseModule,
   ],
   controllers: [WebsiteController],
   providers: [],
