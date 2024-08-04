@@ -143,6 +143,21 @@ export class WebsiteController {
     return this.learnerService.findByFields({ where: { user: { id: user.id } } });
   }
 
+  @Get('/all-books')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Get Books' })
+  @ApiResponse({
+    status: 200,
+    description: 'Books retrieved',
+    type: BookDTO,
+    isArray: true,
+  })
+  async getAllBooks(@Req() req: Request): Promise<BookDTO[]> {
+    const [books, _] = await this.bookService.findAndCount({});
+    return books;
+  }
+
   @Get('/my-books')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
@@ -159,6 +174,21 @@ export class WebsiteController {
     const [orderItems, _] = await this.orderItemService.findAndCount({ where: { order: { learner: learner } } });
     const books = orderItems.map(orderItem => orderItem.book);
     return books;
+  }
+
+  @Get('/all-courses')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Get courses' })
+  @ApiResponse({
+    status: 200,
+    description: 'Courses retrieved',
+    type: CourseDTO,
+    isArray: true,
+  })
+  async getAllCourses(@Req() req: Request): Promise<CourseDTO[]> {
+    const [courses, _] = await this.courseService.findAndCount({});
+    return courses;
   }
 
   @Get('/my-courses')
@@ -240,7 +270,14 @@ export class WebsiteController {
     status: 200,
     description: 'The favorite has been successfully toggled.',
   })
-  async toggleFavorite(@Req() req: Request, @Body() favoriteToggleVM: FavoriteToggleVM): Promise<any> {
+  async toggleFavorite(
+    @Req() req: Request,
+    @Body() favoriteToggleVM: FavoriteToggleVM,
+  ): Promise<{
+    isFavorite: boolean;
+    type: EntityType;
+    id: number;
+  }> {
     const user: any = req.user;
     const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
 
@@ -262,6 +299,7 @@ export class WebsiteController {
       });
     }
 
+    let isFavorite = false;
     if (existingFavorite) {
       // If the item is already a favorite, remove it
       await this.favoriteService.deleteById(existingFavorite.id);
@@ -275,10 +313,11 @@ export class WebsiteController {
         favoriteDTO.course = await this.courseService.findById(favoriteToggleVM.id);
       }
       await this.favoriteService.save(favoriteDTO);
+      isFavorite = true;
     }
 
-    // Return the updated list of favorites
-    return this.favoriteService.findAndCount({ where: { learner: { id: learner.id } } });
+    // Return the status of the item (favorite or not), type of entity and its id
+    return { isFavorite, type: favoriteToggleVM.type, id: favoriteToggleVM.id };
   }
 
   @Get('/my-orders')
@@ -289,10 +328,10 @@ export class WebsiteController {
     status: 200,
     description: 'Orders found',
   })
-  getMyOrders(@Req() req: Request): any {
+  async getMyOrders(@Req() req: Request): Promise<any> {
     const user: any = req.user;
-    const learner = this.learnerService.findByFields({ where: { user: { id: user.id } } });
-    return this.orderService.findAndCount({ where: { learner: learner } });
+    const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+    return this.orderService.findAndCount({ where: { learner: { id: learner.id } } });
   }
 
   @Get('/my-book-borrows')
