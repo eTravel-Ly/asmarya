@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, NotFoundException, Param, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Logger, NotFoundException, Param, Query, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoggingInterceptor } from '../../client/interceptors/logging.interceptor';
@@ -32,6 +32,8 @@ import { EntityType } from '../../domain/enumeration/entity-type';
 import { BookService } from '../../service/book.service';
 import { CourseService } from '../../service/course.service';
 import { CourseVideoService } from '../../service/course-video.service';
+import { UpdateProgressVM } from '../../service/dto/vm/update-progress.vm';
+import { Like } from 'typeorm';
 
 @Controller('api')
 @UseInterceptors(LoggingInterceptor)
@@ -155,8 +157,36 @@ export class WebsiteController {
     type: BookDTO,
     isArray: true,
   })
-  async getAllBooks(@Req() req: Request): Promise<BookDTO[]> {
-    const [books, _] = await this.bookService.findAndCount({});
+  async getAllBooks(
+    @Req() req: Request,
+    @Query('search') search?: string, // Add search as a query parameter
+  ): Promise<BookDTO[]> {
+    const user: any = req.user;
+    const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+
+    // Define the search conditions
+    let searchCondition = {};
+    if (search) {
+      searchCondition = {
+        where: [
+          { title: Like(`%${search}%`) },
+          { author: Like(`%${search}%`) },
+          { description: Like(`%${search}%`) },
+          // Add more fields as needed
+        ],
+      };
+    }
+
+    // Fetch books with the search condition
+    const [books, _] = await this.bookService.findAndCount(searchCondition);
+
+    for (const book of books) {
+      const favorite = await this.favoriteService.findByFields({
+        where: { learner: { id: learner.id }, book: { id: book.id } },
+      });
+      book.isFavorite = !!favorite;
+    }
+
     return books;
   }
 
@@ -173,12 +203,37 @@ export class WebsiteController {
   async getMyBooks(@Req() req: Request): Promise<BookDTO[]> {
     const user: any = req.user;
     const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
-    const [orderItems, _] = await this.orderItemService.findAndCount({ where: { order: { learner: learner } } });
-    const books = orderItems.map(orderItem => orderItem.book);
-    return books;
+    const [orderItems, _] = await this.orderItemService.findAndCount({
+      where: { order: { learner: learner } },
+      relations: ['book'],
+    });
+
+    const books = await Promise.all(
+      orderItems.map(async orderItem => {
+        const book = orderItem.book;
+
+        if (book) {
+          book.progressStep = orderItem.progressStep;
+          book.progressPercentage = orderItem.progressPercentage;
+
+          const favorite = await this.favoriteService.findByFields({
+            where: { learner: { id: learner.id }, book: { id: book.id } },
+          });
+          book.isFavorite = !!favorite;
+
+          return book;
+        }
+
+        return null;
+      }),
+    );
+
+    return books.filter(book => book !== null);
   }
 
   @Get('/book/:id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Get Book Details' })
   @ApiResponse({
     status: 200,
@@ -189,7 +244,10 @@ export class WebsiteController {
     status: 404,
     description: 'Book not found',
   })
-  async getBookDetails(@Param('id') id: number): Promise<BookDTO> {
+  async getBookDetails(@Req() req: Request, @Param('id') id: number): Promise<BookDTO> {
+    const user: any = req.user;
+    const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+
     const book = await this.bookService.findById(id);
     if (!book) {
       throw new NotFoundException('Book not found');
@@ -200,11 +258,28 @@ export class WebsiteController {
     book.comments = comments[0];
 
     // Calculate overall rating
-    if (book.comments.length > 0) {
-      const totalRating = book.comments.reduce((sum, comment) => sum + (comment.rating || 0), 0);
-      book.overallRating = totalRating / book.comments.length;
+    book.overallRating = book.comments.length
+      ? book.comments.reduce((sum, comment) => sum + (comment.rating || 0), 0) / book.comments.length
+      : 0;
+
+    // Check if the book is a favorite
+    const favorite = await this.favoriteService.findByFields({
+      where: { learner: { id: learner.id }, book: { id: book.id } },
+    });
+    book.isFavorite = !!favorite;
+
+    // Retrieve the order item to get progress information
+    const orderItem = await this.orderItemService.findByFields({
+      where: { order: { id: learner.id }, book: { id: book.id } },
+      relations: ['order', 'book'],
+    });
+
+    if (orderItem) {
+      book.progressStep = orderItem.progressStep;
+      book.progressPercentage = orderItem.progressPercentage;
     } else {
-      book.overallRating = 0; // or null if you prefer
+      book.progressStep = 0; // or null if no progress exists
+      book.progressPercentage = 0; // or null if no progress exists
     }
 
     return book;
@@ -220,8 +295,35 @@ export class WebsiteController {
     type: CourseDTO,
     isArray: true,
   })
-  async getAllCourses(@Req() req: Request): Promise<CourseDTO[]> {
-    const [courses, _] = await this.courseService.findAndCount({});
+  async getAllCourses(
+    @Req() req: Request,
+    @Query('search') search?: string, // Add search as a query parameter
+  ): Promise<CourseDTO[]> {
+    const user: any = req.user;
+    const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+
+    // Define the search conditions
+    let searchCondition = {};
+    if (search) {
+      searchCondition = {
+        where: [
+          { title: Like(`%${search}%`) },
+          { description: Like(`%${search}%`) },
+          // Add more fields as needed
+        ],
+      };
+    }
+
+    // Fetch courses with the search condition
+    const [courses, _] = await this.courseService.findAndCount(searchCondition);
+
+    for (const course of courses) {
+      const favorite = await this.favoriteService.findByFields({
+        where: { learner: { id: learner.id }, course: { id: course.id } },
+      });
+      course.isFavorite = !!favorite;
+    }
+
     return courses;
   }
 
@@ -238,13 +340,42 @@ export class WebsiteController {
   async getMyCourses(@Req() req: Request): Promise<CourseDTO[]> {
     const user: any = req.user;
     const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
-    const [orderItems, _] = await this.orderItemService.findAndCount({ where: { order: { learner: learner } } });
-    const courses = orderItems.map(orderItem => orderItem.course);
-    return courses;
+
+    const [orderItems, _] = await this.orderItemService.findAndCount({
+      where: { order: { learner: learner } },
+      relations: ['course'],
+    });
+
+    const courses = await Promise.all(
+      orderItems.map(async orderItem => {
+        const course = orderItem.course;
+
+        // Ensure course is not null
+        if (course) {
+          // Set progress information
+          course.progressStep = orderItem.progressStep;
+          course.progressPercentage = orderItem.progressPercentage;
+
+          // Check if the course is a favorite
+          const favorite = await this.favoriteService.findByFields({
+            where: { learner: { id: learner.id }, course: { id: course.id } },
+          });
+          course.isFavorite = !!favorite;
+          return course;
+        }
+
+        return null;
+      }),
+    );
+
+    // Filter out any null values that may have resulted from missing courses
+    return courses.filter(course => course !== null);
   }
 
   @Get('/course/:id')
   @ApiOperation({ summary: 'Get Course Details' })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   @ApiResponse({
     status: 200,
     description: 'Course details retrieved',
@@ -254,29 +385,99 @@ export class WebsiteController {
     status: 404,
     description: 'Course not found',
   })
-  async getCourseDetails(@Param('id') id: number): Promise<CourseDTO> {
+  async getCourseDetails(@Req() req: Request, @Param('id') id: number): Promise<CourseDTO> {
+    const user: any = req.user;
+    const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+
     const course = await this.courseService.findById(id);
     if (!course) {
       throw new NotFoundException('Course not found');
     }
 
-    // Fetch comments related to the course
     const comments = await this.commentService.findAndCount({ where: { course: { id } } });
     course.comments = comments[0];
 
-    // Fetch videos related to the course
     const videos = await this.courseVideoService.findAndCount({ where: { course: { id } } });
     course.videos = videos[0];
 
-    // Calculate overall rating
-    if (course.comments.length > 0) {
-      const totalRating = course.comments.reduce((sum, comment) => sum + (comment.rating || 0), 0);
-      course.overallRating = totalRating / course.comments.length;
+    course.overallRating = course.comments.length
+      ? course.comments.reduce((sum, comment) => sum + (comment.rating || 0), 0) / course.comments.length
+      : 0;
+
+    const favorite = await this.favoriteService.findByFields({
+      where: { learner: { id: learner.id }, course: { id: course.id } },
+    });
+    course.isFavorite = !!favorite;
+
+    // Retrieve the order item to get progress information
+    const orderItem = await this.orderItemService.findByFields({
+      where: { order: { id: learner.id }, course: { id: course.id } },
+      relations: ['order', 'course'],
+    });
+    if (orderItem) {
+      course.progressStep = orderItem.progressStep;
+      course.progressPercentage = orderItem.progressPercentage;
     } else {
-      course.overallRating = 0; // or null if you prefer
+      course.progressStep = 0; // or null if no progress exists
+      course.progressPercentage = 0; // or null if no progress exists
     }
 
     return course;
+  }
+
+  @PostMethod('/update-progress')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Update progress for a book or course' })
+  @ApiResponse({
+    status: 200,
+    description: 'Progress updated successfully.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Order item not found.',
+  })
+  async updateProgress(@Req() req: Request, @Body() updateProgressVm: UpdateProgressVM): Promise<{ message: string }> {
+    const user: any = req.user;
+    const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+
+    let orderItem;
+    let totalItems = 0;
+
+    // Fetch order item based on type and include necessary relations
+    if (updateProgressVm.type === EntityType.BOOK) {
+      orderItem = await this.orderItemService.findByFields({
+        where: { order: { learner: { id: learner.id } }, book: { id: updateProgressVm.id } },
+        relations: ['order', 'book'],
+      });
+
+      if (orderItem && orderItem.book) {
+        totalItems = orderItem.book.pageCount || 0; // Total number of pages
+      }
+    } else if (updateProgressVm.type === EntityType.COURSE) {
+      orderItem = await this.orderItemService.findByFields({
+        where: { order: { learner: { id: learner.id } }, course: { id: updateProgressVm.id } },
+        relations: ['order', 'course'],
+      });
+
+      if (orderItem && orderItem.course) {
+        const courseVideos = await this.courseVideoService.findAndCount({ where: { course: { id: updateProgressVm.id } } });
+        totalItems = courseVideos[1]; // Total number of videos
+      }
+    }
+
+    if (!orderItem || totalItems === 0) {
+      throw new NotFoundException('Order item not found or no items to calculate progress.');
+    }
+
+    // Update progress information
+    orderItem.progressStep = updateProgressVm.progressStep;
+    orderItem.progressPercentage = Math.min(100, Math.round((updateProgressVm.progressStep / totalItems) * 100));
+
+    // Save the updated order item
+    orderItem = await this.orderItemService.save(orderItem);
+
+    return orderItem;
   }
 
   @Get('/my-cart')
@@ -311,6 +512,7 @@ export class WebsiteController {
 
     return { books, courses, total: totalPrice };
   }
+
   @Get('/my-favorites')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)

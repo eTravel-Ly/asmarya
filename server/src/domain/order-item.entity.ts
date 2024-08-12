@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Entity, Column, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { BaseEntity } from './base/base.entity';
 
 import { Order } from './order.entity';
@@ -16,6 +16,12 @@ export class OrderItem extends BaseEntity {
 
   @Column({ type: 'float', name: 'discount', nullable: true })
   discount: number;
+
+  @Column({ type: 'integer', name: 'progress_step', nullable: true })
+  progressStep: number;
+
+  @Column({ type: 'integer', name: 'progress_percentage', nullable: true })
+  progressPercentage: number;
 
   @ManyToOne(type => Order)
   order: Order;

@@ -15,6 +15,9 @@ export class CourseVideo extends BaseEntity {
   @Column({ name: 'details', nullable: true })
   details: string;
 
+  @Column({ name: 'video_order', nullable: true })
+  videoOrder: number;
+
   @Column({ type: 'longblob', name: 'file', nullable: true })
   file: any;
 

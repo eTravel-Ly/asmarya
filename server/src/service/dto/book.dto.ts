@@ -74,6 +74,12 @@ export class BookDTO extends BaseDTO {
   @ApiProperty({ description: 'isFavorite field', required: false })
   isFavorite: boolean;
 
+  @ApiProperty({ description: 'progress step field', required: false })
+  progressStep: number;
+
+  @ApiProperty({ description: 'progress percentage field', required: false })
+  progressPercentage: number;
+
   @ApiProperty({ enum: BookAvailability, description: 'bookAvailability enum field', required: false })
   bookAvailability: BookAvailability;
 

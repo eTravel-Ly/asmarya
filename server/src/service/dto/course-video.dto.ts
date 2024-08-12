@@ -26,6 +26,9 @@ export class CourseVideoDTO extends BaseDTO {
   @ApiProperty({ description: 'durationInSeconds field', required: false })
   durationInSeconds: number;
 
+  @ApiProperty({ description: 'videoOrder field', required: false })
+  videoOrder: number;
+
   @ApiProperty({ type: () => CourseDTO, description: 'course relationship' })
   course: CourseDTO;
 

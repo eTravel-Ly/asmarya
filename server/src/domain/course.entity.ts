@@ -54,5 +54,11 @@ export class Course extends BaseEntity {
 
   overallRating: number;
 
+  isFavorite: boolean;
+
+  progressStep: number;
+
+  progressPercentage: number;
+
   // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
 }

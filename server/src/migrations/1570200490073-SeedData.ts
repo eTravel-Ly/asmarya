@@ -13,6 +13,10 @@ import { PaymentType } from '../domain/enumeration/payment-type';
 import { Course } from '../domain/course.entity';
 import { Order } from '../domain/order.entity';
 import { OrderStatus } from '../domain/enumeration/order-status';
+import { OrderItem } from '../domain/order-item.entity';
+import { Comment } from '../domain/comment.entity';
+import { User } from '../domain/user.entity';
+import { CourseVideo } from '../domain/course-video.entity';
 
 export class SeedData1570200490073 implements MigrationInterface {
   books: Book[] = [
@@ -43,6 +47,9 @@ export class SeedData1570200490073 implements MigrationInterface {
       categories: [],
       comments: [],
       overallRating: 4.5,
+      isFavorite: true,
+      progressPercentage: 50,
+      progressStep: 5,
     },
     {
       id: 2,
@@ -71,6 +78,9 @@ export class SeedData1570200490073 implements MigrationInterface {
       categories: [],
       comments: [],
       overallRating: 4.5,
+      isFavorite: true,
+      progressPercentage: 50,
+      progressStep: 5,
     },
     {
       id: 3,
@@ -99,6 +109,9 @@ export class SeedData1570200490073 implements MigrationInterface {
       categories: [],
       comments: [],
       overallRating: 4.5,
+      isFavorite: true,
+      progressPercentage: 50,
+      progressStep: 5,
     },
     {
       id: 4,
@@ -127,6 +140,9 @@ export class SeedData1570200490073 implements MigrationInterface {
       categories: [],
       comments: [],
       overallRating: 4.5,
+      isFavorite: true,
+      progressPercentage: 50,
+      progressStep: 5,
     },
     {
       id: 5,
@@ -155,6 +171,9 @@ export class SeedData1570200490073 implements MigrationInterface {
       categories: [],
       comments: [],
       overallRating: 4.5,
+      isFavorite: true,
+      progressPercentage: 50,
+      progressStep: 5,
     },
   ];
 
@@ -183,7 +202,7 @@ export class SeedData1570200490073 implements MigrationInterface {
       notes: 'طالب ممتاز',
       createdBy: 'admin',
       lastModifiedBy: 'admin',
-      user: null,
+      user: { id: 3 } as User,
     },
     {
       id: 2,
@@ -385,6 +404,9 @@ export class SeedData1570200490073 implements MigrationInterface {
       comments: [],
       videos: [],
       overallRating: 4.5,
+      isFavorite: true,
+      progressPercentage: 50,
+      progressStep: 5,
     },
     {
       id: 2,
@@ -403,6 +425,9 @@ export class SeedData1570200490073 implements MigrationInterface {
       comments: [],
       videos: [],
       overallRating: 4.5,
+      isFavorite: true,
+      progressPercentage: 50,
+      progressStep: 5,
     },
     {
       id: 3,
@@ -421,6 +446,9 @@ export class SeedData1570200490073 implements MigrationInterface {
       comments: [],
       videos: [],
       overallRating: 4.5,
+      isFavorite: true,
+      progressPercentage: 50,
+      progressStep: 5,
     },
   ];
 
@@ -453,6 +481,102 @@ export class SeedData1570200490073 implements MigrationInterface {
     },
   ];
 
+  orderItems: OrderItem[] = [
+    {
+      id: 1,
+      total: 100,
+      discount: 0,
+      order: { id: 1 } as Order,
+      book: { id: 1 } as Book,
+      course: null,
+      createdBy: 'admin',
+      lastModifiedBy: 'admin',
+      progressPercentage: 0,
+      progressStep: 0,
+    },
+    {
+      id: 2,
+      total: 150,
+      discount: 0,
+      order: { id: 2 } as Order,
+      book: null,
+      course: { id: 1 } as Course,
+      createdBy: 'admin',
+      lastModifiedBy: 'admin',
+      progressPercentage: 0,
+      progressStep: 0,
+    },
+  ];
+
+  comments: Comment[] = [
+    {
+      id: 1,
+      details: 'Great book, I recommend it to everyone!',
+      rating: 5,
+      likesCount: 10,
+      dislikesCount: 2,
+      book: { id: 1 } as Book,
+      learner: { id: 1 } as Learner,
+      course: null,
+      createdBy: 'admin',
+      lastModifiedBy: 'admin',
+    },
+    {
+      id: 2,
+      details: 'I love this course, it is very informative!',
+      rating: 4,
+      book: null,
+      likesCount: 10,
+      dislikesCount: 2,
+      course: { id: 1 } as Course,
+      learner: { id: 1 } as Learner,
+      createdBy: 'admin',
+      lastModifiedBy: 'admin',
+    },
+  ];
+
+  courseVideos: CourseVideo[] = [
+    {
+      id: 1,
+      title: 'Introduction to Tafsir',
+      details: 'An introduction to the science of Tafsir',
+      fileUrl: 'https://example.com/introduction-to-tafsir.mp4',
+      durationInSeconds: 120,
+      videoOrder: 1,
+      course: { id: 1 } as Course,
+      createdBy: 'admin',
+      lastModifiedBy: 'admin',
+      file: null,
+      fileContentType: '',
+    },
+    {
+      id: 2,
+      title: 'Tafsir of Surah Al-Fatiha',
+      details: 'Explanation of Surah Al-Fatiha',
+      fileUrl: 'https://example.com/tafsir-surah-al-fatiha.mp4',
+      durationInSeconds: 180,
+      videoOrder: 2,
+      course: { id: 1 } as Course,
+      createdBy: 'admin',
+      lastModifiedBy: 'admin',
+      file: null,
+      fileContentType: '',
+    },
+    {
+      id: 3,
+      title: 'Tafsir of Surah Al-Baqarah',
+      details: 'Explanation of Surah Al-Baqarah',
+      fileUrl: 'https://example.com/tafsir-surah-al-baqarah.mp4',
+      durationInSeconds: 240,
+      videoOrder: 3,
+      course: { id: 1 } as Course,
+      createdBy: 'admin',
+      lastModifiedBy: 'admin',
+      file: null,
+      fileContentType: '',
+    },
+  ];
+
   // eslint-disable-next-line
   public async up(queryRunner: QueryRunner): Promise<any> {
     const bookRepository = getRepository('book');
@@ -475,6 +599,15 @@ export class SeedData1570200490073 implements MigrationInterface {
 
     const orderRepository = getRepository('order');
     await orderRepository.save(this.orders);
+
+    const orderItemRepository = getRepository('order_item');
+    await orderItemRepository.save(this.orderItems);
+
+    const commentRepository = getRepository('comment');
+    await commentRepository.save(this.comments);
+
+    const courseVideoRepository = getRepository('course_video');
+    await courseVideoRepository.save(this.courseVideos);
   }
 
   // eslint-disable-next-line
