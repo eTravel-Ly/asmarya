@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import { BaseEntity } from './base/base.entity';
 
 import { Category } from './category.entity';
 import { BookGenre } from './enumeration/book-genre';
 import { Language } from './enumeration/language';
 import { BookAvailability } from './enumeration/book-availability';
+import { Comment } from './comment.entity';
 
 /**
  * A Book.
@@ -77,6 +78,11 @@ export class Book extends BaseEntity {
     inverseJoinColumn: { name: 'categories_id', referencedColumnName: 'id' },
   })
   categories: Category[];
+
+  @OneToMany(type => Comment, comment => comment.book)
+  comments: Comment[];
+
+  overallRating: number;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
 }

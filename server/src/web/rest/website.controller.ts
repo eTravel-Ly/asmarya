@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Param, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Logger, NotFoundException, Param, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoggingInterceptor } from '../../client/interceptors/logging.interceptor';
@@ -31,6 +31,7 @@ import { FavoriteToggleVM } from '../../service/dto/vm/favorite-toggle.vm';
 import { EntityType } from '../../domain/enumeration/entity-type';
 import { BookService } from '../../service/book.service';
 import { CourseService } from '../../service/course.service';
+import { CourseVideoService } from '../../service/course-video.service';
 
 @Controller('api')
 @UseInterceptors(LoggingInterceptor)
@@ -51,6 +52,7 @@ export class WebsiteController {
     public readonly notificationService: NotificationService,
     public readonly bookService: BookService,
     public readonly courseService: CourseService,
+    public readonly courseVideoService: CourseVideoService,
   ) {}
 
   @PostMethod('/public/activation/request-otp')
@@ -176,6 +178,38 @@ export class WebsiteController {
     return books;
   }
 
+  @Get('/book/:id')
+  @ApiOperation({ summary: 'Get Book Details' })
+  @ApiResponse({
+    status: 200,
+    description: 'Book details retrieved',
+    type: BookDTO,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Book not found',
+  })
+  async getBookDetails(@Param('id') id: number): Promise<BookDTO> {
+    const book = await this.bookService.findById(id);
+    if (!book) {
+      throw new NotFoundException('Book not found');
+    }
+
+    // Fetch comments related to the book
+    const comments = await this.commentService.findAndCount({ where: { book: { id } } });
+    book.comments = comments[0];
+
+    // Calculate overall rating
+    if (book.comments.length > 0) {
+      const totalRating = book.comments.reduce((sum, comment) => sum + (comment.rating || 0), 0);
+      book.overallRating = totalRating / book.comments.length;
+    } else {
+      book.overallRating = 0; // or null if you prefer
+    }
+
+    return book;
+  }
+
   @Get('/all-courses')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
@@ -207,6 +241,42 @@ export class WebsiteController {
     const [orderItems, _] = await this.orderItemService.findAndCount({ where: { order: { learner: learner } } });
     const courses = orderItems.map(orderItem => orderItem.course);
     return courses;
+  }
+
+  @Get('/course/:id')
+  @ApiOperation({ summary: 'Get Course Details' })
+  @ApiResponse({
+    status: 200,
+    description: 'Course details retrieved',
+    type: CourseDTO,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Course not found',
+  })
+  async getCourseDetails(@Param('id') id: number): Promise<CourseDTO> {
+    const course = await this.courseService.findById(id);
+    if (!course) {
+      throw new NotFoundException('Course not found');
+    }
+
+    // Fetch comments related to the course
+    const comments = await this.commentService.findAndCount({ where: { course: { id } } });
+    course.comments = comments[0];
+
+    // Fetch videos related to the course
+    const videos = await this.courseVideoService.findAndCount({ where: { course: { id } } });
+    course.videos = videos[0];
+
+    // Calculate overall rating
+    if (course.comments.length > 0) {
+      const totalRating = course.comments.reduce((sum, comment) => sum + (comment.rating || 0), 0);
+      course.overallRating = totalRating / course.comments.length;
+    } else {
+      course.overallRating = 0; // or null if you prefer
+    }
+
+    return course;
   }
 
   @Get('/my-cart')

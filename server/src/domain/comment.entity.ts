@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Entity, Column, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { BaseEntity } from './base/base.entity';
 
 import { Learner } from './learner.entity';
@@ -13,6 +13,9 @@ import { Course } from './course.entity';
 export class Comment extends BaseEntity {
   @Column({ name: 'details', nullable: true })
   details: string;
+
+  @Column({ type: 'integer', name: 'rating', nullable: true })
+  rating: number;
 
   @Column({ type: 'integer', name: 'likes_count', nullable: true })
   likesCount: number;

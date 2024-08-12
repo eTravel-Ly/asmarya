@@ -5,6 +5,8 @@ import { Language } from '../../domain/enumeration/language';
 import { BaseDTO } from './base.dto';
 
 import { CategoryDTO } from './category.dto';
+import { CourseVideoDTO } from './course-video.dto';
+import { CommentDTO } from './comment.dto';
 
 /**
  * A CourseDTO object.
@@ -36,8 +38,20 @@ export class CourseDTO extends BaseDTO {
   @ApiProperty({ description: 'keywords field', required: false })
   keywords: string;
 
+  @ApiProperty({ description: 'overallRating field', required: false })
+  overallRating: number;
+
+  @ApiProperty({ description: 'isFavorite field', required: false })
+  isFavorite: boolean;
+
   @ApiProperty({ type: () => CategoryDTO, isArray: true, description: 'categories relationship' })
   categories: CategoryDTO[];
+
+  @ApiProperty({ type: () => CommentDTO, isArray: true, description: 'comments relationship' })
+  comments: CommentDTO[];
+
+  @ApiProperty({ type: () => CourseVideoDTO, isArray: true, description: 'videos relationship' })
+  videos: CourseVideoDTO[];
 
   // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
 }

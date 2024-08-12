@@ -41,6 +41,8 @@ export class SeedData1570200490073 implements MigrationInterface {
       bookFile: null,
       bookFileContentType: 'application/pdf',
       categories: [],
+      comments: [],
+      overallRating: 4.5,
     },
     {
       id: 2,
@@ -67,6 +69,8 @@ export class SeedData1570200490073 implements MigrationInterface {
       bookFile: null,
       bookFileContentType: 'application/pdf',
       categories: [],
+      comments: [],
+      overallRating: 4.5,
     },
     {
       id: 3,
@@ -93,6 +97,8 @@ export class SeedData1570200490073 implements MigrationInterface {
       bookFile: null,
       bookFileContentType: 'application/pdf',
       categories: [],
+      comments: [],
+      overallRating: 4.5,
     },
     {
       id: 4,
@@ -119,6 +125,8 @@ export class SeedData1570200490073 implements MigrationInterface {
       bookFile: null,
       bookFileContentType: 'application/pdf',
       categories: [],
+      comments: [],
+      overallRating: 4.5,
     },
     {
       id: 5,
@@ -145,6 +153,8 @@ export class SeedData1570200490073 implements MigrationInterface {
       bookFile: null,
       bookFileContentType: 'application/pdf',
       categories: [],
+      comments: [],
+      overallRating: 4.5,
     },
   ];
 
@@ -372,6 +382,9 @@ export class SeedData1570200490073 implements MigrationInterface {
       coverImageFileContentType: null,
       studentsPrice: 80,
       keywords: 'Quran, Tafsir, Interpretation',
+      comments: [],
+      videos: [],
+      overallRating: 4.5,
     },
     {
       id: 2,
@@ -387,6 +400,9 @@ export class SeedData1570200490073 implements MigrationInterface {
       coverImageFileContentType: null,
       studentsPrice: 80,
       keywords: 'Hadith, Sunnah, Islamic Studies',
+      comments: [],
+      videos: [],
+      overallRating: 4.5,
     },
     {
       id: 3,
@@ -402,6 +418,9 @@ export class SeedData1570200490073 implements MigrationInterface {
       coverImageFileContentType: null,
       studentsPrice: 80,
       keywords: 'Fiqh, Islamic Law, Jurisprudence',
+      comments: [],
+      videos: [],
+      overallRating: 4.5,
     },
   ];
 

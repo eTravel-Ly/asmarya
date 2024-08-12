@@ -7,6 +7,7 @@ import { Language } from '../../domain/enumeration/language';
 import { BookAvailability } from '../../domain/enumeration/book-availability';
 import { CategoryDTO } from './category.dto';
 import { BaseDTO } from './base.dto';
+import { CommentDTO } from './comment.dto';
 
 /**
  * A BookDTO object.
@@ -67,11 +68,20 @@ export class BookDTO extends BaseDTO {
   @ApiProperty({ description: 'keywords field', required: false })
   keywords: string;
 
+  @ApiProperty({ description: 'overallRating field', required: false })
+  overallRating: number;
+
+  @ApiProperty({ description: 'isFavorite field', required: false })
+  isFavorite: boolean;
+
   @ApiProperty({ enum: BookAvailability, description: 'bookAvailability enum field', required: false })
   bookAvailability: BookAvailability;
 
   @ApiProperty({ type: () => CategoryDTO, isArray: true, description: 'categories relationship' })
   categories: CategoryDTO[];
+
+  @ApiProperty({ type: () => CommentDTO, isArray: true, description: 'comments relationship' })
+  comments: CommentDTO[];
 
   // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
 }

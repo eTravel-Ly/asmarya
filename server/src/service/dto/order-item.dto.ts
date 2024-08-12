@@ -25,5 +25,11 @@ export class OrderItemDTO extends BaseDTO {
   @ApiProperty({ type: () => CourseDTO, description: 'course relationship' })
   course: CourseDTO;
 
+  @ApiProperty({ description: 'progress step field', required: false })
+  progressStep: number;
+
+  @ApiProperty({ description: 'progress percentage field', required: false })
+  progressPercentage: number;
+
   // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
 }

@@ -12,6 +12,7 @@ import { SliderModule } from './slider.module';
 import { CommentModule } from './comment.module';
 import { BookModule } from './book.module';
 import { CourseModule } from './course.module';
+import { CourseVideoModule } from './course-video.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { CourseModule } from './course.module';
     CommentModule,
     BookModule,
     CourseModule,
+    CourseVideoModule,
   ],
   controllers: [WebsiteController],
   providers: [],

@@ -13,6 +13,9 @@ export class CommentDTO extends BaseDTO {
   @ApiProperty({ description: 'details field', required: false })
   details: string;
 
+  @ApiProperty({ description: 'rating field', required: false })
+  rating: number;
+
   @ApiProperty({ description: 'likesCount field', required: false })
   likesCount: number;
 
