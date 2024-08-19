@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, FindOneOptions } from 'typeorm';
 import { CartItemDTO } from '../service/dto/cart-item.dto';
@@ -66,5 +66,9 @@ export class CartItemService {
       throw new HttpException('Error, entity not deleted!', HttpStatus.NOT_FOUND);
     }
     return;
+  }
+
+  async deleteByCondition(condition: any): Promise<void> {
+    await this.cartItemRepository.delete(condition);
   }
 }

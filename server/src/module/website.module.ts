@@ -13,6 +13,7 @@ import { CommentModule } from './comment.module';
 import { BookModule } from './book.module';
 import { CourseModule } from './course.module';
 import { CourseVideoModule } from './course-video.module';
+import { PaymentMethodModule } from './payment-method.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { CourseVideoModule } from './course-video.module';
     BookModule,
     CourseModule,
     CourseVideoModule,
+    PaymentMethodModule,
   ],
   controllers: [WebsiteController],
   providers: [],

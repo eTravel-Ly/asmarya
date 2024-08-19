@@ -1,4 +1,19 @@
-import { Body, Controller, Get, Logger, NotFoundException, Param, Query, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Logger,
+  NotFoundException,
+  Param,
+  Post,
+  Query,
+  Req,
+  Res,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoggingInterceptor } from '../../client/interceptors/logging.interceptor';
@@ -34,6 +49,17 @@ import { CourseService } from '../../service/course.service';
 import { CourseVideoService } from '../../service/course-video.service';
 import { UpdateProgressVM } from '../../service/dto/vm/update-progress.vm';
 import { Like } from 'typeorm';
+import { AddCartVM } from '../../service/dto/vm/add-cart.vm';
+import { BookBorrowRequestDTO } from '../../service/dto/book-borrow-request.dto';
+import { BookBorrowRequestStatus } from '../../domain/enumeration/book-borrow-request-status';
+import { BookBorrowRequestVM } from '../../service/dto/vm/book-borrow-request.vm';
+import { OrderItemDTO } from '../../service/dto/order-item.dto';
+import { OrderStatus } from '../../domain/enumeration/order-status';
+import { OrderDTO } from '../../service/dto/order.dto';
+import { CheckoutVM } from '../../service/dto/vm/checkout.vm';
+import { UpdateProfileVM } from '../../service/dto/vm/update-profile.vm';
+import { PaymentMethodDTO } from '../../service/dto/payment-method.dto';
+import { PaymentMethodService } from '../../service/payment-method.service';
 
 @Controller('api')
 @UseInterceptors(LoggingInterceptor)
@@ -55,6 +81,7 @@ export class WebsiteController {
     public readonly bookService: BookService,
     public readonly courseService: CourseService,
     public readonly courseVideoService: CourseVideoService,
+    public readonly paymentMethodService: PaymentMethodService,
   ) {}
 
   @PostMethod('/public/activation/request-otp')
@@ -134,6 +161,26 @@ export class WebsiteController {
     return results;
   }
 
+  @Get('/public/payment-methods')
+  @ApiOperation({ summary: 'Get active payment methods' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of active payment methods',
+    type: PaymentMethodDTO,
+    isArray: true,
+  })
+  async getActivePaymentMethods(@Req() req: Request): Promise<PaymentMethodDTO[]> {
+    const pageRequest: PageRequest = new PageRequest(req.query.page, req.query.size, req.query.sort);
+    const [results, count] = await this.paymentMethodService.findAndCount({
+      where: { isActive: true }, // Only fetch active payment methods
+      skip: +pageRequest.page * pageRequest.size,
+      take: +pageRequest.size,
+      order: pageRequest.sort.asOrder(),
+    });
+    HeaderUtil.addPaginationHeaders(req.res, new Page(results, count, pageRequest));
+    return results;
+  }
+
   @Get('/my-profile')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
@@ -145,6 +192,39 @@ export class WebsiteController {
   getMyProfile(@Req() req: Request): any {
     const user: any = req.user;
     return this.learnerService.findByFields({ where: { user: { id: user.id } } });
+  }
+
+  @Post('/update-my-profile')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Update User Profile' })
+  @ApiResponse({
+    status: 200,
+    description: 'Profile updated successfully.',
+    type: LearnerDTO,
+  })
+  async updateMyProfile(@Req() req: Request, @Body() updateProfileVm: UpdateProfileVM): Promise<LearnerDTO> {
+    const user: any = req.user;
+    const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+
+    if (!learner) {
+      throw new NotFoundException('User not found.');
+    }
+
+    // Update the fields based on the input
+    learner.firstName = updateProfileVm.firstName || learner.firstName;
+    learner.lastName = updateProfileVm.lastName || learner.lastName;
+    learner.birthYear = updateProfileVm.birthYear || learner.birthYear;
+    learner.email = updateProfileVm.email || learner.email;
+    learner.mobileNo = updateProfileVm.mobileNo || learner.mobileNo;
+    learner.nationalityCode = updateProfileVm.nationalityCode || learner.nationalityCode;
+    learner.city = updateProfileVm.city || learner.city;
+    learner.address = updateProfileVm.address || learner.address;
+
+    // Save the updated profile
+    const updatedLearner = await this.learnerService.save(learner);
+
+    return updatedLearner;
   }
 
   @Get('/all-books')
@@ -425,7 +505,7 @@ export class WebsiteController {
     return course;
   }
 
-  @PostMethod('/update-progress')
+  @Post('/update-progress')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Update progress for a book or course' })
@@ -513,6 +593,126 @@ export class WebsiteController {
     return { books, courses, total: totalPrice };
   }
 
+  @Post('/add-to-cart')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Add item to cart' })
+  @ApiResponse({
+    status: 200,
+    description: 'Item added to cart successfully.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Item not found.',
+  })
+  async addToCart(@Req() req: Request, @Body() addToCartVm: AddCartVM): Promise<CartItemDTO> {
+    const user: any = req.user;
+    const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+
+    let cartItem;
+
+    // Check if item already in cart
+    if (addToCartVm.type === EntityType.BOOK) {
+      const book = await this.bookService.findById(addToCartVm.id);
+      if (!book) throw new NotFoundException('Book not found.');
+
+      cartItem = await this.cartItemService.findByFields({
+        where: { learner: { id: learner.id }, book: { id: addToCartVm.id } },
+      });
+
+      if (cartItem) {
+        cartItem.quantity += addToCartVm.quantity || 1;
+      } else {
+        cartItem = new CartItemDTO();
+        cartItem.learner = learner;
+        cartItem.book = book;
+        cartItem.quantity = addToCartVm.quantity || 1;
+      }
+    } else if (addToCartVm.type === EntityType.COURSE) {
+      const course = await this.courseService.findById(addToCartVm.id);
+      if (!course) throw new NotFoundException('Course not found.');
+
+      cartItem = await this.cartItemService.findByFields({
+        where: { learner: { id: learner.id }, course: { id: addToCartVm.id } },
+      });
+
+      if (cartItem) {
+        cartItem.quantity += addToCartVm.quantity || 1;
+      } else {
+        cartItem = new CartItemDTO();
+        cartItem.learner = learner;
+        cartItem.course = course;
+        cartItem.quantity = addToCartVm.quantity || 1;
+      }
+    }
+
+    // Save or update the cart item
+    cartItem = await this.cartItemService.save(cartItem);
+
+    return cartItem;
+  }
+
+  @Delete('/remove-from-cart')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Remove item from cart' })
+  @ApiResponse({
+    status: 200,
+    description: 'Item removed from cart successfully.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Item not found in cart.',
+  })
+  async removeFromCart(@Req() req: Request, @Body() removeFromCartVm: AddCartVM): Promise<{ message: string }> {
+    const user: any = req.user;
+    const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+
+    let cartItem;
+
+    // Check if item exists in the cart
+    if (removeFromCartVm.type === EntityType.BOOK) {
+      cartItem = await this.cartItemService.findByFields({
+        where: { learner: { id: learner.id }, book: { id: removeFromCartVm.id } },
+      });
+    } else if (removeFromCartVm.type === EntityType.COURSE) {
+      cartItem = await this.cartItemService.findByFields({
+        where: { learner: { id: learner.id }, course: { id: removeFromCartVm.id } },
+      });
+    }
+
+    if (!cartItem) {
+      throw new NotFoundException('Item not found in cart.');
+    }
+
+    // Remove the item from the cart
+    await this.cartItemService.deleteById(cartItem.id);
+
+    return { message: 'Item removed from cart successfully.' };
+  }
+
+  @Delete('/clear-my-cart')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Clear all items from the cart' })
+  @ApiResponse({
+    status: 200,
+    description: 'Cart cleared successfully.',
+  })
+  async clearCart(@Req() req: Request): Promise<{ message: string }> {
+    const user: any = req.user;
+    const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+
+    if (!learner) {
+      throw new NotFoundException('User not found.');
+    }
+
+    // Clear the cart
+    await this.cartItemService.deleteByCondition({ learner: { id: learner.id } });
+
+    return { message: 'Cart cleared successfully.' };
+  }
+
   @Get('/my-favorites')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
@@ -534,7 +734,7 @@ export class WebsiteController {
     return { books, courses };
   }
 
-  @PostMethod('/toggle-favorite')
+  @Post('/toggle-favorite')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Toggle a favorite item' })
@@ -606,6 +806,63 @@ export class WebsiteController {
     return this.orderService.findAndCount({ where: { learner: { id: learner.id } } });
   }
 
+  @Post('/checkout')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Checkout cart items' })
+  @ApiResponse({
+    status: 201,
+    description: 'Order created successfully, pending payment.',
+  })
+  async checkout(@Req() req: Request, @Body() checkoutVm: CheckoutVM): Promise<OrderDTO> {
+    const user: any = req.user;
+    const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+
+    // Get cart items
+    const [cartItems, _] = await this.cartItemService.findAndCount({ where: { learner: { id: learner.id } } });
+
+    if (!cartItems.length) {
+      throw new NotFoundException('Cart is empty.');
+    }
+
+    // Calculate total price and discount
+    const total = cartItems.reduce((acc, item) => {
+      const itemPrice = item.book ? item.book.price : item.course ? item.course.price : 0;
+      return acc + itemPrice * (item.quantity || 1);
+    }, 0);
+
+    const discount = 0; // Apply any discount logic here
+
+    // Create new order
+    const order = new OrderDTO();
+    order.learner = learner;
+    order.orderNo = `ORD-${new Date().getTime()}`;
+    order.total = total;
+    order.discount = discount;
+    order.paymentType = checkoutVm.paymentType;
+    order.orderStatus = OrderStatus.PENDING;
+    order.notes = checkoutVm.notes;
+
+    // Save order
+    const savedOrder = await this.orderService.save(order);
+
+    // Create and save order items
+    for (const cartItem of cartItems) {
+      const orderItem = new OrderItemDTO();
+      orderItem.order = savedOrder;
+      orderItem.book = cartItem.book;
+      orderItem.course = cartItem.course;
+      orderItem.total = (cartItem.book ? cartItem.book.price : cartItem.course ? cartItem.course.price : 0) * (cartItem.quantity || 1);
+      orderItem.discount = 0; // Apply any discount logic here
+      await this.orderItemService.save(orderItem);
+    }
+
+    // Clear the cart after checkout
+    await this.cartItemService.deleteByCondition({ learner: { id: learner.id } });
+
+    return savedOrder;
+  }
+
   @Get('/my-book-borrows')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
@@ -618,6 +875,72 @@ export class WebsiteController {
     const user: any = req.user;
     const learner = this.learnerService.findByFields({ where: { user: { id: user.id } } });
     return this.bookBorrowRequestService.findAndCount({ where: { learner: learner } });
+  }
+
+  @Post('/request-book-borrow')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Request to borrow a book' })
+  @ApiResponse({
+    status: 201,
+    description: 'Book borrow request created successfully.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Book not found.',
+  })
+  async requestBookBorrow(@Req() req: Request, @Body() borrowRequestVm: BookBorrowRequestVM): Promise<BookBorrowRequestDTO> {
+    const user: any = req.user;
+    const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+
+    const book = await this.bookService.findById(borrowRequestVm.bookId);
+    if (!book) throw new NotFoundException('Book not found.');
+
+    const borrowRequest = new BookBorrowRequestDTO();
+    borrowRequest.learner = learner;
+    borrowRequest.book = book;
+    borrowRequest.requestDate = new Date();
+    borrowRequest.collectDate = borrowRequestVm.collectDate;
+    borrowRequest.returnDate = borrowRequestVm.returnDate;
+    borrowRequest.bookBorrowRequestStatus = BookBorrowRequestStatus.PENDING;
+
+    const savedBorrowRequest = await this.bookBorrowRequestService.save(borrowRequest);
+
+    return savedBorrowRequest;
+  }
+
+  @Delete('/cancel-book-borrow/:id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Cancel a book borrow request' })
+  @ApiResponse({
+    status: 200,
+    description: 'Book borrow request canceled successfully.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Book borrow request not found.',
+  })
+  async cancelBookBorrow(@Req() req: Request, @Param('id') id: number): Promise<{ message: string }> {
+    const user: any = req.user;
+    const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+
+    const borrowRequest = await this.bookBorrowRequestService.findByFields({
+      where: { learner: { id: learner.id }, id },
+    });
+
+    if (!borrowRequest) {
+      throw new NotFoundException('Book borrow request not found.');
+    }
+
+    if (borrowRequest.bookBorrowRequestStatus !== BookBorrowRequestStatus.PENDING) {
+      throw new BadRequestException('Only pending borrow requests can be canceled.');
+    }
+
+    // Delete the borrow request
+    await this.bookBorrowRequestService.deleteById(borrowRequest.id);
+
+    return { message: 'Book borrow request canceled successfully.' };
   }
 
   @Get('/my-notifications')
