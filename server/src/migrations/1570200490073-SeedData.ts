@@ -16,7 +16,10 @@ import { OrderStatus } from '../domain/enumeration/order-status';
 import { OrderItem } from '../domain/order-item.entity';
 import { Comment } from '../domain/comment.entity';
 import { User } from '../domain/user.entity';
+import { Event } from '../domain/event.entity';
 import { CourseVideo } from '../domain/course-video.entity';
+import { ParticipationType } from '../domain/enumeration/participation-type';
+import { EventType } from '../domain/enumeration/event-type';
 
 export class SeedData1570200490073 implements MigrationInterface {
   books: Book[] = [
@@ -577,6 +580,65 @@ export class SeedData1570200490073 implements MigrationInterface {
     },
   ];
 
+  events: Event[] = [
+    {
+      id: 1,
+      title: 'Event 1',
+      description: 'Description of Event 1',
+      eventStartDate: new Date('2024-01-01'),
+      eventEndDate: new Date('2024-01-02'),
+      address: 'Location 1',
+      coverImageUrl: '',
+      eventType: EventType.CONFERENCE,
+      participationType: ParticipationType.ATTENDING,
+      applyStartDate: new Date('2023-12-01'),
+      applyEndDate: new Date('2023-12-15'),
+      abstractApplyEndDate: new Date('2023-11-15'),
+      papersReplayDate: new Date('2023-11-30'),
+      enrollmentEndDate: new Date('2023-12-30'),
+      contactMobile: '1234567890',
+      contactWhatsApp: '1234567890',
+      contactWebsite: 'https://example.com',
+      contactEmail: 'osa@gmail.com',
+      conditions: 'Conditions of Event 1',
+      notes: 'Notes of Event 1',
+      createdBy: 'admin',
+      lastModifiedBy: 'admin',
+      organizer: 'Organizer 1',
+      coverImageFile: null,
+      coverImageFileContentType: '',
+      isActive: true,
+    },
+    {
+      id: 2,
+      title: 'Event 2',
+      description: 'Description of Event 2',
+      eventStartDate: new Date('2024-02-01'),
+      eventEndDate: new Date('2024-02-02'),
+      address: 'Location 2',
+      coverImageUrl: '',
+      eventType: EventType.WORKSHOP,
+      participationType: ParticipationType.ATTENDING,
+      applyStartDate: new Date('2023-12-15'),
+      applyEndDate: new Date('2023-12-30'),
+      abstractApplyEndDate: new Date('2023-11-30'),
+      papersReplayDate: new Date('2023-12-15'),
+      enrollmentEndDate: new Date('2023-12-31'),
+      contactMobile: '0987654321',
+      contactWhatsApp: '0987654321',
+      contactWebsite: 'https://example.com',
+      contactEmail: 's@s.s',
+      conditions: 'Conditions of Event 2',
+      notes: 'Notes of Event 2',
+      createdBy: 'admin',
+      lastModifiedBy: 'admin',
+      organizer: 'Organizer 1',
+      coverImageFile: null,
+      coverImageFileContentType: '',
+      isActive: true,
+    },
+  ];
+
   // eslint-disable-next-line
   public async up(queryRunner: QueryRunner): Promise<any> {
     const bookRepository = getRepository('book');
@@ -608,6 +670,9 @@ export class SeedData1570200490073 implements MigrationInterface {
 
     const courseVideoRepository = getRepository('course_video');
     await courseVideoRepository.save(this.courseVideos);
+
+    const eventRepository = getRepository('event');
+    await eventRepository.save(this.events);
   }
 
   // eslint-disable-next-line

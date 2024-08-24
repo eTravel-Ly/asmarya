@@ -31,7 +31,8 @@
       "Order",
       "OrderItem",
       "PaymentMethod",
-      "Slider"
+      "Slider",
+      "Event"
     ],
     "jhipsterVersion": "8.5.0",
     "lastLiquibaseTimestamp": 1719671672000,

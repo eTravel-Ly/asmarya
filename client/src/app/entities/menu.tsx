@@ -30,6 +30,9 @@ const EntitiesMenu = () => {
       <MenuItem icon="asterisk" to="/slider">
         الشريط الدعائي
       </MenuItem>
+      <MenuItem icon="asterisk" to="/event">
+        الانشطة
+      </MenuItem>
       {/* jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here */}
     </>
   );

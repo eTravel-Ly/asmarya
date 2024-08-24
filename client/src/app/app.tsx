@@ -17,7 +17,7 @@ import ErrorBoundary from 'app/shared/error/error-boundary';
 import { AUTHORITIES } from 'app/config/constants';
 import AppRoutes from 'app/routes';
 import { Brand } from 'app/shared/layout/header/header-components';
-import { faBook, faDashboard, faFileAlt, faImage, faList, faUsers, faVideo } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faDashboard, faFileAlt, faImage, faList, faTable, faUsers, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode } from '@fortawesome/free-solid-svg-icons/faCode';
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons/faGraduationCap';
@@ -111,6 +111,12 @@ const App = () => {
                   <NavLink tag={Link} to="/payment-method" className="d-flex align-items-center">
                     <FontAwesomeIcon icon={faMoneyBill} className="m-2" />
                     طرق الدفع
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} to="/event" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faTable} className="m-2" />
+                    الانشطة
                   </NavLink>
                 </NavItem>
                 <NavItem>

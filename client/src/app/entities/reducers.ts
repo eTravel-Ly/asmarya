@@ -14,6 +14,7 @@ import order from 'app/entities/order/order.reducer';
 import orderItem from 'app/entities/order-item/order-item.reducer';
 import paymentMethod from 'app/entities/payment-method/payment-method.reducer';
 import slider from 'app/entities/slider/slider.reducer';
+import event from 'app/entities/event/event.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 const entitiesReducers = {
@@ -33,6 +34,7 @@ const entitiesReducers = {
   orderItem,
   paymentMethod,
   slider,
+  event,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
 };
 

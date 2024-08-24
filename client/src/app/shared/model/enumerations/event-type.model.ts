@@ -1,0 +1,11 @@
+export enum EventType {
+  CONFERENCE = 'CONFERENCE',
+
+  SEMINAR = 'SEMINAR',
+
+  WORKSHOP = 'WORKSHOP',
+
+  COURSE = 'COURSE',
+
+  COMPETITION = 'COMPETITION',
+}

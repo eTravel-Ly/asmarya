@@ -1,0 +1,106 @@
+{
+  "annotations": {
+    "changelogDate": "20240729143424"
+  },
+  "applications": "*",
+  "dto": true,
+  "fields": [
+    {
+      "fieldName": "title",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "organizer",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "eventType",
+      "fieldType": "EventType",
+      "fieldValues": "CONFERENCE,SEMINAR,WORKSHOP,COURSE,COMPETITION"
+    },
+    {
+      "fieldName": "participationType",
+      "fieldType": "ParticipationType",
+      "fieldValues": "WRITING,SHARING,ATTENDING"
+    },
+    {
+      "fieldName": "eventStartDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "eventEndDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "applyStartDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "applyEndDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "abstractApplyEndDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "papersReplayDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "enrollmentEndDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "contactMobile",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "contactWhatsApp",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "contactWebsite",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "contactEmail",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "conditions",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "coverImageFile",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "coverImageUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "isActive",
+      "fieldType": "Boolean"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Event",
+  "pagination": "pagination",
+  "relationships": [],
+  "service": "serviceClass"
+}
