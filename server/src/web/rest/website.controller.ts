@@ -67,6 +67,8 @@ import { EventSubscriptionService } from '../../service/event-subscription.servi
 import { EventRegisterVM } from '../../service/dto/vm/event-register.vm';
 import { SubscriptionStatus } from '../../domain/enumeration/subscription-status';
 import { EventSubscription } from '../../domain/event-subscription.entity';
+import { CommentDTO } from '../../service/dto/comment.dto';
+import { AddCommentVM } from '../../service/dto/vm/add-comment.vm';
 
 @Controller('api')
 @UseInterceptors(LoggingInterceptor)
@@ -1063,5 +1065,48 @@ export class WebsiteController {
     const eventDTO = { ...event, subscriberCount };
 
     return eventDTO;
+  }
+
+  @Post('/add-comment')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Add a comment to a course or video' })
+  @ApiResponse({
+    status: 201,
+    description: 'Comment added successfully.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Entity not found.',
+  })
+  async addComment(@Req() req: Request, @Body() addCommentVM: AddCommentVM): Promise<CommentDTO> {
+    const user: any = req.user;
+    const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+
+    let targetEntity;
+    if (addCommentVM.entityType === EntityType.COURSE) {
+      targetEntity = await this.courseService.findById(addCommentVM.id);
+    } else if (addCommentVM.entityType === EntityType.BOOK) {
+      targetEntity = await this.bookService.findById(addCommentVM.id);
+    }
+
+    if (!targetEntity) {
+      throw new NotFoundException(`${addCommentVM.entityType} not found`);
+    }
+
+    const commentDTO = new CommentDTO();
+    commentDTO.details = addCommentVM.comment;
+    commentDTO.rating = addCommentVM.stars;
+    commentDTO.learner = learner;
+
+    if (addCommentVM.entityType === EntityType.COURSE) {
+      commentDTO.course = targetEntity;
+    } else if (addCommentVM.entityType === EntityType.BOOK) {
+      commentDTO.book = targetEntity;
+    }
+
+    const createdComment = await this.commentService.save(commentDTO);
+
+    return createdComment;
   }
 }
