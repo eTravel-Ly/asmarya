@@ -32,6 +32,7 @@
       "OrderItem",
       "PaymentMethod",
       "Slider",
+      "EventSubscription",
       "Event"
     ],
     "jhipsterVersion": "8.5.0",

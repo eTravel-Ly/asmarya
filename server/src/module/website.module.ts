@@ -14,6 +14,8 @@ import { BookModule } from './book.module';
 import { CourseModule } from './course.module';
 import { CourseVideoModule } from './course-video.module';
 import { PaymentMethodModule } from './payment-method.module';
+import { EventModule } from './event.module';
+import { EventSubscriptionModule } from './event-subscription.module';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { PaymentMethodModule } from './payment-method.module';
     CourseModule,
     CourseVideoModule,
     PaymentMethodModule,
+    EventModule,
+    EventSubscriptionModule,
   ],
   controllers: [WebsiteController],
   providers: [],

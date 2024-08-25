@@ -60,6 +60,13 @@ import { CheckoutVM } from '../../service/dto/vm/checkout.vm';
 import { UpdateProfileVM } from '../../service/dto/vm/update-profile.vm';
 import { PaymentMethodDTO } from '../../service/dto/payment-method.dto';
 import { PaymentMethodService } from '../../service/payment-method.service';
+import { EventType } from '../../domain/enumeration/event-type';
+import { EventDTO } from '../../service/dto/event.dto';
+import { EventService } from '../../service/event.service';
+import { EventSubscriptionService } from '../../service/event-subscription.service';
+import { EventRegisterVM } from '../../service/dto/vm/event-register.vm';
+import { SubscriptionStatus } from '../../domain/enumeration/subscription-status';
+import { EventSubscription } from '../../domain/event-subscription.entity';
 
 @Controller('api')
 @UseInterceptors(LoggingInterceptor)
@@ -82,6 +89,8 @@ export class WebsiteController {
     public readonly courseService: CourseService,
     public readonly courseVideoService: CourseVideoService,
     public readonly paymentMethodService: PaymentMethodService,
+    public readonly eventService: EventService,
+    public readonly eventSubscriptionService: EventSubscriptionService,
   ) {}
 
   @PostMethod('/public/activation/request-otp')
@@ -954,5 +963,105 @@ export class WebsiteController {
   getMyNotifications(@Req() req: Request): any {
     const user: any = req.user;
     return this.notificationService.findAndCount({ where: { userId: user.id } });
+  }
+
+  @PostMethod('/public/event/register')
+  @ApiOperation({ summary: 'Register for an event' })
+  @ApiResponse({
+    status: 201,
+    description: 'Successfully registered for the event.',
+    type: EventRegisterVM,
+  })
+  async registerForEvent(@Req() req: Request, @Body() eventRegistrationVM: EventRegisterVM): Promise<EventSubscription> {
+    const eventSubscription = new EventSubscription();
+    eventSubscription.fullName = eventRegistrationVM.fullName;
+    eventSubscription.gender = eventRegistrationVM.gender;
+    eventSubscription.birthDate = eventRegistrationVM.birthDate.toString();
+    eventSubscription.email = eventRegistrationVM.email;
+    eventSubscription.mobileNo = eventRegistrationVM.mobileNo;
+    eventSubscription.city = eventRegistrationVM.city;
+    eventSubscription.nationalityCode = eventRegistrationVM.nationalityCode;
+    eventSubscription.subscriberNotes = eventRegistrationVM.subscriberNotes;
+    eventSubscription.attachmentFile = eventRegistrationVM.attachmentFile;
+    eventSubscription.attachmentFileContentType = eventRegistrationVM.attachmentFileContentType;
+    eventSubscription.subscriptionDate = new Date().toISOString();
+    eventSubscription.subscriptionStatus = SubscriptionStatus.PENDING;
+    eventSubscription.event = await this.eventService.findById(eventRegistrationVM.eventId);
+
+    // Check if the request is made by a logged-in learner
+    if (req.user) {
+      const user: any = req.user;
+      const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+      if (learner) {
+        eventSubscription.learner = learner;
+      }
+    } else {
+      // If the user is not logged in, check by email or mobile number
+      const existingLearner = await this.learnerService.findByFields({
+        where: [{ email: eventRegistrationVM.email }, { mobileNo: eventRegistrationVM.mobileNo }],
+      });
+
+      if (existingLearner) {
+        eventSubscription.learner = existingLearner;
+      }
+    }
+
+    const createdSubscription = await this.eventSubscriptionService.save(eventSubscription);
+    HeaderUtil.addEntityCreatedHeaders(req.res, 'EventSubscription', createdSubscription.id);
+    return createdSubscription;
+  }
+
+  @Get('/public/events/active')
+  @ApiOperation({ summary: 'Get active events categorized by event type' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of active events categorized by event type',
+    type: [EventDTO],
+  })
+  async getActiveEventsByType(@Req() req: Request): Promise<{ [key in EventType]?: EventDTO[] }> {
+    const activeEvents = await this.eventService.findAndCount({ where: { isActive: true } });
+
+    // Categorize events by their eventType
+    const categorizedEvents = activeEvents[0].reduce(
+      (acc, event) => {
+        const eventType = event.eventType;
+        if (!acc[eventType]) {
+          acc[eventType] = [];
+        }
+        acc[eventType].push(event);
+        return acc;
+      },
+      {} as { [key in EventType]?: EventDTO[] },
+    );
+
+    return categorizedEvents;
+  }
+
+  @Get('/public/event/:id')
+  @ApiOperation({ summary: 'Get event details by ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Event details retrieved successfully.',
+    type: EventDTO,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Event not found.',
+  })
+  async getEventById(@Param('id') id: number): Promise<any> {
+    // Use `any` to accommodate the new property
+    const event = await this.eventService.findById(id);
+
+    if (!event) {
+      throw new NotFoundException('Event not found');
+    }
+
+    // Use findAndCount to get both the list of subscriptions and the count
+    const [, subscriberCount] = await this.eventSubscriptionService.findAndCount({ where: { event: { id } } });
+
+    // Add the subscriber count to the event details
+    const eventDTO = { ...event, subscriberCount };
+
+    return eventDTO;
   }
 }

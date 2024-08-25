@@ -21,6 +21,7 @@ import PaymentMethod from './payment-method';
 import Slider from './slider';
 import Dashboard from './dashboard';
 import Event from './event';
+import EventSubscription from './event-subscription';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
 export default () => {
@@ -46,6 +47,7 @@ export default () => {
         <Route path="payment-method/*" element={<PaymentMethod />} />
         <Route path="slider/*" element={<Slider />} />
         <Route path="event/*" element={<Event />} />
+        <Route path="event-subscription/*" element={<EventSubscription />} />
         {/* jhipster-needle-add-route-path - JHipster will add routes here */}
       </ErrorBoundaryRoutes>
     </div>

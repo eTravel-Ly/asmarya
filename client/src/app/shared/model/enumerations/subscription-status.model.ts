@@ -1,0 +1,13 @@
+export enum SubscriptionStatus {
+  PENDING = 'PENDING',
+
+  ACCEPTED = 'ACCEPTED',
+
+  WITHDRAWN = 'WITHDRAWN',
+
+  REJECTED = 'REJECTED',
+
+  CERTIFIED = 'CERTIFIED',
+
+  ARCHIVED = 'ARCHIVED',
+}

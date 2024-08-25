@@ -3,8 +3,6 @@ export enum EventType {
 
   SEMINAR = 'SEMINAR',
 
-  WORKSHOP = 'WORKSHOP',
-
   COURSE = 'COURSE',
 
   COMPETITION = 'COMPETITION',

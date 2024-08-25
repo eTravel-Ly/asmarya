@@ -1,0 +1,88 @@
+{
+  "annotations": {
+    "changelogDate": "20240727143425"
+  },
+  "applications": "*",
+  "dto": true,
+  "fields": [
+    {
+      "fieldName": "fullName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "Gender",
+      "fieldValues": "MALE,FEMALE"
+    },
+    {
+      "fieldName": "birthDate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mobileNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "city",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nationalityCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "subscriptionStatus",
+      "fieldType": "SubscriptionStatus",
+      "fieldValues": "PENDING,ACCEPTED,WITHDRAWN,REJECTED,CERTIFIED,ARCHIVED"
+    },
+    {
+      "fieldName": "results",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "subscriberNotes",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "subscriptionDate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "attachmentUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "attachmentFile",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "EventSubscription",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "event",
+      "relationshipName": "event",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "firstName",
+      "otherEntityName": "learner",
+      "relationshipName": "learner",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}
