@@ -69,6 +69,7 @@ import { SubscriptionStatus } from '../../domain/enumeration/subscription-status
 import { EventSubscription } from '../../domain/event-subscription.entity';
 import { CommentDTO } from '../../service/dto/comment.dto';
 import { AddCommentVM } from '../../service/dto/vm/add-comment.vm';
+import { Learner } from '../../domain/learner.entity';
 
 @Controller('api')
 @UseInterceptors(LoggingInterceptor)
@@ -973,7 +974,7 @@ export class WebsiteController {
     return this.notificationService.findAndCount({ where: { userId: user.id } });
   }
 
-  @PostMethod('/public/event/register')
+  @Post('/public/event/register')
   @ApiOperation({ summary: 'Register for an event' })
   @ApiResponse({
     status: 201,
@@ -997,20 +998,32 @@ export class WebsiteController {
     eventSubscription.event = await this.eventService.findById(eventRegistrationVM.eventId);
 
     // Check if the request is made by a logged-in learner
+    let learner: Learner;
     if (req.user) {
       const user: any = req.user;
-      const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+      learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
       if (learner) {
         eventSubscription.learner = learner;
       }
     } else {
       // If the user is not logged in, check by email or mobile number
-      const existingLearner = await this.learnerService.findByFields({
+      learner = await this.learnerService.findByFields({
         where: [{ email: eventRegistrationVM.email }, { mobileNo: eventRegistrationVM.mobileNo }],
       });
 
-      if (existingLearner) {
-        eventSubscription.learner = existingLearner;
+      if (learner) {
+        eventSubscription.learner = learner;
+      }
+    }
+
+    // Check if the learner has already registered for the event
+    if (learner) {
+      const existingRegistration = await this.eventSubscriptionService.findByFields({
+        where: { learner: { id: learner.id }, event: { id: eventRegistrationVM.eventId } },
+      });
+
+      if (existingRegistration) {
+        throw new BadRequestException('Learner has already registered for this event.');
       }
     }
 
@@ -1162,5 +1175,43 @@ export class WebsiteController {
       orderId,
       paymentStatus,
     };
+  }
+
+  @Get('/my-events')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Get registrations categorized by event types' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of event registrations categorized by event type',
+    type: Object, // You may define a specific DTO type if needed
+  })
+  async getLearnerRegistrationsByEventType(@Req() req: Request): Promise<{ [key in EventType]?: EventSubscription[] }> {
+    const user: any = req.user;
+    const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+
+    if (!learner) {
+      throw new NotFoundException('Learner not found');
+    }
+
+    const registrations = await this.eventSubscriptionService.findAndCount({
+      where: { learner: { id: learner.id } },
+      relations: ['event'],
+    });
+
+    // Categorize registrations by their event type
+    const categorizedRegistrations = registrations[0].reduce(
+      (acc, registration) => {
+        const eventType = registration.event.eventType;
+        if (!acc[eventType]) {
+          acc[eventType] = [];
+        }
+        acc[eventType].push(registration);
+        return acc;
+      },
+      {} as { [key in EventType]?: EventSubscription[] },
+    );
+
+    return categorizedRegistrations;
   }
 }
