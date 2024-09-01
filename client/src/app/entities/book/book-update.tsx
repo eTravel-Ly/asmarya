@@ -149,7 +149,7 @@ export const BookUpdate = () => {
               </ValidatedField>
               <ValidatedBlobField label="ملف صورة الغلاف" id="book-coverImageFile" name="coverImageFile" isImage accept="*/*" />
               {/*<ValidatedField label="Cover Image Url" id="book-coverImageUrl" name="coverImageUrl" data-cy="coverImageUrl" type="text" />*/}
-              <ValidatedBlobField label="ملف الكتاب" id="book-bookFile" name="bookFile" data-cy="bookFile" accept="image/*" />
+              <ValidatedBlobField label="ملف الكتاب" id="book-bookFile" name="bookFile" data-cy="bookFile" accept="*/*" />
               {/*<ValidatedField label="Book Url" id="book-bookUrl" name="bookUrl" data-cy="bookUrl" type="text" />*/}
               <ValidatedField label="السعر" id="book-price" name="price" data-cy="price" type="text" />
               <ValidatedField label="سعر الطلاب" id="book-studentsPrice" name="studentsPrice" data-cy="studentsPrice" type="text" />
