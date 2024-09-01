@@ -1150,13 +1150,12 @@ export class WebsiteController {
   })
   async confirmSadadPayment(
     @Req() req: Request,
-    @Body() body: { otp: string; sadadReference: string },
+    @Body() body: { orderId: number; otp: string; sadadReference: string },
   ): Promise<{ orderId: number; paymentStatus: string }> {
-    const { otp, sadadReference } = body;
+    const { orderId, otp, sadadReference } = body;
 
     // Call the Sadad API to confirm the payment
     //const { orderId, paymentStatus } = await this.sadadService.confirmPayment(otp, sadadReference);
-    const orderId = 12345;
     const paymentStatus = 'PAYED';
 
     return {
