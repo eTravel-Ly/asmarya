@@ -1,92 +1,42 @@
-import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { Button, Col, Row } from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Button, Col, Row, Table } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-
 import { getEntity } from './course.reducer';
 
 export const CourseDetail = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const { id } = useParams<'id'>();
+  const [videos, setVideos] = useState([]);
 
   useEffect(() => {
     dispatch(getEntity(id));
-  }, []);
+    // Fetch course videos with courseId as query parameter
+    axios.get(`/api/course-videos?courseId=${id}`).then(response => {
+      setVideos(response.data);
+    });
+  }, [id]);
 
   const courseEntity = useAppSelector(state => state.course.entity);
+
+  const handleDelete = videoId => {
+    if (window.confirm('Are you sure you want to delete this video?')) {
+      axios.delete(`/api/course-videos/${videoId}`).then(() => {
+        setVideos(videos.filter(video => video.id !== videoId));
+      });
+    }
+  };
+
   return (
     <Row>
       <Col md="8">
         <h2 data-cy="courseDetailsHeading">Course</h2>
-        {/*<dl className="jh-entity-details">*/}
-        {/*  <dt>*/}
-        {/*    <span id="id">ID</span>*/}
-        {/*  </dt>*/}
-        {/*  <dd>{courseEntity.id}</dd>*/}
-        {/*  <dt>*/}
-        {/*    <span id="title">Title</span>*/}
-        {/*  </dt>*/}
-        {/*  <dd>{courseEntity.title}</dd>*/}
-        {/*  <dt>*/}
-        {/*    <span id="description">Description</span>*/}
-        {/*  </dt>*/}
-        {/*  <dd>{courseEntity.description}</dd>*/}
-        {/*  <dt>*/}
-        {/*    <span id="language">Language</span>*/}
-        {/*  </dt>*/}
-        {/*  <dd>{courseEntity.language}</dd>*/}
-        {/*  <dt>*/}
-        {/*    <span id="coverImageFile">Cover Image File</span>*/}
-        {/*  </dt>*/}
-        {/*  <dd>*/}
-        {/*    {courseEntity.coverImageFile ? (*/}
-        {/*      <div>*/}
-        {/*        {courseEntity.coverImageFileContentType ? (*/}
-        {/*          <a onClick={openFile(courseEntity.coverImageFileContentType, courseEntity.coverImageFile)}>*/}
-        {/*            <img*/}
-        {/*              src={`data:${courseEntity.coverImageFileContentType};base64,${courseEntity.coverImageFile}`}*/}
-        {/*              style={{ maxHeight: '30px' }}*/}
-        {/*            />*/}
-        {/*          </a>*/}
-        {/*        ) : null}*/}
-        {/*        <span>*/}
-        {/*          {courseEntity.coverImageFileContentType}, {byteSize(courseEntity.coverImageFile)}*/}
-        {/*        </span>*/}
-        {/*      </div>*/}
-        {/*    ) : null}*/}
-        {/*  </dd>*/}
-        {/*  <dt>*/}
-        {/*    <span id="coverImageUrl">Cover Image Url</span>*/}
-        {/*  </dt>*/}
-        {/*  <dd>{courseEntity.coverImageUrl}</dd>*/}
-        {/*  <dt>*/}
-        {/*    <span id="price">Price</span>*/}
-        {/*  </dt>*/}
-        {/*  <dd>{courseEntity.price}</dd>*/}
-        {/*  <dt>*/}
-        {/*    <span id="studentsPrice">Students Price</span>*/}
-        {/*  </dt>*/}
-        {/*  <dd>{courseEntity.studentsPrice}</dd>*/}
-        {/*  <dt>*/}
-        {/*    <span id="keywords">Keywords</span>*/}
-        {/*  </dt>*/}
-        {/*  <dd>{courseEntity.keywords}</dd>*/}
-        {/*  <dt>Categories</dt>*/}
-        {/*  <dd>*/}
-        {/*    {courseEntity.categories*/}
-        {/*      ? courseEntity.categories.map((val, i) => (*/}
-        {/*          <span key={val.id}>*/}
-        {/*            <a>{val.id}</a>*/}
-        {/*            {courseEntity.categories && i === courseEntity.categories.length - 1 ? '' : ', '}*/}
-        {/*          </span>*/}
-        {/*        ))*/}
-        {/*      : null}*/}
-        {/*  </dd>*/}
-        {/*</dl>*/}
-        <br />
+        {/* Course Details Table */}
         <table className="table table-bordered table-hover table-custom">
           <tbody>
             <tr>
@@ -132,6 +82,59 @@ export const CourseDetail = () => {
             </tr>
           </tbody>
         </table>
+        <Link
+          to={`/course-video/new?courseId=${courseEntity.id}`}
+          className="btn btn-primary jh-create-entity"
+          id="jh-create-entity"
+          data-cy="entityCreateButton"
+        >
+          <FontAwesomeIcon icon="plus" />
+          &nbsp; Create a new Course Video
+        </Link>
+        {/* Videos Table */}
+        <h3>Videos</h3>
+        <Table striped>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Details</th>
+              <th>Order</th>
+              <th>Video</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {videos.map((video, index) => (
+              <tr key={index}>
+                <th scope="row">{index + 1}</th>
+                <td>{video.title}</td>
+                <td>{video.details}</td>
+                <td>{video.videoOrder}</td>
+                <td>
+                  {video.fileUrl ? (
+                    <video controls width="250">
+                      <source src={`api/uploads/file/download/${video.fileUrl}`} type={video.fileContentType} />
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    'No video available'
+                  )}
+                </td>
+                <td className="text-end">
+                  <div className="btn-group flex-btn-group-container">
+                    <Button tag={Link} to={`/course-video/${video.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
+                      <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">تعديل</span>
+                    </Button>
+                    <Button color="danger" size="sm" data-cy="entityDeleteButton" onClick={() => handleDelete(video.id)}>
+                      <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">حذف</span>
+                    </Button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
         <br />
         <Button tag={Link} to="/course" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">رجوع</span>

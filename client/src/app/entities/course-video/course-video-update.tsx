@@ -1,22 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Button, Row, Col, FormText } from 'reactstrap';
-import { isNumber, ValidatedField, ValidatedForm, ValidatedBlobField } from 'react-jhipster';
+import React, { useEffect } from 'react';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Button, Col, Row } from 'reactstrap';
+import { ValidatedBlobField, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { ICourse } from 'app/shared/model/course.model';
 import { getEntities as getCourses } from 'app/entities/course/course.reducer';
-import { ICourseVideo } from 'app/shared/model/course-video.model';
-import { getEntity, updateEntity, createEntity, reset } from './course-video.reducer';
+import { createEntity, getEntity, reset, updateEntity } from './course-video.reducer';
 
 export const CourseVideoUpdate = () => {
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
@@ -26,6 +23,10 @@ export const CourseVideoUpdate = () => {
   const loading = useAppSelector(state => state.courseVideo.loading);
   const updating = useAppSelector(state => state.courseVideo.updating);
   const updateSuccess = useAppSelector(state => state.courseVideo.updateSuccess);
+
+  // Extract courseId from query parameters
+  const searchParams = new URLSearchParams(location.search);
+  const courseId = searchParams.get('courseId');
 
   const handleClose = () => {
     navigate('/course-video' + location.search);
@@ -47,19 +48,11 @@ export const CourseVideoUpdate = () => {
     }
   }, [updateSuccess]);
 
-  // eslint-disable-next-line complexity
   const saveEntity = values => {
-    if (values.id !== undefined && typeof values.id !== 'number') {
-      values.id = Number(values.id);
-    }
-    if (values.durationInSeconds !== undefined && typeof values.durationInSeconds !== 'number') {
-      values.durationInSeconds = Number(values.durationInSeconds);
-    }
-
     const entity = {
       ...courseVideoEntity,
       ...values,
-      course: courses.find(it => it.id.toString() === values.course?.toString()),
+      course: courses.find(it => it.id.toString() === (courseId || values.course?.toString())),
     };
 
     if (isNew) {
@@ -71,7 +64,7 @@ export const CourseVideoUpdate = () => {
 
   const defaultValues = () =>
     isNew
-      ? {}
+      ? { course: courseId } // Preselect course if courseId is provided
       : {
           ...courseVideoEntity,
           course: courseVideoEntity?.course?.id,
@@ -113,16 +106,19 @@ export const CourseVideoUpdate = () => {
                 data-cy="durationInSeconds"
                 type="text"
               />
-              <ValidatedField id="course-video-course" name="course" data-cy="course" label="Course" type="select">
-                <option value="" key="0" />
-                {courses
-                  ? courses.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.title}
-                      </option>
-                    ))
-                  : null}
-              </ValidatedField>
+              {/* Show the course field only if courseId is not preselected */}
+              {!courseId && (
+                <ValidatedField id="course-video-course" name="course" data-cy="course" label="Course" type="select">
+                  <option value="" key="0" />
+                  {courses
+                    ? courses.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.title}
+                        </option>
+                      ))
+                    : null}
+                </ValidatedField>
+              )}
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/course-video" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

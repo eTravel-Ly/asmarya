@@ -145,6 +145,12 @@ export class WebsiteController {
         res.setHeader('Content-Type', 'image/svg+xml');
       } else if (fileName.endsWith('.pdf')) {
         res.setHeader('Content-Type', 'application/pdf');
+      } else if (fileName.endsWith('.doc') || fileName.endsWith('.docx')) {
+        res.setHeader('Content-Type', 'application/msword');
+      } else if (fileName.endsWith('.xls') || fileName.endsWith('.xlsx')) {
+        res.setHeader('Content-Type', 'application/vnd.ms-excel');
+      } else if (fileName.endsWith('.mp4')) {
+        res.setHeader('Content-Type', 'video/mp4');
       } else {
         res.setHeader('Content-Type', 'application/octet-stream');
       }
@@ -239,8 +245,8 @@ export class WebsiteController {
   }
 
   @Get('/all-books')
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Get Books' })
   @ApiResponse({
     status: 200,
@@ -323,8 +329,8 @@ export class WebsiteController {
   }
 
   @Get('/book/:id')
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Get Book Details' })
   @ApiResponse({
     status: 200,
@@ -361,7 +367,7 @@ export class WebsiteController {
 
     // Retrieve the order item to get progress information
     const orderItem = await this.orderItemService.findByFields({
-      where: { order: { id: learner.id }, book: { id: book.id } },
+      where: { order: { learner: { id: learner.id } }, book: { id: book.id } },
       relations: ['order', 'book'],
     });
 
@@ -377,8 +383,8 @@ export class WebsiteController {
   }
 
   @Get('/all-courses')
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Get courses' })
   @ApiResponse({
     status: 200,
@@ -465,8 +471,8 @@ export class WebsiteController {
 
   @Get('/course/:id')
   @ApiOperation({ summary: 'Get Course Details' })
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(AuthGuard)
   @ApiResponse({
     status: 200,
     description: 'Course details retrieved',
@@ -502,7 +508,7 @@ export class WebsiteController {
 
     // Retrieve the order item to get progress information
     const orderItem = await this.orderItemService.findByFields({
-      where: { order: { id: learner.id }, course: { id: course.id } },
+      where: { order: { learner: { id: learner.id } }, course: { id: course.id } },
       relations: ['order', 'course'],
     });
     if (orderItem) {
@@ -1108,5 +1114,54 @@ export class WebsiteController {
     const createdComment = await this.commentService.save(commentDTO);
 
     return createdComment;
+  }
+
+  @Post('/pay-sadad/request-otp')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Request OTP for Sadad payment' })
+  @ApiResponse({
+    status: 200,
+    description: 'OTP requested',
+  })
+  async requestSadadOtp(
+    @Req() req: Request,
+    @Body() body: { orderId: number; birthYear: number; mobileNo: string },
+  ): Promise<{ orderId: number; sadadReference: string }> {
+    const { orderId, birthYear, mobileNo } = body;
+
+    // Call the Sadad API to request OTP
+    //const sadadReference = await this.sadadService.requestOtp(orderId, birthYear, mobileNo);
+    const sadadReference = '12345678';
+
+    return {
+      orderId,
+      sadadReference,
+    };
+  }
+
+  @Post('/pay-sadad/confirm-payment')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Confirm payment with Sadad OTP' })
+  @ApiResponse({
+    status: 200,
+    description: 'Payment confirmed',
+  })
+  async confirmSadadPayment(
+    @Req() req: Request,
+    @Body() body: { otp: string; sadadReference: string },
+  ): Promise<{ orderId: number; paymentStatus: string }> {
+    const { otp, sadadReference } = body;
+
+    // Call the Sadad API to confirm the payment
+    //const { orderId, paymentStatus } = await this.sadadService.confirmPayment(otp, sadadReference);
+    const orderId = 12345;
+    const paymentStatus = 'PAYED';
+
+    return {
+      orderId,
+      paymentStatus,
+    };
   }
 }

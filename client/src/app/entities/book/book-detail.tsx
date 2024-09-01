@@ -1,21 +1,21 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-
-import { getEntity } from './book.reducer';
 import { Button, Col, Row } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { getEntity } from './book.reducer';
+
 export const BookDetail = () => {
   const dispatch = useAppDispatch();
-
   const { id } = useParams<'id'>();
 
   useEffect(() => {
     dispatch(getEntity(id));
-  }, []);
+  }, [id]);
 
   const bookEntity = useAppSelector(state => state.book.entity);
+
   return (
     <Row>
       <Col md="8">
@@ -117,6 +117,19 @@ export const BookDetail = () => {
         <br />
         <br />
         <img src={`/api/uploads/file/download/${bookEntity.coverImageUrl}`} alt={bookEntity.title} className="img-fluid" />
+        <br />
+        <br />
+        {bookEntity.bookUrl ? (
+          <iframe
+            src={`/api/uploads/file/download/${bookEntity.bookUrl}`}
+            title="PDF Viewer"
+            width="100%"
+            height="600px"
+            style={{ border: 'none' }}
+          />
+        ) : (
+          <p>No PDF available</p>
+        )}
       </Col>
     </Row>
   );

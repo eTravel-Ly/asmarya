@@ -8,14 +8,14 @@ import {
   Param,
   Post as PostMethod,
   Put,
-  UseGuards,
   Req,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CourseVideoDTO } from '../../service/dto/course-video.dto';
 import { CourseVideoService } from '../../service/course-video.service';
-import { PageRequest, Page } from '../../domain/base/pagination.entity';
+import { Page, PageRequest } from '../../domain/base/pagination.entity';
 import { AuthGuard, Roles, RolesGuard, RoleType } from '../../security';
 import { HeaderUtil } from '../../client/header-util';
 import { Request } from '../../client/request';
@@ -40,7 +40,10 @@ export class CourseVideoController {
   })
   async getAll(@Req() req: Request): Promise<CourseVideoDTO[]> {
     const pageRequest: PageRequest = new PageRequest(req.query.page, req.query.size, req.query.sort);
+    const courseId = req.query.courseId; // Get courseId from query params
+
     const [results, count] = await this.courseVideoService.findAndCount({
+      where: courseId ? { course: { id: courseId } } : {}, // Filter by courseId if provided
       skip: +pageRequest.page * pageRequest.size,
       take: +pageRequest.size,
       order: pageRequest.sort.asOrder(),

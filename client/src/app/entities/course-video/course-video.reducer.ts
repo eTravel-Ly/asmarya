@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { createAsyncThunk, isFulfilled, isPending } from '@reduxjs/toolkit';
 import { cleanEntity } from 'app/shared/util/entity-utils';
-import { IQueryParams, createEntitySlice, EntityState, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
-import { ICourseVideo, defaultValue } from 'app/shared/model/course-video.model';
+import { createEntitySlice, EntityState, IQueryParams, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
+import { defaultValue, ICourseVideo } from 'app/shared/model/course-video.model';
 
 const initialState: EntityState<ICourseVideo> = {
   loading: false,
@@ -40,6 +40,20 @@ export const createEntity = createAsyncThunk(
   'courseVideo/create_entity',
   async (entity: ICourseVideo, thunkAPI) => {
     const result = await axios.post<ICourseVideo>(apiUrl, cleanEntity(entity));
+    thunkAPI.dispatch(getEntities({}));
+    return result;
+  },
+  { serializeError: serializeAxiosError },
+);
+
+export const createEntity2 = createAsyncThunk(
+  'courseVideo/create_entity',
+  async (formData: FormData, thunkAPI) => {
+    const result = await axios.post<ICourseVideo>('api/course-videos', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     thunkAPI.dispatch(getEntities({}));
     return result;
   },
