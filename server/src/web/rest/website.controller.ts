@@ -246,8 +246,8 @@ export class WebsiteController {
   }
 
   @Get('/all-books')
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Get Books' })
   @ApiResponse({
     status: 200,
@@ -330,8 +330,8 @@ export class WebsiteController {
   }
 
   @Get('/book/:id')
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Get Book Details' })
   @ApiResponse({
     status: 200,
@@ -384,8 +384,8 @@ export class WebsiteController {
   }
 
   @Get('/all-courses')
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Get courses' })
   @ApiResponse({
     status: 200,
@@ -472,8 +472,8 @@ export class WebsiteController {
 
   @Get('/course/:id')
   @ApiOperation({ summary: 'Get Course Details' })
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   @ApiResponse({
     status: 200,
     description: 'Course details retrieved',
