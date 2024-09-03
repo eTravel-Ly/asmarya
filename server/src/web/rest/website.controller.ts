@@ -1214,4 +1214,32 @@ export class WebsiteController {
 
     return categorizedRegistrations;
   }
+
+  @Get('/public/courses')
+  @ApiOperation({ summary: 'Get all public courses' })
+  @ApiResponse({
+    status: 200,
+    description: 'Courses retrieved',
+    type: CourseDTO,
+    isArray: true,
+  })
+  async searchCourses(@Query('search') search?: string): Promise<CourseDTO[]> {
+    const searchCondition = search ? { where: { title: Like(`%${search}%`) } } : {};
+    const [courses, _] = await this.courseService.findAndCount(searchCondition);
+    return courses;
+  }
+
+  @Get('/public/books')
+  @ApiOperation({ summary: 'Get all public books' })
+  @ApiResponse({
+    status: 200,
+    description: 'Books retrieved',
+    type: BookDTO,
+    isArray: true,
+  })
+  async searchBooks(@Query('search') search?: string): Promise<BookDTO[]> {
+    const searchCondition = search ? { where: { title: Like(`%${search}%`) } } : {};
+    const [books, _] = await this.bookService.findAndCount(searchCondition);
+    return books;
+  }
 }
