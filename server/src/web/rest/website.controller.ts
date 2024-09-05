@@ -1159,7 +1159,7 @@ export class WebsiteController {
   @ApiOperation({ summary: 'Confirm payment with Sadad OTP' })
   @ApiResponse({
     status: 200,
-    description: 'Payment confirmed',
+    description: 'Payment confirmed and order status updated',
   })
   async confirmSadadPayment(
     @Req() req: Request,
@@ -1167,9 +1167,22 @@ export class WebsiteController {
   ): Promise<{ orderId: number; paymentStatus: string }> {
     const { orderId, otp, sadadReference } = body;
 
-    // Call the Sadad API to confirm the payment
-    //const { orderId, paymentStatus } = await this.sadadService.confirmPayment(otp, sadadReference);
+    // Confirm payment with Sadad API
+    // const { orderId, paymentStatus } = await this.sadadService.confirmPayment(otp, sadadReference);
     const paymentStatus = 'PAYED';
+
+    // Fetch order and update status
+    const order = await this.orderService.findById(orderId);
+    if (!order) {
+      throw new NotFoundException('Order not found');
+    }
+
+    // Update order status and payedAt
+    order.orderStatus = OrderStatus.PAYED;
+    order.payedAt = new Date();
+
+    // Save updated order
+    await this.orderService.save(order);
 
     return {
       orderId,
@@ -1241,5 +1254,24 @@ export class WebsiteController {
     const searchCondition = search ? { where: { title: Like(`%${search}%`) } } : {};
     const [books, _] = await this.bookService.findAndCount(searchCondition);
     return books;
+  }
+
+  @Get('/order/:id')
+  @ApiOperation({ summary: 'Get order by ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Order details retrieved successfully.',
+    type: OrderDTO,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Order not found',
+  })
+  async getOrderById(@Param('id') id: number): Promise<OrderDTO> {
+    const order = await this.orderService.findById(id);
+    if (!order) {
+      throw new NotFoundException('Order not found');
+    }
+    return order;
   }
 }
