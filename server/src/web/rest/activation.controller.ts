@@ -8,14 +8,15 @@ import {
   Param,
   Post as PostMethod,
   Put,
-  UseGuards,
+  Query,
   Req,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ActivationDTO } from '../../service/dto/activation.dto';
 import { ActivationService } from '../../service/activation.service';
-import { PageRequest, Page } from '../../domain/base/pagination.entity';
+import { Page, PageRequest } from '../../domain/base/pagination.entity';
 import { AuthGuard, Roles, RolesGuard, RoleType } from '../../security';
 import { HeaderUtil } from '../../client/header-util';
 import { Request } from '../../client/request';
@@ -38,9 +39,10 @@ export class ActivationController {
     description: 'List all records',
     type: ActivationDTO,
   })
-  async getAll(@Req() req: Request): Promise<ActivationDTO[]> {
+  async getAll(@Req() req: Request, @Query() filter: ActivationDTO): Promise<ActivationDTO[]> {
     const pageRequest: PageRequest = new PageRequest(req.query.page, req.query.size, req.query.sort);
     const [results, count] = await this.activationService.findAndCount({
+      where: filter,
       skip: +pageRequest.page * pageRequest.size,
       take: +pageRequest.size,
       order: pageRequest.sort.asOrder(),

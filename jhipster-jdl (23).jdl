@@ -1,0 +1,269 @@
+enum BookAvailability {
+    AVAILABLE_BOTH,
+    AVAILABLE_LIBRARY_ONLY,
+    AVAILABLE_ONLINE_ONLY,
+    RESERVED,
+    UNAVAILABLE
+}
+
+enum BookBorrowRequestStatus {
+    APPROVED,
+    COLLECTED,
+    PENDING,
+    REJECTED,
+    RETURNED
+}
+
+enum BookGenre {
+    BIOGRAPHY,
+    CHILDREN,
+    FANTASY,
+    FICTION,
+    HISTORY,
+    MYSTERY,
+    NON_FICTION,
+    POETRY,
+    RELIGIOUS,
+    ROMANCE,
+    SCIENCE_FICTION,
+    SELF_HELP,
+    THRILLER,
+    YOUNG_ADULT
+}
+
+enum Language {
+    ARABIC,
+    ENGLISH
+}
+
+enum LearnerType {
+    EXTERNAL_STUDENT,
+    INSTRUCTOR,
+    INTERNAL_STUDENT,
+    PUBLIC
+}
+
+enum OrderStatus {
+    CANCELLED,
+    FAILED,
+    PAYED,
+    PENDING
+}
+
+enum PaymentType {
+    ADFALI,
+    CASH,
+    MASTERCARD,
+    MOBICASH,
+    MOAMALAT,
+    SADAD,
+    TADAWUL
+}
+
+entity Activation {
+    mobileNo String,
+    email String,
+    code String,
+    sentOn Instant,
+    validUntil Instant,
+    isUsed Boolean
+}
+
+entity AppSetting {
+    name String,
+    key String,
+    type String,
+    value String
+}
+
+entity Book {
+    title String required,
+    author String required,
+    publicationDate LocalDate,
+    isbn String,
+    description String,
+    genre BookGenre,
+    publisher String,
+    pageCount Integer,
+    language Language,
+    coverImageFile ImageBlob,
+    coverImageUrl String,
+    bookFile ImageBlob,
+    bookUrl String,
+    price Float,
+    studentsPrice Float,
+    numberOfBooksAvailable Integer,
+    keywords String,
+    bookAvailability BookAvailability
+}
+
+entity BookBorrowRequest {
+    // Learner
+    // Book
+    requestDate ZonedDateTime,
+    collectDate ZonedDateTime,
+    returnDate ZonedDateTime,
+    bookBorrowRequestStatus BookBorrowRequestStatus
+}
+
+entity CartItem {
+    // Book
+    // Course
+    quantity Integer
+}
+
+entity Category {
+    nameAr String,
+    nameEn String,
+    menuOrder Integer,
+    imageFileUrl String,
+    imageFile ImageBlob,
+    notes String,
+    isActive Boolean
+}
+
+entity Comment {
+    // Book
+    // Course
+    // Learner
+    details String,
+    likesCount Integer,
+    dislikesCount Integer
+}
+
+entity Course {
+    title String required,
+    description String,
+    language Language,
+    coverImageFile ImageBlob,
+    coverImageUrl String,
+    price Float,
+    studentsPrice Float,
+    keywords String,
+}
+
+entity CourseVideo {
+    title String required,
+    details String,
+    file AnyBlob,
+    fileUrl String,
+    durationInSeconds Integer
+    //Course
+}
+
+entity Favorite {
+    // Course
+    // Book
+    // Learner
+}
+
+entity Learner {
+    firstName String,
+    lastName String,
+    birthYear Integer,
+    email String,
+    mobileNo String,
+    googleId String,
+    facebookId String,
+    appleId String,
+    isBanned Boolean,
+    verifiedByEmail Boolean,
+    verifiedByMobileNo Boolean,
+    imageFile ImageBlob,
+    imageFileUrl String,
+    nationalityCode String,
+    city String,
+    address String,
+    learnerType LearnerType,
+    studentId String,
+    notes String
+    // User
+}
+
+entity Notification {
+    title String,
+    details String,
+    isRead Boolean,
+    userId Long
+}
+
+entity Order {
+    orderNo String,
+    total Float,
+    discount Float,
+    paymentType PaymentType,
+    orderStatus OrderStatus,
+    payedAt Instant,
+    notes String
+    // Learner
+}
+
+entity OrderItem {
+    // Book
+    // Course
+    // Order
+    total Float,
+    discount Float
+}
+
+entity PaymentMethod {
+    nameAr String,
+    nameEn String,
+    menuOrder Integer,
+    imageFileUrl String,
+    imageFile ImageBlob,
+    details String,
+    feePercentage Double,
+    paymentType PaymentType,
+    isActive Boolean,
+    notes String
+}
+
+entity Slider {
+    detailsAr String,
+    detailsEn String,
+    menuOrder Integer,
+    imageFileUrl String,
+    imageFile ImageBlob,
+    link String,
+    notes String
+}
+
+relationship ManyToMany {
+    Book{categories} to Category{book}
+    Course{categories} to Category{course}
+}
+
+relationship ManyToOne {
+
+    BookBorrowRequest{book(title)} to Book,
+    BookBorrowRequest{learner(firstName)} to Learner,
+
+    Cart{learner(firstName)} to Learner,
+    CartItem{book(title)} to Book,
+    CartItem{course(title)} to Course,
+
+    Comment{learner(firstName)} to Learner,
+    Comment{book(title)} to Book,
+    Comment{course(title)} to Course,
+
+    CourseVideo{course(title)} to Course,
+
+    Favorite{learner(firstName)} to Learner,
+    Favorite{book(title)} to Book,
+    Favorite{course(title)} to Course,
+
+    OrderItem{order(orderNo)} to Order,
+    OrderItem{book(title)} to Book,
+    OrderItem{course(title)} to Course,
+    Order{learner(firstName)} to Learner,
+}
+
+relationship OneToOne {
+    Learner to User with builtInEntity
+}
+
+paginate * with pagination
+filter *
+service * with serviceClass
+dto * with mapstruct

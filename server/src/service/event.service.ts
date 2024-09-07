@@ -4,6 +4,7 @@ import { FindManyOptions, FindOneOptions } from 'typeorm';
 import { EventDTO } from '../service/dto/event.dto';
 import { EventMapper } from '../service/mapper/event.mapper';
 import { EventRepository } from '../repository/event.repository';
+import { Helpers } from './utils/helpers';
 
 const relationshipNames = [];
 
@@ -43,6 +44,12 @@ export class EventService {
       }
       entity.lastModifiedBy = creator;
     }
+
+    if (eventDTO.coverImageFile != null) {
+      entity.coverImageUrl = await Helpers.saveFile(eventDTO.coverImageFile, eventDTO.coverImageFileContentType);
+      entity.coverImageFile = null;
+    }
+
     const result = await this.eventRepository.save(entity);
     return EventMapper.fromEntityToDTO(result);
   }
@@ -52,6 +59,12 @@ export class EventService {
     if (updater) {
       entity.lastModifiedBy = updater;
     }
+
+    if (eventDTO.coverImageFile != null) {
+      entity.coverImageUrl = await Helpers.saveFile(eventDTO.coverImageFile, eventDTO.coverImageFileContentType);
+      entity.coverImageFile = null;
+    }
+
     const result = await this.eventRepository.save(entity);
     return EventMapper.fromEntityToDTO(result);
   }
