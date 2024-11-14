@@ -261,17 +261,27 @@ export class WebsiteController {
   ): Promise<BookDTO[]> {
     const user: any = req.user;
     const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+    const pageRequest: PageRequest = new PageRequest(req.query.page, req.query.size, req.query.sort);
 
     // Define the search conditions
     let searchCondition = {};
     if (search) {
       searchCondition = {
+        skip: +pageRequest.page * pageRequest.size,
+        take: +pageRequest.size,
+        order: pageRequest.sort.asOrder(),
         where: [
           { title: Like(`%${search}%`) },
           { author: Like(`%${search}%`) },
           { description: Like(`%${search}%`) },
           // Add more fields as needed
         ],
+      };
+    } else {
+      searchCondition = {
+        skip: +pageRequest.page * pageRequest.size,
+        take: +pageRequest.size,
+        order: pageRequest.sort.asOrder(),
       };
     }
 
@@ -284,6 +294,7 @@ export class WebsiteController {
       });
       book.isFavorite = !!favorite;
     }
+    HeaderUtil.addPaginationHeaders(req.res, new Page(books, _, pageRequest));
 
     return books;
   }
@@ -382,7 +393,6 @@ export class WebsiteController {
 
     return book;
   }
-
   @Get('/all-courses')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
@@ -399,6 +409,7 @@ export class WebsiteController {
   ): Promise<CourseDTO[]> {
     const user: any = req.user;
     const learner = await this.learnerService.findByFields({ where: { user: { id: user.id } } });
+    const pageRequest: PageRequest = new PageRequest(req.query.page, req.query.size, req.query.sort);
 
     // Define the search conditions
     let searchCondition = {};
@@ -409,6 +420,15 @@ export class WebsiteController {
           { description: Like(`%${search}%`) },
           // Add more fields as needed
         ],
+        skip: +pageRequest.page * pageRequest.size,
+        take: +pageRequest.size,
+        order: pageRequest.sort.asOrder(),
+      };
+    } else {
+      searchCondition = {
+        skip: +pageRequest.page * pageRequest.size,
+        take: +pageRequest.size,
+        order: pageRequest.sort.asOrder(),
       };
     }
 
@@ -420,7 +440,13 @@ export class WebsiteController {
         where: { learner: { id: learner.id }, course: { id: course.id } },
       });
       course.isFavorite = !!favorite;
+      const comments = await this.commentService.findAndCount({ where: { course: course.id } });
+      course.comments = comments[0];
+      course.overallRating = course.comments.length
+        ? course.comments.reduce((sum, comment) => sum + (comment.rating || 0), 0) / course.comments.length
+        : 0;
     }
+    HeaderUtil.addPaginationHeaders(req.res, new Page(courses, _, pageRequest));
 
     return courses;
   }
