@@ -1,5 +1,5 @@
 /* eslint-disable max-classes-per-file */
-import { Type, Expose as JsonProperty } from 'class-transformer';
+import { Expose as JsonProperty, Type } from 'class-transformer';
 import { BaseEntity } from './base.entity';
 
 export class Sort {
@@ -13,7 +13,7 @@ export class Sort {
 
   asOrder(): any {
     const order = {};
-    order[this.property] = this.direction;
+    order[this.property] = this.direction.toUpperCase();
     return order;
   }
 }

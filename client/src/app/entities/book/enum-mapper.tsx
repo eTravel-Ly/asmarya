@@ -26,6 +26,14 @@ const bookAvailabilityTranslations = {
   UNAVAILABLE: 'غير متاح',
 };
 
+const eventTypeTranslations = {
+  CONFERENCE: 'مؤتمر',
+  SEMINAR: 'ندوة',
+  WORKSHOP: 'ورشة عمل',
+  COURSE: 'دورة تأهيلية',
+  COMPETITION: 'مسابقة',
+};
+
 const bookAvailabilityColors = {
   AVAILABLE_BOTH: 'success',
   AVAILABLE_LIBRARY_ONLY: 'primary',
@@ -36,6 +44,10 @@ const bookAvailabilityColors = {
 
 export const getGenreTranslation = genre => {
   return genreTranslations[genre];
+};
+
+export const translateEventType = eventType => {
+  return eventTypeTranslations[eventType];
 };
 const getBookAvailabilityDetails = status => {
   return {

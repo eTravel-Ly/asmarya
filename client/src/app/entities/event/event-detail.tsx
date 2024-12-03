@@ -1,24 +1,50 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Button, Col, Row } from 'reactstrap';
+import { Button, Col, Row, Table } from 'reactstrap';
 import { byteSize, openFile, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-
 import { getEntity } from './event.reducer';
+import { getEntities as getEventSubscribers } from '../event-subscription/event-subscription.reducer';
+import { IEventSubscription } from 'app/shared/model/event-subscription.model';
 
 export const EventDetail = () => {
   const dispatch = useAppDispatch();
-
   const { id } = useParams<'id'>();
+
+  const [subscribers, setSubscribers] = useState([]);
+  const [loadingSubscribers, setLoadingSubscribers] = useState(false);
 
   useEffect(() => {
     dispatch(getEntity(id));
-  }, []);
+    fetchEventSubscribers(id);
+  }, [id]);
+
+  const fetchEventSubscribers = async (eventId: string) => {
+    setLoadingSubscribers(true);
+    try {
+      const response = await dispatch(
+        getEventSubscribers({
+          page: 0, // Set appropriate pagination if needed
+          size: 20, // Set the size of the page or any default value
+          sort: 'id,asc', // Optional sorting
+          filters: { 'event.id': eventId }, // Pass the eventId as a filter
+        }),
+      );
+
+      // Cast response.payload to the expected type
+      const { data } = response.payload as { data: IEventSubscription[] };
+      setSubscribers(data); // Set the subscribers from the API response
+    } catch (error) {
+      console.error('Failed to fetch subscribers', error);
+    } finally {
+      setLoadingSubscribers(false);
+    }
+  };
 
   const eventEntity = useAppSelector(state => state.event.entity);
+
   return (
     <Row>
       <Col md="8">
@@ -164,6 +190,44 @@ export const EventDetail = () => {
         <Button tag={Link} to={`/event/${eventEntity.id}/edit`} replace color="primary">
           <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">تعديل</span>
         </Button>
+        {/* Subscribers List */}
+        <h3>مشتركون في الحدث</h3>
+        {loadingSubscribers ? (
+          <p>تحميل المشتركين...</p>
+        ) : (
+          <Table responsive>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Gender</th>
+                <th>Birth Date</th>
+                <th>Email</th>
+                <th>Mobile No</th>
+                <th>City</th>
+                <th>Nationality Code</th>
+                <th>Subscription Status</th>
+                <th>Subscription Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {subscribers.map((subscriber, i) => (
+                <tr key={`subscriber-${i}`}>
+                  <td>{subscriber.id}</td>
+                  <td>{subscriber.fullName}</td>
+                  <td>{subscriber.gender}</td>
+                  <td>{subscriber.birthDate}</td>
+                  <td>{subscriber.email}</td>
+                  <td>{subscriber.mobileNo}</td>
+                  <td>{subscriber.city}</td>
+                  <td>{subscriber.nationalityCode}</td>
+                  <td>{subscriber.subscriptionStatus}</td>
+                  <td>{subscriber.subscriptionDate}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
       </Col>
     </Row>
   );

@@ -40,6 +40,8 @@ export class EventController {
   })
   async getAll(@Req() req: Request): Promise<EventDTO[]> {
     const pageRequest: PageRequest = new PageRequest(req.query.page, req.query.size, req.query.sort);
+    console.log('Sort Order:', pageRequest.sort.asOrder());
+
     const [results, count] = await this.eventService.findAndCount({
       skip: +pageRequest.page * pageRequest.size,
       take: +pageRequest.size,

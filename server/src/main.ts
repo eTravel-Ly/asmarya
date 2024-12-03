@@ -30,8 +30,12 @@ async function bootstrap(): Promise<void> {
       exceptionFactory: (): BadRequestException => new BadRequestException('Validation error'),
     }),
   );
-  app.use(bodyParser.json({ limit: '50mb' }));
-  app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+  app.use(bodyParser.json({ limit: '100mb' })); // Try a higher limit like 100mb
+  app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
+  //
+  // app.use(express.json({ limit: '100mb' }));
+  // app.use(express.urlencoded({ limit: '100mb', extended: true }));
+
   // Disable cache.
   app.getHttpAdapter().getInstance().set('etag', false);
 

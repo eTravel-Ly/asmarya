@@ -20,8 +20,17 @@ const apiUrl = 'api/event-subscriptions';
 
 export const getEntities = createAsyncThunk(
   'eventSubscription/fetch_entity_list',
-  async ({ page, size, sort }: IQueryParams) => {
-    const requestUrl = `${apiUrl}?${sort ? `page=${page}&size=${size}&sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+  async ({ page, size, sort, filters }: IQueryParams & { filters?: Record<string, any> }) => {
+    // Build the filter query parameters
+    const filterParams = filters
+      ? Object.keys(filters)
+          .map(key => `${key}=${encodeURIComponent(filters[key])}`)
+          .join('&')
+      : '';
+
+    // Construct the request URL
+    const requestUrl = `${apiUrl}?${sort ? `page=${page}&size=${size}&sort=${sort}&` : ''}${filterParams}&cacheBuster=${new Date().getTime()}`;
+
     return axios.get<IEventSubscription[]>(requestUrl);
   },
   { serializeError: serializeAxiosError },

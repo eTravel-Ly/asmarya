@@ -32,7 +32,7 @@ function ormConfig(): TypeOrmModuleOptions {
       name: 'default',
       type: 'mysql',
       database: 'asmarya',
-      host: 'mysql',
+      host: '127.0.0.1',
       // port: ,
       username: 'root',
       password: '4444', // Ensure this matches the password set in Docker
@@ -65,7 +65,7 @@ function ormConfig(): TypeOrmModuleOptions {
       name: 'default',
       type: 'mysql',
       database: 'asmarya',
-      host: 'localhost',
+      host: '127.0.0.1',
       // port: ,
       username: 'root',
       password: '4444', // Ensure this matches the password set in Docker

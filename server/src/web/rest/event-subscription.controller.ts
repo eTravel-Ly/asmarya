@@ -8,6 +8,7 @@ import {
   Param,
   Post as PostMethod,
   Put,
+  Query,
   Req,
   UseGuards,
   UseInterceptors,
@@ -20,6 +21,9 @@ import { AuthGuard, Roles, RolesGuard, RoleType } from '../../security';
 import { HeaderUtil } from '../../client/header-util';
 import { Request } from '../../client/request';
 import { LoggingInterceptor } from '../../client/interceptors/logging.interceptor';
+import { EventSubscriptionFilter } from '../../service/dto/filter/event-subscription.filter';
+import { BaseFilter } from '../../domain/base/filter.entity';
+import * as console from 'console';
 
 @Controller('api/event-subscriptions')
 @UseGuards(AuthGuard, RolesGuard)
@@ -38,9 +42,17 @@ export class EventSubscriptionController {
     description: 'List all records',
     type: EventSubscriptionDTO,
   })
-  async getAll(@Req() req: Request): Promise<EventSubscriptionDTO[]> {
+  async getAll(@Req() req: Request, @Query() filter: EventSubscriptionFilter): Promise<EventSubscriptionDTO[]> {
     const pageRequest: PageRequest = new PageRequest(req.query.page, req.query.size, req.query.sort);
+
+    // Ensure only filters related to EventSubscriptionFilter are applied
+    const baseFilter = new BaseFilter();
+    Object.assign(baseFilter, filter);
+
+    console.log('where (filters only):', baseFilter.toQueryFilter());
+
     const [results, count] = await this.eventSubscriptionService.findAndCount({
+      where: baseFilter.toQueryFilter(), // Transform filter fields to query format
       skip: +pageRequest.page * pageRequest.size,
       take: +pageRequest.size,
       order: pageRequest.sort.asOrder(),

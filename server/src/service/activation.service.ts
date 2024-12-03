@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, FindOneOptions } from 'typeorm';
-import { ActivationDTO } from '../service/dto/activation.dto';
-import { ActivationMapper } from '../service/mapper/activation.mapper';
+import { ActivationDTO } from './dto/activation.dto';
+import { ActivationMapper } from './mapper/activation.mapper';
 import { ActivationRepository } from '../repository/activation.repository';
 import { RequestOtpVm } from './dto/vm/request-otp.vm';
 import { Activation } from '../domain/activation.entity';
