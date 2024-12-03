@@ -26,7 +26,6 @@ import { ActivationService } from '../../service/activation.service';
 import { RequestOtpVm } from '../../service/dto/vm/request-otp.vm';
 import path from 'path';
 import fs from 'fs';
-import * as os from 'os';
 import { AuthGuard } from '../../security';
 import { SliderDTO } from '../../service/dto/slider.dto';
 import { Page, PageRequest } from '../../domain/base/pagination.entity';
@@ -129,7 +128,7 @@ export class WebsiteController {
   @Get('/uploads/file/download/:fileName')
   async downloadFile(@Param('fileName') fileName: string, @Res() res: Response) {
     try {
-      const uploadDir = os.homedir() + '/uploads/asmarya/';
+      const uploadDir = '/mnt/hqa-files/';
       const fileContent = await fs.promises.readFile(path.join(uploadDir, fileName));
 
       console.log('fileName', fileName);

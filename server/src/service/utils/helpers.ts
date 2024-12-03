@@ -1,10 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import * as os from 'os';
 
 export class Helpers {
   static async saveFile(fileBlob: any, fileContentType: any): Promise<string> {
-    const uploadDir = path.join(os.homedir(), 'uploads', 'asmarya');
+    // const uploadDir = path.join(os.homedir(), 'uploads', 'asmarya');
+    const uploadDir = '/mnt/hqa-files/';
+
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
