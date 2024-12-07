@@ -48,15 +48,16 @@ module.exports = async options =>
     devServer: {
       hot: true,
       static: {
-        directory: './../server/dist/static/',
+        directory: path.resolve(__dirname, '../server/dist/static'),
       },
       port: 9060,
       proxy: [
         {
           context: ['/api', '/services', '/management', '/v3/api-docs', '/h2-console'],
-          target: `http${options.tls ? 's' : ''}://localhost:8080`,
+          target: 'http://localhost:8080', // Adjust to HTTPS if needed
           secure: false,
-          changeOrigin: options.tls,
+          changeOrigin: false,
+          logLevel: 'debug', // Debug logs for proxy
         },
       ],
       historyApiFallback: true,

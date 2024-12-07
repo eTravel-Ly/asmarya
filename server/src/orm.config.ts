@@ -15,10 +15,10 @@ function ormConfig(): TypeOrmModuleOptions {
     name: 'default',
     type: 'mysql',
     database: 'asmarya',
-    host: '172.29.19.2',
+    host: '127.0.0.1',
     // port: ,
     username: 'root',
-    password: '4444', // Ensure this matches the password set in Docker
+    password: '', // Ensure this matches the password set in Docker
     logging: false,
     synchronize: commonConf.SYNCRONIZE,
     entities: commonConf.ENTITIES,
@@ -32,27 +32,12 @@ function ormConfig(): TypeOrmModuleOptions {
       name: 'default',
       type: 'mysql',
       database: 'asmarya',
-      host: '172.29.19.2',
+      host: '127.0.0.1',
       // port: ,
       username: 'root',
-      password: '4444', // Ensure this matches the password set in Docker
+      password: '', // Ensure this matches the password set in Docker
       logging: false,
       synchronize: commonConf.SYNCRONIZE,
-      entities: commonConf.ENTITIES,
-      migrations: commonConf.MIGRATIONS,
-      cli: commonConf.CLI,
-      migrationsRun: commonConf.MIGRATIONS_RUN,
-    };
-  }
-
-  if (process.env.BACKEND_ENV === 'test') {
-    ormconfig = {
-      name: 'default',
-      type: 'sqlite',
-      database: ':memory:',
-      keepConnectionAlive: true,
-      logging: true,
-      synchronize: true,
       entities: commonConf.ENTITIES,
       migrations: commonConf.MIGRATIONS,
       cli: commonConf.CLI,
@@ -65,10 +50,10 @@ function ormConfig(): TypeOrmModuleOptions {
       name: 'default',
       type: 'mysql',
       database: 'asmarya',
-      host: '172.29.19.2',
+      host: '127.0.0.1',
       // port: ,
       username: 'root',
-      password: '4444', // Ensure this matches the password set in Docker
+      password: '', // Ensure this matches the password set in Docker
       logging: false,
       synchronize: commonConf.SYNCRONIZE,
       entities: commonConf.ENTITIES,

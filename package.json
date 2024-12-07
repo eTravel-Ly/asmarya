@@ -27,6 +27,7 @@
     "prettier:check": "prettier --check \"{,src/**/}*.{md,json,yml,html,cjs,mjs,js,ts,tsx,css,scss,java}\"",
     "prettier:format": "prettier --write \"{,src/**/}*.{md,json,yml,html,cjs,mjs,js,ts,tsx,css,scss,java}\"",
     "services:up": "docker compose -f docker/services.yml up --wait",
+    "start:all": "concurrently \"cd server && npm start\" \"cd client && npm start\"",
     "start:app": "cd server && npm run start",
     "test": "echo \"INFO: no client test found\"",
     "test:client": "npm test --workspace client",
