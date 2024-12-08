@@ -22,7 +22,6 @@ import Slider from './slider';
 import Dashboard from './dashboard';
 import Event from './event';
 import EventSubscription from './event-subscription';
-import Sheikhs from './Sheikhs';
 import Sheikh from './sheikh';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
@@ -43,7 +42,6 @@ export default () => {
         <Route path="course-video/*" element={<CourseVideo />} />
         <Route path="favorite/*" element={<Favorite />} />
         <Route path="learner/*" element={<Learner />} />
-        <Route path="sheikhs/*" element={<Sheikhs />} />
         <Route path="notification/*" element={<Notification />} />
         <Route path="order/*" element={<Order />} />
         <Route path="order-item/*" element={<OrderItem />} />

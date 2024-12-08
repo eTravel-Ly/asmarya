@@ -19,7 +19,7 @@ export const SheikhDeleteDialog = () => {
   useEffect(() => {
     dispatch(getEntity(id));
     setLoadModal(true);
-  }, []);
+  }, [dispatch, id]);
 
   const sheikhEntity = useAppSelector(state => state.sheikh.entity);
   const updateSuccess = useAppSelector(state => state.sheikh.updateSuccess);
@@ -40,19 +40,19 @@ export const SheikhDeleteDialog = () => {
   };
 
   return (
-    <Modal isOpen toggle={handleClose}>
+    <Modal isOpen toggle={handleClose} className="text-right">
       <ModalHeader toggle={handleClose} data-cy="sheikhDeleteDialogHeading">
-        Confirm delete operation
+        تأكيد عملية الحذف
       </ModalHeader>
-      <ModalBody id="asmaryaApp.sheikh.delete.question">Are you sure you want to delete Sheikh {sheikhEntity.id}?</ModalBody>
+      <ModalBody id="asmaryaApp.sheikh.delete.question">هل أنت متأكد أنك تريد حذف الشيخ {sheikhEntity.id}؟</ModalBody>
       <ModalFooter>
         <Button color="secondary" onClick={handleClose}>
           <FontAwesomeIcon icon="ban" />
-          &nbsp; Cancel
+          &nbsp; إلغاء
         </Button>
         <Button id="jhi-confirm-delete-sheikh" data-cy="entityConfirmDeleteButton" color="danger" onClick={confirmDelete}>
           <FontAwesomeIcon icon="trash" />
-          &nbsp; Delete
+          &nbsp; حذف
         </Button>
       </ModalFooter>
     </Modal>

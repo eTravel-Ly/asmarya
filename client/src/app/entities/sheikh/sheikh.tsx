@@ -93,14 +93,14 @@ export const Sheikh = () => {
   return (
     <div>
       <h2 id="sheikh-heading" data-cy="SheikhHeading">
-        Sheikhs
+        قائمة المشايخ
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} /> Refresh list
+            <FontAwesomeIcon icon="sync" spin={loading} />
           </Button>
           <Link to="/sheikh/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
-            &nbsp; Create a new Sheikh
+            &nbsp; اضافة شيخ جديد
           </Link>
         </div>
       </h2>
@@ -113,25 +113,25 @@ export const Sheikh = () => {
                   ID <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
                 <th className="hand" onClick={sort('firstName')}>
-                  First Name <FontAwesomeIcon icon={getSortIconByFieldName('firstName')} />
+                  الاسم الاول <FontAwesomeIcon icon={getSortIconByFieldName('firstName')} />
                 </th>
                 <th className="hand" onClick={sort('lastName')}>
-                  Last Name <FontAwesomeIcon icon={getSortIconByFieldName('lastName')} />
+                  الاسم الاخير <FontAwesomeIcon icon={getSortIconByFieldName('lastName')} />
                 </th>
                 <th className="hand" onClick={sort('birthDate')}>
-                  Birth Date <FontAwesomeIcon icon={getSortIconByFieldName('birthDate')} />
+                  تاريخ الميلاد <FontAwesomeIcon icon={getSortIconByFieldName('birthDate')} />
                 </th>
                 <th className="hand" onClick={sort('phoneNumber')}>
-                  Phone Number <FontAwesomeIcon icon={getSortIconByFieldName('phoneNumber')} />
+                  رقم الهاتف <FontAwesomeIcon icon={getSortIconByFieldName('phoneNumber')} />
                 </th>
                 <th className="hand" onClick={sort('email')}>
-                  Email <FontAwesomeIcon icon={getSortIconByFieldName('email')} />
+                  البريد الالكتروني <FontAwesomeIcon icon={getSortIconByFieldName('email')} />
                 </th>
                 <th className="hand" onClick={sort('notes')}>
-                  Notes <FontAwesomeIcon icon={getSortIconByFieldName('notes')} />
+                  ملاحظات <FontAwesomeIcon icon={getSortIconByFieldName('notes')} />
                 </th>
                 <th>
-                  User <FontAwesomeIcon icon="sort" />
+                  المستخدم <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -182,7 +182,7 @@ export const Sheikh = () => {
             </tbody>
           </Table>
         ) : (
-          !loading && <div className="alert alert-warning">No Sheikhs found</div>
+          !loading && <div className="alert alert-warning"> لا يوجد بيانات قم بالاضافه</div>
         )}
       </div>
       {totalItems ? (

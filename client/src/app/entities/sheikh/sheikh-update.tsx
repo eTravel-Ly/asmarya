@@ -79,7 +79,7 @@ export const SheikhUpdate = () => {
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="asmaryaApp.sheikh.home.createOrEditLabel" data-cy="SheikhCreateUpdateHeading">
-            Create or edit a Sheikh
+            اضافة او تعديل شيخ
           </h2>
         </Col>
       </Row>
@@ -90,13 +90,13 @@ export const SheikhUpdate = () => {
           ) : (
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
               {!isNew ? <ValidatedField name="id" required readOnly id="sheikh-id" label="ID" validate={{ required: true }} /> : null}
-              <ValidatedField label="First Name" id="sheikh-firstName" name="firstName" data-cy="firstName" type="text" />
-              <ValidatedField label="Last Name" id="sheikh-lastName" name="lastName" data-cy="lastName" type="text" />
-              <ValidatedField label="Birth Date" id="sheikh-birthDate" name="birthDate" data-cy="birthDate" type="date" />
-              <ValidatedField label="Phone Number" id="sheikh-phoneNumber" name="phoneNumber" data-cy="phoneNumber" type="text" />
-              <ValidatedField label="Email" id="sheikh-email" name="email" data-cy="email" type="text" />
-              <ValidatedField label="Notes" id="sheikh-notes" name="notes" data-cy="notes" type="text" />
-              <ValidatedField id="sheikh-user" name="user" data-cy="user" label="User" type="select">
+              <ValidatedField label="الاسم اول" id="sheikh-firstName" name="firstName" data-cy="firstName" type="text" />
+              <ValidatedField label="الاسم اخير" id="sheikh-lastName" name="lastName" data-cy="lastName" type="text" />
+              <ValidatedField label="تاريخ الميلاد" id="sheikh-birthDate" name="birthDate" data-cy="birthDate" type="date" />
+              <ValidatedField label="رقم الهاتف" id="sheikh-phoneNumber" name="phoneNumber" data-cy="phoneNumber" type="text" />
+              <ValidatedField label="البريد الالكتروني" id="sheikh-email" name="email" data-cy="email" type="text" />
+              <ValidatedField label="ملاحظات" id="sheikh-notes" name="notes" data-cy="notes" type="text" />
+              <ValidatedField id="sheikh-user" name="user" data-cy="user" label="المستخدم" type="select">
                 <option value="" key="0" />
                 {users
                   ? users.map(otherEntity => (
@@ -109,12 +109,12 @@ export const SheikhUpdate = () => {
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/sheikh" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
-                <span className="d-none d-md-inline">Back</span>
+                <span className="d-none d-md-inline">رجوع</span>
               </Button>
               &nbsp;
               <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
                 <FontAwesomeIcon icon="save" />
-                &nbsp; Save
+                &nbsp; حفظ
               </Button>
             </ValidatedForm>
           )}
