@@ -57,7 +57,6 @@ module.exports = async options =>
           target: 'http://localhost:8080', // Adjust to HTTPS if needed
           secure: false,
           changeOrigin: false,
-          logLevel: 'debug', // Debug logs for proxy
         },
       ],
       historyApiFallback: true,
