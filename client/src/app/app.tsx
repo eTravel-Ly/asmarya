@@ -57,7 +57,7 @@ const App = () => {
           />
         </ErrorBoundary>
         <div className="view-container">
-          {isAuthenticated && ( // Conditional rendering based on authentication status
+          {isAuthenticated && (
             <nav className="sidebar">
               <Nav vertical>
                 <NavItem>

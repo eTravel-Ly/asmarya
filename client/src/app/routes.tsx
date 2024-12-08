@@ -19,12 +19,12 @@ import ApiDocsEmbed from 'app/modules/api/api-docs-embed';
 const loading = <div>loading ...</div>;
 
 const Account = Loadable({
-  loader: () => import(/* webpackChunkName: "account" */ 'app/modules/account'),
+  loader: () => import('app/modules/account'),
   loading: () => loading,
 });
 
 const Admin = Loadable({
-  loader: () => import(/* webpackChunkName: "administration" */ 'app/modules/administration'),
+  loader: () => import('app/modules/administration'),
   loading: () => loading,
 });
 const AppRoutes = () => {
@@ -34,10 +34,7 @@ const AppRoutes = () => {
         <Route index element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="logout" element={<Logout />} />
-        <Route
-          path="api-docs" // Define your route path for API documentation
-          element={<ApiDocsEmbed />} // Render your ApiDocsEmbed component here
-        />
+        <Route path="api-docs" element={<ApiDocsEmbed />} />
         <Route path="account">
           <Route
             path="*"
