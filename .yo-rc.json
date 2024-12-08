@@ -17,6 +17,7 @@
     "enableTranslation": false,
     "entities": [
       "Activation",
+      "Sheikh",
       "AppSetting",
       "Book",
       "BookBorrowRequest",

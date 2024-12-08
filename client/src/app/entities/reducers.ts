@@ -16,6 +16,7 @@ import paymentMethod from 'app/entities/payment-method/payment-method.reducer';
 import slider from 'app/entities/slider/slider.reducer';
 import event from 'app/entities/event/event.reducer';
 import eventSubscription from 'app/entities/event-subscription/event-subscription.reducer';
+import sheikh from 'app/entities/sheikh/sheikh.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 const entitiesReducers = {
@@ -37,6 +38,7 @@ const entitiesReducers = {
   slider,
   event,
   eventSubscription,
+  sheikh,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
 };
 

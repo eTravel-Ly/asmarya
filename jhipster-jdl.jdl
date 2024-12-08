@@ -229,6 +229,16 @@ entity Slider {
     notes String
 }
 
+entity Sheikh {
+    firstName String,
+    lastName String,
+    birthDate LocalDate,
+    phoneNumber String,
+    email String required unique,
+    notes TextBlob
+}
+
+
 relationship ManyToMany {
     Book{categories} to Category{book}
     Course{categories} to Category{course}

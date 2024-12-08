@@ -24,6 +24,7 @@ import { SliderModule } from './module/slider.module';
 import { WebsiteModule } from './module/website.module';
 import { EventModule } from './module/event.module';
 import { EventSubscriptionModule } from './module/event-subscription.module';
+import { SheikhModule } from './module/sheikh.module';
 // jhipster-needle-add-entity-module-to-main-import - JHipster will import entity modules here, do not remove
 // jhipster-needle-add-controller-module-to-main-import - JHipster will import controller modules here, do not remove
 // jhipster-needle-add-service-module-to-main-import - JHipster will import service modules here, do not remove
@@ -63,6 +64,7 @@ import { EventSubscriptionModule } from './module/event-subscription.module';
     PaymentMethodModule,
     SliderModule,
     WebsiteModule,
+    SheikhModule,
     // jhipster-needle-add-entity-module-to-main - JHipster will add entity modules here, do not remove
   ],
   controllers: [

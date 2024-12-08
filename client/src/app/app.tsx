@@ -102,7 +102,7 @@ const App = () => {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} to="/sheikhs" className="d-flex align-items-center">
+                  <NavLink tag={Link} to="/sheikh" className="d-flex align-items-center">
                     <FontAwesomeIcon icon={faUsers} className="m-2" />
                     المشايخ
                   </NavLink>
