@@ -90,21 +90,17 @@ Navbar styles
   padding: 0 0 0 10px;
 }
 
-.brand-logo {
+.brand-icon {
   display: flex;
-  align-items: center; /* Center items vertically */
-  justify-content: center; /* Center items horizontally */
-  background-color: #ffffff; /* Background color for the logo area */
+  justify-content: center; /* توسيط الصورة أفقياً */
+  align-items: center; /* توسيط الصورة عمودياً */
+  height: 100%; /* تأكد من أن العنصر يحتوي على ارتفاع كامل */
 }
 
-.brand-icon {
-  height: 85px;
-  width: auto;
-
-  img {
-    max-height: 100%; /* Ensure the image scales properly */
-    max-width: 100%; /* Ensure the image scales properly */
-  }
+.brand-icon img {
+  max-width: 100%; /* تأكد من أن الصورة لا تتجاوز الحجم المحدد */
+  height: auto; /* الحفاظ على النسبة بين العرض والارتفاع */
+  width: 55px; /* تحديد عرض الصورة (يمكنك تعديله حسب الحاجة) */
 }
 
 .loading-bar {

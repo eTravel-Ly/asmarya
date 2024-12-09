@@ -55,8 +55,9 @@ const Dashboard = () => {
       {
         label: 'تصنيف المتدربن',
         data: [300, 50, 100],
-        backgroundColor: ['#479644', '#E5C358E2', '#3f3984'],
-        hoverBackgroundColor: ['#479644', '#E5C358E2', '#3f3984'],
+        backgroundColor: ['#A2DFF7', '#B8F1B0', '#F5B8B8'], // ألوان هادئة: أزرق فاتح، أخضر فاتح، وردي فاتح
+        borderColor: ['#A2DFF7', '#B8F1B0', '#F5B8B8'],
+        borderWidth: 1,
       },
     ],
   });
@@ -67,14 +68,9 @@ const Dashboard = () => {
       {
         label: 'Pie Chart',
         data: [50, 70, 100, 130, 200],
-        backgroundColor: [
-          '#FF6384', // Red
-          '#36A2EB', // Blue
-          '#FFCE56', // Yellow
-          '#4CAF50', // Green
-          '#9C27B0', // Purple
-        ],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#9C27B0'],
+        backgroundColor: ['#A2DFF7', '#B8F1B0', '#F5B8B8'], // ألوان هادئة: أزرق فاتح، أخضر فاتح، وردي فاتح
+        borderColor: ['#A2DFF7', '#B8F1B0', '#F5B8B8'],
+        borderWidth: 1,
       },
     ],
   });
@@ -149,14 +145,18 @@ const Dashboard = () => {
           <Bar data={barChartData} />
         </div>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', margin: '60px' }}>
-        <div style={{ width: '30%' }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          flexWrap: 'wrap',
+          margin: '60px',
+        }}
+      >
+        <div style={{ width: '25%' }}>
           <Doughnut data={doughnutChartData} />
         </div>
-        {/*<div style={{width: '30%'}}>*/}
-        {/*  /!*<Pie data={pieChartData}/>*!/*/}
-        {/*</div>*/}
-        <div style={{ width: '30%' }}>
+        <div style={{ width: '25%' }}>
           <Pie data={pieChartData} />
         </div>
       </div>
