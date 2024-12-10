@@ -41,6 +41,12 @@
       "relationshipSide": "left",
       "relationshipType": "one-to-one",
       "relationshipWithBuiltInEntity": true
+    },
+    {
+      "otherEntityName": "center",
+      "otherEntityRelationshipName": "sheikhs",
+      "relationshipName": "centers",
+      "relationshipType": "many-to-many"
     }
   ],
   "service": "serviceClass"

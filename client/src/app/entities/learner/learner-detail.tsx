@@ -221,8 +221,8 @@ export const LearnerDetail = () => {
             </tr>
           </tbody>
         </table>
-        <Button tag={Link} to="/learner" replace color="info" data-cy="entityDetailsBackButton">
-          <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">رجوع</span>
+        <Button tag={Link} to="/learner" replace data-cy="entityDetailsBackButton">
+          <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline"></span>
         </Button>
         &nbsp;
         <Button tag={Link} to={`/learner/${learnerEntity.id}/edit`} replace color="primary">

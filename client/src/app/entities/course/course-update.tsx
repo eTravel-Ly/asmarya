@@ -88,29 +88,29 @@ export const CourseUpdate = () => {
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="asmaryaApp.course.home.createOrEditLabel" data-cy="CourseCreateUpdateHeading">
-            Create or edit a Course
+            إنشاء أو تعديل دورة
           </h2>
         </Col>
       </Row>
       <Row className="justify-content-center">
         <Col md="8">
           {loading ? (
-            <p>Loading...</p>
+            <p>جاري التحميل...</p>
           ) : (
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
               {!isNew ? <ValidatedField name="id" required readOnly id="course-id" label="ID" validate={{ required: true }} /> : null}
               <ValidatedField
-                label="Title"
+                label="العنوان"
                 id="course-title"
                 name="title"
                 data-cy="title"
                 type="text"
                 validate={{
-                  required: { value: true, message: 'This field is required.' },
+                  required: { value: true, message: 'هذا الحقل مطلوب.' },
                 }}
               />
-              <ValidatedField label="Description" id="course-description" name="description" data-cy="description" type="text" />
-              <ValidatedField label="Language" id="course-language" name="language" data-cy="language" type="select">
+              <ValidatedField label="الوصف" id="course-description" name="description" data-cy="description" type="text" />
+              <ValidatedField label="اللغة" id="course-language" name="language" data-cy="language" type="select">
                 {languageValues.map(language => (
                   <option value={language} key={language}>
                     {language}
@@ -118,31 +118,31 @@ export const CourseUpdate = () => {
                 ))}
               </ValidatedField>
               <ValidatedBlobField
-                label="Cover Image File"
+                label="صورة الغلاف"
                 id="course-coverImageFile"
                 name="coverImageFile"
                 data-cy="coverImageFile"
                 isImage
                 accept="image/*"
               />
-              <ValidatedField label="Cover Image Url" id="course-coverImageUrl" name="coverImageUrl" data-cy="coverImageUrl" type="text" />
-              <ValidatedField label="Price" id="course-price" name="price" data-cy="price" type="text" />
-              <ValidatedField label="Students Price" id="course-studentsPrice" name="studentsPrice" data-cy="studentsPrice" type="text" />
-              <ValidatedField label="Keywords" id="course-keywords" name="keywords" data-cy="keywords" type="text" />
-              <ValidatedField label="Categories" id="course-categories" data-cy="categories" type="select" multiple name="categories">
+              {/* <ValidatedField label="رابط صورة الغلاف" id="course-coverImageUrl" name="coverImageUrl" data-cy="coverImageUrl" type="text" /> */}
+              <ValidatedField label="السعر" id="course-price" name="price" data-cy="price" type="text" />
+              <ValidatedField label="سعر الطلاب" id="course-studentsPrice" name="studentsPrice" data-cy="studentsPrice" type="text" />
+              <ValidatedField label="الكلمات الرئيسية" id="course-keywords" name="keywords" data-cy="keywords" type="text" />
+              <ValidatedField label="الفئات" id="course-categories" data-cy="categories" type="select" multiple name="categories">
                 <option value="" key="0" />
                 {categories
                   ? categories.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
+                        {otherEntity.nameAr}
                       </option>
                     ))
                   : null}
               </ValidatedField>
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/course" replace color="info">
+              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/course" replace>
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
-                <span className="d-none d-md-inline">رجوع</span>
+                <span className="d-none d-md-inline"></span>
               </Button>
               &nbsp;
               <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>

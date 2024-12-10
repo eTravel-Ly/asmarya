@@ -23,6 +23,7 @@ import Dashboard from './dashboard';
 import Event from './event';
 import EventSubscription from './event-subscription';
 import Sheikh from './sheikh';
+import Center from './center';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
 export default () => {
@@ -50,6 +51,7 @@ export default () => {
         <Route path="event/*" element={<Event />} />
         <Route path="event-subscription/*" element={<EventSubscription />} />
         <Route path="sheikh/*" element={<Sheikh />} />
+        <Route path="center/*" element={<Center />} />
         {/* jhipster-needle-add-route-path - JHipster will add routes here */}
       </ErrorBoundaryRoutes>
     </div>

@@ -136,8 +136,8 @@ export const CourseDetail = () => {
           </tbody>
         </Table>
         <br />
-        <Button tag={Link} to="/course" replace color="info" data-cy="entityDetailsBackButton">
-          <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">رجوع</span>
+        <Button tag={Link} to="/course" replace data-cy="entityDetailsBackButton">
+          <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline"></span>
         </Button>
         &nbsp;
         <Button tag={Link} to={`/course/${courseEntity.id}/edit`} replace color="primary">

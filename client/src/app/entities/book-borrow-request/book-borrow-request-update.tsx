@@ -95,24 +95,25 @@ export const BookBorrowRequestUpdate = () => {
 
   return (
     <div>
-      <Row className="justify-content-center">
+      {/* <Row className="justify-content-center">
         <Col md="8">
           <h2 id="asmaryaApp.bookBorrowRequest.home.createOrEditLabel" data-cy="BookBorrowRequestCreateUpdateHeading">
             Create or edit a Book Borrow Request
           </h2>
         </Col>
-      </Row>
+      </Row> */}
       <Row className="justify-content-center">
         <Col md="8">
           {loading ? (
             <p>Loading...</p>
           ) : (
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
+              <h2 className="text-center">طلب استعارة كتاب</h2> {/* إضافة العنوان بالعربية */}
               {!isNew ? (
                 <ValidatedField name="id" required readOnly id="book-borrow-request-id" label="ID" validate={{ required: true }} />
               ) : null}
               <ValidatedField
-                label="Request Date"
+                label="تاريخ الطلب"
                 id="book-borrow-request-requestDate"
                 name="requestDate"
                 data-cy="requestDate"
@@ -120,7 +121,7 @@ export const BookBorrowRequestUpdate = () => {
                 placeholder="YYYY-MM-DD HH:mm"
               />
               <ValidatedField
-                label="Collect Date"
+                label="تاريخ الاستلام"
                 id="book-borrow-request-collectDate"
                 name="collectDate"
                 data-cy="collectDate"
@@ -128,7 +129,7 @@ export const BookBorrowRequestUpdate = () => {
                 placeholder="YYYY-MM-DD HH:mm"
               />
               <ValidatedField
-                label="Return Date"
+                label="تاريخ العودة"
                 id="book-borrow-request-returnDate"
                 name="returnDate"
                 data-cy="returnDate"
@@ -136,7 +137,7 @@ export const BookBorrowRequestUpdate = () => {
                 placeholder="YYYY-MM-DD HH:mm"
               />
               <ValidatedField
-                label="Book Borrow Request Status"
+                label="حالة طلب استعارة الكتاب"
                 id="book-borrow-request-bookBorrowRequestStatus"
                 name="bookBorrowRequestStatus"
                 data-cy="bookBorrowRequestStatus"
@@ -148,7 +149,7 @@ export const BookBorrowRequestUpdate = () => {
                   </option>
                 ))}
               </ValidatedField>
-              <ValidatedField id="book-borrow-request-book" name="book" data-cy="book" label="Book" type="select">
+              <ValidatedField id="book-borrow-request-book" name="book" data-cy="book" label="الكتاب" type="select">
                 <option value="" key="0" />
                 {books
                   ? books.map(otherEntity => (
@@ -158,7 +159,7 @@ export const BookBorrowRequestUpdate = () => {
                     ))
                   : null}
               </ValidatedField>
-              <ValidatedField id="book-borrow-request-learner" name="learner" data-cy="learner" label="Learner" type="select">
+              <ValidatedField id="book-borrow-request-learner" name="learner" data-cy="learner" label="المتعلم" type="select">
                 <option value="" key="0" />
                 {learners
                   ? learners.map(otherEntity => (
@@ -168,10 +169,10 @@ export const BookBorrowRequestUpdate = () => {
                     ))
                   : null}
               </ValidatedField>
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/book-borrow-request" replace color="info">
+              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/book-borrow-request" replace>
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
-                <span className="d-none d-md-inline">رجوع</span>
+                <span className="d-none d-md-inline"></span>
               </Button>
               &nbsp;
               <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>

@@ -17,6 +17,7 @@ import slider from 'app/entities/slider/slider.reducer';
 import event from 'app/entities/event/event.reducer';
 import eventSubscription from 'app/entities/event-subscription/event-subscription.reducer';
 import sheikh from 'app/entities/sheikh/sheikh.reducer';
+import center from 'app/entities/center/center.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 const entitiesReducers = {
@@ -39,6 +40,7 @@ const entitiesReducers = {
   event,
   eventSubscription,
   sheikh,
+  center,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
 };
 

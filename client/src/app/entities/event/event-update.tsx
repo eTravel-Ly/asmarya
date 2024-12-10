@@ -182,10 +182,10 @@ export const EventUpdate = () => {
               />
               <ValidatedField label="رابط صورة الغلاف" id="event-coverImageUrl" name="coverImageUrl" data-cy="coverImageUrl" type="text" />
               <ValidatedField label="مفعل" id="event-isActive" name="isActive" data-cy="isActive" check type="checkbox" />
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/event" replace color="info">
+              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/event" replace>
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
-                <span className="d-none d-md-inline">رجوع</span>
+                <span className="d-none d-md-inline"></span>
               </Button>
               &nbsp;
               <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>

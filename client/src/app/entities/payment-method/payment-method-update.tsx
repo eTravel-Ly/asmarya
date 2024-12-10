@@ -76,58 +76,58 @@ export const PaymentMethodUpdate = () => {
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="asmaryaApp.paymentMethod.home.createOrEditLabel" data-cy="PaymentMethodCreateUpdateHeading">
-            Create or edit a Payment Method
+            إنشاء أو تعديل طريقة الدفع
           </h2>
         </Col>
       </Row>
       <Row className="justify-content-center">
         <Col md="8">
           {loading ? (
-            <p>Loading...</p>
+            <p>جاري التحميل...</p>
           ) : (
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
               {!isNew ? (
-                <ValidatedField name="id" required readOnly id="payment-method-id" label="ID" validate={{ required: true }} />
+                <ValidatedField name="id" required readOnly id="payment-method-id" label="الرقم التعريفي" validate={{ required: true }} />
               ) : null}
-              <ValidatedField label="Name Ar" id="payment-method-nameAr" name="nameAr" data-cy="nameAr" type="text" />
-              <ValidatedField label="Name En" id="payment-method-nameEn" name="nameEn" data-cy="nameEn" type="text" />
-              <ValidatedField label="Menu Order" id="payment-method-menuOrder" name="menuOrder" data-cy="menuOrder" type="text" />
-              <ValidatedField
-                label="Image File Url"
-                id="payment-method-imageFileUrl"
-                name="imageFileUrl"
-                data-cy="imageFileUrl"
-                type="text"
-              />
+              <ValidatedField label="الاسم بالعربية" id="payment-method-nameAr" name="nameAr" data-cy="nameAr" type="text" />
+              <ValidatedField label="الاسم بالإنجليزية" id="payment-method-nameEn" name="nameEn" data-cy="nameEn" type="text" />
+              <ValidatedField label="ترتيب القائمة" id="payment-method-menuOrder" name="menuOrder" data-cy="menuOrder" type="text" />
+              {/* <ValidatedField
+            label="رابط ملف الصورة"
+            id="payment-method-imageFileUrl"
+            name="imageFileUrl"
+            data-cy="imageFileUrl"
+            type="text"
+          /> */}
               <ValidatedBlobField
-                label="Image File"
+                label="ملف الصورة"
                 id="payment-method-imageFile"
                 name="imageFile"
                 data-cy="imageFile"
                 isImage
                 accept="image/*"
               />
-              <ValidatedField label="Details" id="payment-method-details" name="details" data-cy="details" type="text" />
+              <ValidatedField label="التفاصيل" id="payment-method-details" name="details" data-cy="details" type="text" />
               <ValidatedField
-                label="Fee Percentage"
+                label="نسبة الرسوم"
                 id="payment-method-feePercentage"
                 name="feePercentage"
                 data-cy="feePercentage"
                 type="text"
               />
-              <ValidatedField label="Payment Type" id="payment-method-paymentType" name="paymentType" data-cy="paymentType" type="select">
+              <ValidatedField label="نوع الدفع" id="payment-method-paymentType" name="paymentType" data-cy="paymentType" type="select">
                 {paymentTypeValues.map(paymentType => (
                   <option value={paymentType} key={paymentType}>
                     {paymentType}
                   </option>
                 ))}
               </ValidatedField>
-              <ValidatedField label="Is Active" id="payment-method-isActive" name="isActive" data-cy="isActive" check type="checkbox" />
-              <ValidatedField label="Notes" id="payment-method-notes" name="notes" data-cy="notes" type="text" />
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/payment-method" replace color="info">
+              <ValidatedField label="مفعل" id="payment-method-isActive" name="isActive" data-cy="isActive" type="checkbox" value={true} />
+              <ValidatedField label="ملاحظات" id="payment-method-notes" name="notes" data-cy="notes" type="text" />
+              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/payment-method" replace>
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
-                <span className="d-none d-md-inline">رجوع</span>
+                <span className="d-none d-md-inline"></span>
               </Button>
               &nbsp;
               <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>

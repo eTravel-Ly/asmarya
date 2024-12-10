@@ -46,7 +46,7 @@ export const SheikhDetail = () => {
       </Col>
 
       <Col md="12">
-        <Button tag={Link} to="/sheikh" replace color="info" data-cy="entityDetailsBackButton">
+        <Button tag={Link} to="/sheikh" replace data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline"></span>
         </Button>
         &nbsp;

@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Entity, Column, JoinColumn, OneToOne } from 'typeorm';
+import { Entity, Column, JoinColumn, OneToOne, ManyToMany } from 'typeorm';
 import { BaseEntity } from './base/base.entity';
+
+import { Center } from './center.entity';
 
 import { User } from './user.entity';
 
@@ -30,6 +32,9 @@ export class Sheikh extends BaseEntity {
   @OneToOne(type => User)
   @JoinColumn()
   user: User;
+
+  @ManyToMany(type => Center)
+  centers: Center[];
 
   // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
 }

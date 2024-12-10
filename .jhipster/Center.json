@@ -1,0 +1,66 @@
+{
+  "annotations": {
+    "changelogDate": "20240629150000"
+  },
+  "applications": "*",
+  "dto": true,
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phoneNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "managerName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "workingHours",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "numberOfStudents",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "numberOfTeachers",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "establishmentDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "programsOffered",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Center",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "sheikh",
+      "otherEntityRelationshipName": "centers",
+      "relationshipName": "sheikhs",
+      "relationshipType": "many-to-many",
+      "ownerSide": true
+    }
+  ],
+  "service": "serviceClass"
+}

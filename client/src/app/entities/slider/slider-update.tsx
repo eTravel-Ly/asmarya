@@ -70,28 +70,30 @@ export const SliderUpdate = () => {
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="asmaryaApp.slider.home.createOrEditLabel" data-cy="SliderCreateUpdateHeading">
-            Create or edit a Slider
+            إنشاء أو تعديل شريط التمرير
           </h2>
         </Col>
       </Row>
       <Row className="justify-content-center">
         <Col md="8">
           {loading ? (
-            <p>Loading...</p>
+            <p>جاري التحميل...</p>
           ) : (
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
-              {!isNew ? <ValidatedField name="id" required readOnly id="slider-id" label="ID" validate={{ required: true }} /> : null}
-              <ValidatedField label="Details Ar" id="slider-detailsAr" name="detailsAr" data-cy="detailsAr" type="text" />
-              <ValidatedField label="Details En" id="slider-detailsEn" name="detailsEn" data-cy="detailsEn" type="text" />
-              <ValidatedField label="Menu Order" id="slider-menuOrder" name="menuOrder" data-cy="menuOrder" type="text" />
-              <ValidatedField label="Image File Url" id="slider-imageFileUrl" name="imageFileUrl" data-cy="imageFileUrl" type="text" />
-              <ValidatedBlobField label="Image File" id="slider-imageFile" name="imageFile" data-cy="imageFile" isImage accept="image/*" />
-              <ValidatedField label="Link" id="slider-link" name="link" data-cy="link" type="text" />
-              <ValidatedField label="Notes" id="slider-notes" name="notes" data-cy="notes" type="text" />
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/slider" replace color="info">
+              {!isNew ? (
+                <ValidatedField name="id" required readOnly id="slider-id" label="الرقم التعريفي" validate={{ required: true }} />
+              ) : null}
+              <ValidatedField label="التفاصيل بالعربية" id="slider-detailsAr" name="detailsAr" data-cy="detailsAr" type="text" />
+              <ValidatedField label="التفاصيل بالإنجليزية" id="slider-detailsEn" name="detailsEn" data-cy="detailsEn" type="text" />
+              <ValidatedField label="ترتيب القائمة" id="slider-menuOrder" name="menuOrder" data-cy="menuOrder" type="text" />
+              <ValidatedField label="رابط صورة الملف" id="slider-imageFileUrl" name="imageFileUrl" data-cy="imageFileUrl" type="text" />
+              <ValidatedBlobField label="صورة الملف" id="slider-imageFile" name="imageFile" data-cy="imageFile" isImage accept="image/*" />
+              <ValidatedField label="الرابط" id="slider-link" name="link" data-cy="link" type="text" />
+              <ValidatedField label="ملاحظات" id="slider-notes" name="notes" data-cy="notes" type="text" />
+              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/slider" replace>
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
-                <span className="d-none d-md-inline">رجوع</span>
+                <span className="d-none d-md-inline"></span>
               </Button>
               &nbsp;
               <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>

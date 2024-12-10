@@ -95,7 +95,7 @@ export const Sheikh = () => {
       <h2 id="sheikh-heading" data-cy="SheikhHeading">
         قائمة المشايخ
         <div className="d-flex justify-content-end">
-          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
+          <Button className="me-2" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />
           </Button>
           <Link to="/sheikh/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
@@ -153,8 +153,8 @@ export const Sheikh = () => {
                   <td>{sheikh.user ? sheikh.user.id : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`/sheikh/${sheikh.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
+                      <Button tag={Link} to={`/sheikh/${sheikh.id}`} size="sm" data-cy="entityDetailsButton">
+                        <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">عرض</span>
                       </Button>
                       <Button
                         tag={Link}
@@ -163,7 +163,7 @@ export const Sheikh = () => {
                         size="sm"
                         data-cy="entityEditButton"
                       >
-                        <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
+                        <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">تعديل</span>
                       </Button>
                       <Button
                         onClick={() =>
@@ -173,7 +173,7 @@ export const Sheikh = () => {
                         size="sm"
                         data-cy="entityDeleteButton"
                       >
-                        <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
+                        <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">حذف</span>
                       </Button>
                     </div>
                   </td>

@@ -20,7 +20,7 @@ export const PaymentMethodDetail = () => {
   return (
     <Row>
       <Col md="8">
-        <h2 data-cy="paymentMethodDetailsHeading">Payment Method</h2>
+        <h2 data-cy="paymentMethodDetailsHeading"> طريقة الدفع</h2>
         <br />
         <table className="table table-bordered table-hover table-custom">
           <tbody>
@@ -63,8 +63,8 @@ export const PaymentMethodDetail = () => {
           </tbody>
         </table>
         <br />
-        <Button tag={Link} to="/payment-method" replace color="info" data-cy="entityDetailsBackButton">
-          <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">رجوع</span>
+        <Button tag={Link} to="/payment-method" replace data-cy="entityDetailsBackButton">
+          <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline"></span>
         </Button>
         &nbsp;
         <Button tag={Link} to={`/payment-method/${paymentMethodEntity.id}/edit`} replace color="primary">

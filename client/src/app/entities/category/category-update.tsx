@@ -75,7 +75,7 @@ export const CategoryUpdate = () => {
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="asmaryaApp.category.home.createOrEditLabel" data-cy="CategoryCreateUpdateHeading">
-            Create or edit a Category
+            اضافة او تعديل فئة
           </h2>
         </Col>
       </Row>
@@ -86,24 +86,24 @@ export const CategoryUpdate = () => {
           ) : (
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
               {!isNew ? <ValidatedField name="id" required readOnly id="category-id" label="ID" validate={{ required: true }} /> : null}
-              <ValidatedField label="Name Ar" id="category-nameAr" name="nameAr" data-cy="nameAr" type="text" />
-              <ValidatedField label="Name En" id="category-nameEn" name="nameEn" data-cy="nameEn" type="text" />
-              <ValidatedField label="Menu Order" id="category-menuOrder" name="menuOrder" data-cy="menuOrder" type="text" />
-              <ValidatedField label="Image File Url" id="category-imageFileUrl" name="imageFileUrl" data-cy="imageFileUrl" type="text" />
+              <ValidatedField label="الاسم بالعربية" id="category-nameAr" name="nameAr" data-cy="nameAr" type="text" />
+              <ValidatedField label="الاسم بالإنجليزية" id="category-nameEn" name="nameEn" data-cy="nameEn" type="text" />
+              <ValidatedField label="ترتيب القائمة" id="category-menuOrder" name="menuOrder" data-cy="menuOrder" type="text" />
+              <ValidatedField label="رابط صورة الملف" id="category-imageFileUrl" name="imageFileUrl" data-cy="imageFileUrl" type="text" />
               <ValidatedBlobField
-                label="Image File"
+                label="صورة الملف"
                 id="category-imageFile"
                 name="imageFile"
                 data-cy="imageFile"
                 isImage
                 accept="image/*"
               />
-              <ValidatedField label="Notes" id="category-notes" name="notes" data-cy="notes" type="text" />
-              <ValidatedField label="Is Active" id="category-isActive" name="isActive" data-cy="isActive" check type="checkbox" />
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/category" replace color="info">
+              <ValidatedField label="ملاحظات" id="category-notes" name="notes" data-cy="notes" type="text" />
+              <ValidatedField label="هل مفعل" id="category-isActive" name="isActive" data-cy="isActive" check type="checkbox" />
+              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/category" replace>
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
-                <span className="d-none d-md-inline">رجوع</span>
+                <span className="d-none d-md-inline"></span>
               </Button>
               &nbsp;
               <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>

@@ -238,7 +238,22 @@ entity Sheikh {
     notes TextBlob
 }
 
-
+entity Center {
+    name String,
+    address String,
+    phoneNumber String,
+    email String,
+    managerName String,
+    workingHours String,
+    numberOfStudents Integer,
+    numberOfTeachers Integer,
+    establishmentDate LocalDate,
+    programsOffered String,
+    description String
+}
+relationship ManyToMany {
+    Center{sheikhs} to Sheikh{centers}
+}
 relationship ManyToMany {
     Book{categories} to Category{book}
     Course{categories} to Category{course}

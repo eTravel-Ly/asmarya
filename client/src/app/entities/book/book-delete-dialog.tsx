@@ -40,15 +40,15 @@ export const BookDeleteDialog = () => {
   };
 
   return (
-    <Modal isOpen toggle={handleClose}>
+    <Modal isOpen toggle={handleClose} dir="rtl">
       <ModalHeader toggle={handleClose} data-cy="bookDeleteDialogHeading">
-        Confirm delete operation
+        تأكيد عملية الحذف
       </ModalHeader>
-      <ModalBody id="asmaryaApp.book.delete.question">Are you sure you want to delete Book {bookEntity.id}?</ModalBody>
+      <ModalBody id="asmaryaApp.book.delete.question">هل أنت متأكد أنك تريد حذف الكتاب {bookEntity.id}؟</ModalBody>
       <ModalFooter>
         <Button color="secondary" onClick={handleClose}>
           <FontAwesomeIcon icon="ban" />
-          &nbsp; الغاء
+          &nbsp; إلغاء
         </Button>
         <Button id="jhi-confirm-delete-book" data-cy="entityConfirmDeleteButton" color="danger" onClick={confirmDelete}>
           <FontAwesomeIcon icon="trash" />

@@ -24,6 +24,7 @@ import { faGraduationCap } from '@fortawesome/free-solid-svg-icons/faGraduationC
 import { faBox } from '@fortawesome/free-solid-svg-icons/faBox';
 import { faMoneyBill } from '@fortawesome/free-solid-svg-icons/faMoneyBill';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons/faBookOpen';
+import { faHome } from '@fortawesome/free-solid-svg-icons/faHome';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
@@ -105,6 +106,12 @@ const App = () => {
                   <NavLink tag={Link} to="/sheikh" className="d-flex align-items-center">
                     <FontAwesomeIcon icon={faUsers} className="m-2" />
                     المشايخ
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} to="/center" className="d-flex align-items-center">
+                    <FontAwesomeIcon icon={faHome} className="m-2" />
+                    مراكز تحفيظ
                   </NavLink>
                 </NavItem>
                 <NavItem>

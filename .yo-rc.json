@@ -33,6 +33,7 @@
       "OrderItem",
       "PaymentMethod",
       "Slider",
+      "Center",
       "EventSubscription",
       "Event"
     ],

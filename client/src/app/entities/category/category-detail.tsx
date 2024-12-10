@@ -57,8 +57,8 @@ export const CategoryDetail = () => {
             </tr>
           </tbody>
         </table>
-        <Button tag={Link} to="/category" replace color="info" data-cy="entityDetailsBackButton">
-          <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">رجوع</span>
+        <Button tag={Link} to="/category" replace data-cy="entityDetailsBackButton">
+          <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline"></span>
         </Button>
         &nbsp;
         <Button tag={Link} to={`/category/${categoryEntity.id}/edit`} replace color="primary">

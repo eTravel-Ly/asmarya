@@ -99,8 +99,8 @@ export const UserManagement = () => {
       <h2 id="user-management-page-heading" data-cy="userManagementPageHeading">
         المستخدمين
         <div className="d-flex justify-content-end">
-          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} /> تحديث القائمة
+          <Button className="me-2" onClick={handleSyncList} disabled={loading}>
+            <FontAwesomeIcon icon="sync" spin={loading} />
           </Button>
           <Link to="new" className="btn btn-primary jh-create-entity">
             <FontAwesomeIcon icon="plus" /> إنشاء مستخدم جديد
@@ -158,7 +158,7 @@ export const UserManagement = () => {
                 {user.authorities
                   ? user.authorities.map((authority, j) => (
                       <div key={`user-auth-${i}-${j}`}>
-                        <Badge color="info">{authority}</Badge>
+                        <Badge>{authority}</Badge>
                       </div>
                     ))
                   : null}
@@ -174,7 +174,7 @@ export const UserManagement = () => {
               </td>
               <td className="text-end">
                 <div className="btn-group flex-btn-group-container">
-                  <Button tag={Link} to={user.login} color="info" size="sm">
+                  <Button tag={Link} to={user.login} size="sm">
                     <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">عرض</span>
                   </Button>
                   <Button tag={Link} to={`${user.login}/edit`} color="primary" size="sm">

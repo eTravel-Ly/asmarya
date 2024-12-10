@@ -91,28 +91,30 @@ export const OrderUpdate = () => {
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="asmaryaApp.order.home.createOrEditLabel" data-cy="OrderCreateUpdateHeading">
-            Create or edit a Order
+            إنشاء أو تعديل الطلب
           </h2>
         </Col>
       </Row>
       <Row className="justify-content-center">
         <Col md="8">
           {loading ? (
-            <p>Loading...</p>
+            <p>جاري التحميل...</p>
           ) : (
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
-              {!isNew ? <ValidatedField name="id" required readOnly id="order-id" label="ID" validate={{ required: true }} /> : null}
-              <ValidatedField label="Order No" id="order-orderNo" name="orderNo" data-cy="orderNo" type="text" />
-              <ValidatedField label="Total" id="order-total" name="total" data-cy="total" type="text" />
-              <ValidatedField label="Discount" id="order-discount" name="discount" data-cy="discount" type="text" />
-              <ValidatedField label="Payment Type" id="order-paymentType" name="paymentType" data-cy="paymentType" type="select">
+              {!isNew ? (
+                <ValidatedField name="id" required readOnly id="order-id" label="الرقم التعريفي" validate={{ required: true }} />
+              ) : null}
+              <ValidatedField label="رقم الطلب" id="order-orderNo" name="orderNo" data-cy="orderNo" type="text" />
+              <ValidatedField label="المجموع" id="order-total" name="total" data-cy="total" type="text" />
+              <ValidatedField label="الخصم" id="order-discount" name="discount" data-cy="discount" type="text" />
+              <ValidatedField label="طريقة الدفع" id="order-paymentType" name="paymentType" data-cy="paymentType" type="select">
                 {paymentTypeValues.map(paymentType => (
                   <option value={paymentType} key={paymentType}>
                     {paymentType}
                   </option>
                 ))}
               </ValidatedField>
-              <ValidatedField label="Order Status" id="order-orderStatus" name="orderStatus" data-cy="orderStatus" type="select">
+              <ValidatedField label="حالة الطلب" id="order-orderStatus" name="orderStatus" data-cy="orderStatus" type="select">
                 {orderStatusValues.map(orderStatus => (
                   <option value={orderStatus} key={orderStatus}>
                     {orderStatus}
@@ -120,15 +122,15 @@ export const OrderUpdate = () => {
                 ))}
               </ValidatedField>
               <ValidatedField
-                label="Payed At"
+                label="تاريخ الدفع"
                 id="order-payedAt"
                 name="payedAt"
                 data-cy="payedAt"
                 type="datetime-local"
                 placeholder="YYYY-MM-DD HH:mm"
               />
-              <ValidatedField label="Notes" id="order-notes" name="notes" data-cy="notes" type="text" />
-              <ValidatedField id="order-learner" name="learner" data-cy="learner" label="Learner" type="select">
+              <ValidatedField label="ملاحظات" id="order-notes" name="notes" data-cy="notes" type="text" />
+              <ValidatedField id="order-learner" name="learner" data-cy="learner" label="المتعلم" type="select">
                 <option value="" key="0" />
                 {learners
                   ? learners.map(otherEntity => (
@@ -138,10 +140,10 @@ export const OrderUpdate = () => {
                     ))
                   : null}
               </ValidatedField>
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/order" replace color="info">
+              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/order" replace>
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
-                <span className="d-none d-md-inline">رجوع</span>
+                <span className="d-none d-md-inline"></span>
               </Button>
               &nbsp;
               <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>

@@ -2,6 +2,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseDTO } from './base.dto';
 
+import { CenterDTO } from './center.dto';
+
 import { UserDTO } from './user.dto';
 
 /**
@@ -28,6 +30,9 @@ export class SheikhDTO extends BaseDTO {
 
   @ApiProperty({ type: () => UserDTO, description: 'user relationship' })
   user: UserDTO;
+
+  @ApiProperty({ type: () => CenterDTO, isArray: true, description: 'centers relationship' })
+  centers: CenterDTO[];
 
   // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
 }
